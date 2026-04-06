@@ -132,4 +132,18 @@
 - All text uses system semantic colors for WCAG contrast compliance in dark mode
 - Files: Views/Stories/StoryCard.swift, Views/Digest/AudioPlayerView.swift, Views/Digest/MiniPlayerView.swift, Views/Settings/SettingsView.swift (all updated)
 
+### APP-014: App icon, launch screen, and App Store metadata ✅
+- App icon: icon-square-dark-512.png scaled to 1024x1024 from JTF News production assets
+- AppIcon.appiconset configured with universal iOS icon
+- App Store metadata file with description, keywords, privacy info
+- Bundle identifier: org.jtfnews.app
+- Display name: JTF News
+- Category: News, Age Rating: 4+
+- Privacy label: Data Not Collected
+- Launch screen: auto-generated via INFOPLIST_KEY_UILaunchScreen_Generation
+- Files: Assets.xcassets/AppIcon.appiconset/, metadata/AppStoreMetadata.md
+
 ---
+
+## ALL STORIES COMPLETE ✅
+All 14 stories (APP-001 through APP-014) are implemented and marked as passing.

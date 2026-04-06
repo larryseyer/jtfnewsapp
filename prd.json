@@ -317,7 +317,7 @@
       "id": "APP-014",
       "title": "App icon, launch screen, and App Store metadata",
       "priority": 14,
-      "passes": false,
+      "passes": true,
       "description": "Add app icon from JTF News branding assets, create a minimal launch screen, and prepare App Store metadata (description, keywords, screenshots, privacy policy URL).",
       "acceptanceCriteria": [
         "App icon set in Assets.xcassets (all required sizes generated from JTF News logo)",

@@ -144,7 +144,7 @@
       "id": "APP-007",
       "title": "Build persistent mini-player with Now Playing integration",
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "description": "When audio is playing in the Digest tab, a mini-player bar persists above the tab bar when switching to other tabs. Integrate with MPNowPlayingInfoCenter for lock screen and Control Center controls.",
       "acceptanceCriteria": [
         "MiniPlayerView bar appears above tab bar when audio is playing",

@@ -64,4 +64,14 @@
 - Past episodes listed below current digest
 - Files: Services/PodcastService.swift, Views/Digest/DigestView.swift, Views/Digest/YouTubePlayerView.swift, Views/Digest/AudioPlayerView.swift
 
+### APP-007: Build persistent mini-player with Now Playing integration ✅
+- AudioManager @Observable singleton with @MainActor isolation
+- AVAudioSession .playback category for background audio
+- MPNowPlayingInfoCenter with title, duration, elapsed time, playback rate
+- MPRemoteCommandCenter: play/pause, skip forward/backward 15s
+- MiniPlayerView appears above tab bar when audio active and not on Digest tab
+- Tapping mini-player navigates to Digest tab
+- ContentView updated with ZStack overlay pattern
+- Files: Services/AudioManager.swift, Views/Digest/MiniPlayerView.swift, App/ContentView.swift (updated)
+
 ---

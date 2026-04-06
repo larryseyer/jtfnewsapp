@@ -50,7 +50,7 @@
       "id": "APP-003",
       "title": "Build DataService to fetch and parse stories.json and corrections.json",
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "description": "Create a networking service that fetches stories.json and corrections.json from jtfnews.org, parses the JSON, and upserts into SwiftData. Include a 5-minute cooldown to avoid hammering GitHub Pages. This is the core data pipeline for the Stories tab.",
       "acceptanceCriteria": [
         "DataService class with async fetch methods",

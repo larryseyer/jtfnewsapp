@@ -18,6 +18,7 @@
 		AA000001009 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002009; };
 		AA000001010 /* ArchivedDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002010; };
 		AA000001011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000002011; };
+		AA000001012 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002012; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		AA000002009 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		AA000002010 /* ArchivedDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedDay.swift; sourceTree = "<group>"; };
 		AA000002011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA000002012 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -91,6 +93,7 @@
 		AA000005005 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AA000002012 /* DataService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				AA000001008 /* Correction.swift in Sources */,
 				AA000001009 /* Channel.swift in Sources */,
 				AA000001010 /* ArchivedDay.swift in Sources */,
+				AA000001012 /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

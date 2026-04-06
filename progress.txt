@@ -27,4 +27,13 @@
 - ArchivedDay: date, rawText, isIndexed
 - All registered in ModelContainer in JTFNewsApp.swift
 
+### APP-003: Build DataService to fetch and parse stories.json and corrections.json ✅
+- Created DataService as an actor for thread safety (Swift 6 strict concurrency)
+- Lightweight Codable DTOs (StoryDTO, CorrectionDTO, StoriesResponse) for JSON parsing, mapped into SwiftData models
+- Upsert logic: matches stories by hash, corrections by storyId
+- 5-minute cooldown via UserDefaults timestamps
+- ISO8601 date parsing with fractional seconds fallback
+- All methods parameterized by Channel.baseURL
+- Pattern: new files must be added to project.pbxproj in 4 places (PBXBuildFile, PBXFileReference, PBXGroup children, PBXSourcesBuildPhase)
+
 ---

@@ -18,4 +18,13 @@
 - Asset catalog with AppIcon and AccentColor placeholders
 - Files created: App/JTFNewsApp.swift, App/ContentView.swift, Views/Stories/StoriesView.swift, Views/Digest/DigestView.swift, Views/Archive/ArchiveView.swift, Models/Story.swift, Models/Source.swift, Models/Correction.swift, Models/Channel.swift, Models/ArchivedDay.swift
 
+### APP-002: Define SwiftData models for Story, Source, Correction, Channel ✅
+- All models already created with full schemas in APP-001
+- Story: id, hash, fact, sourceDisplay, sourceURLs (dict), audioURL, publishedAt, status, isCorrection
+- Source: id, name, accuracy, bias, speed, consensus, controlType, owner, ownerDisplay
+- Correction: storyId, originalFact, correctedFact, reason, correctingSources ([String]), correctedAt, type
+- Channel: id, name, baseURL (defaults to https://jtfnews.org)
+- ArchivedDay: date, rawText, isIndexed
+- All registered in ModelContainer in JTFNewsApp.swift
+
 ---

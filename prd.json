@@ -25,7 +25,7 @@
       "id": "APP-002",
       "title": "Define SwiftData models for Story, Source, Correction, Channel",
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "description": "Create SwiftData @Model classes that match the JSON structures served by jtfnews.org. Story is the core model. Source holds rating and ownership data. Correction links to a Story. Channel enables future multi-channel support (ship with Global only).",
       "acceptanceCriteria": [
         "Story model: id (String), hash (String), fact (String), sourceDisplay (String), sourceURLs (dict String:String), audioURL (String?), publishedAt (Date), status (String), isCorrection (Bool)",

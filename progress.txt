@@ -74,4 +74,13 @@
 - ContentView updated with ZStack overlay pattern
 - Files: Services/AudioManager.swift, Views/Digest/MiniPlayerView.swift, App/ContentView.swift (updated)
 
+### APP-008: Build Archive tab with date browser and archive fetching ✅
+- ArchiveService actor: fetches index.json, downloads .txt.gz archives, caches in SwiftData
+- GzipUtility: manual gzip header parsing + Compression framework COMPRESSION_ZLIB decompression
+- ArchiveView with graphical DatePicker, loads selected day's archive
+- Cached days load instantly without network
+- Loading/error/empty states handled
+- ArchivedDayView for simple text display
+- Files: Services/ArchiveService.swift, Utilities/GzipUtility.swift, Views/Archive/ArchiveView.swift (updated), Views/Archive/ArchivedDayView.swift
+
 ---

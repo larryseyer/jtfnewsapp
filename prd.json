@@ -169,7 +169,7 @@
       "id": "APP-008",
       "title": "Build Archive tab with date browser and archive fetching",
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "description": "Build the Archive tab with a calendar-style date picker for browsing past days. Fetches archive/index.json for available dates, downloads individual day archives (.txt.gz), decompresses them, and displays the stories.",
       "acceptanceCriteria": [
         "ArchiveView with date picker/calendar at top",

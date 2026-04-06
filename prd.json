@@ -73,7 +73,7 @@
       "id": "APP-004",
       "title": "Build FeedService to parse feed.xml for source metadata",
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "description": "Create a service that fetches and parses feed.xml (RSS 2.0 with custom jtf: namespace) to extract full source metadata: ratings (accuracy, bias, speed, consensus), ownership (control_type, owner, owner_display), and source URLs. This data powers the transparency layer on story cards.",
       "acceptanceCriteria": [
         "FeedService class with async fetchSources() method",

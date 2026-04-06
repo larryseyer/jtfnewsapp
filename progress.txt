@@ -36,4 +36,12 @@
 - All methods parameterized by Channel.baseURL
 - Pattern: new files must be added to project.pbxproj in 4 places (PBXBuildFile, PBXFileReference, PBXGroup children, PBXSourcesBuildPhase)
 
+### APP-004: Build FeedService to parse feed.xml for source metadata ✅
+- FeedService actor with fetchSources() method parameterized by baseURL
+- FeedXMLParser uses Foundation XMLParser with namespace-aware parsing
+- Handles jtf:source elements, deduplicates by source name
+- Creates/updates Source SwiftData models
+- SourceDTO as lightweight transfer object
+- Files: Services/FeedService.swift
+
 ---

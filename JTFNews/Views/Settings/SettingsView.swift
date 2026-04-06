@@ -37,14 +37,17 @@ struct SettingsView: View {
                 .onChange(of: notifyDailyDigest) { _, newValue in
                     if newValue { requestNotificationPermission() }
                 }
+                .accessibilityHint("Notify when a new daily digest is available")
             Toggle("Corrections", isOn: $notifyCorrections)
                 .onChange(of: notifyCorrections) { _, newValue in
                     if newValue { requestNotificationPermission() }
                 }
+                .accessibilityHint("Notify when story corrections are published")
             Toggle("Breaking Facts", isOn: $notifyBreakingFacts)
                 .onChange(of: notifyBreakingFacts) { _, newValue in
                     if newValue { requestNotificationPermission() }
                 }
+                .accessibilityHint("Notify for facts published within the last hour")
         }
     }
 

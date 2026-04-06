@@ -42,6 +42,7 @@ struct AudioPlayerView: View {
                     Image(systemName: "gobackward.15")
                         .font(.title2)
                 }
+                .accessibilityLabel("Skip back 15 seconds")
 
                 Button {
                     togglePlayback()
@@ -49,6 +50,7 @@ struct AudioPlayerView: View {
                     Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                         .font(.system(size: 48))
                 }
+                .accessibilityLabel(isPlaying ? "Pause" : "Play")
 
                 Button {
                     skip(by: 15)
@@ -56,6 +58,7 @@ struct AudioPlayerView: View {
                     Image(systemName: "goforward.15")
                         .font(.title2)
                 }
+                .accessibilityLabel("Skip forward 15 seconds")
             }
             .foregroundStyle(.primary)
         }

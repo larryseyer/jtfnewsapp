@@ -29,9 +29,13 @@ struct MiniPlayerView: View {
                     .font(.body)
             }
             .foregroundStyle(.primary)
+            .accessibilityLabel(audioManager.isPlaying ? "Pause" : "Play")
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
         .background(.ultraThinMaterial)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Now playing: \(audioManager.currentTitle)")
+        .accessibilityHint("Tap to open digest")
     }
 }

@@ -34,6 +34,25 @@ struct StoryCard: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(correction != nil ? Color.red.opacity(0.4) : Color.clear, lineWidth: 1.5)
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityDescription)
+    }
+
+    private var accessibilityDescription: String {
+        var parts: [String] = []
+        if let correction {
+            parts.append("Correction.")
+            parts.append("Original: \(correction.originalFact)")
+            parts.append("Corrected to: \(correction.correctedFact)")
+        } else {
+            parts.append(story.fact)
+        }
+        let badges = parseSourceDisplay(story.sourceDisplay)
+        let sourceText = badges.map { "\($0.name), accuracy \($0.accuracy)" }.joined(separator: ". ")
+        if !sourceText.isEmpty { parts.append("Sources: \(sourceText)") }
+        if let ownership = ownershipLine { parts.append(ownership) }
+        parts.append(relativeTime)
+        return parts.joined(separator: ". ")
     }
 
     // MARK: - Fact
@@ -95,6 +114,7 @@ struct StoryCard: View {
                 .padding(.vertical, 4)
                 .background(Color(.systemGray5).opacity(0.6))
                 .clipShape(Capsule())
+                .accessibilityLabel("\(badge.name), accuracy \(String(format: "%.1f", badge.accuracy))")
             }
         }
     }

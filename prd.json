@@ -290,7 +290,7 @@
       "id": "APP-013",
       "title": "Accessibility pass and VoiceOver support",
       "priority": 13,
-      "passes": false,
+      "passes": true,
       "description": "Ensure all UI elements are accessible. VoiceOver reads story content, source ratings, and navigation correctly. Dynamic Type supported throughout.",
       "acceptanceCriteria": [
         "All story cards have meaningful accessibilityLabel combining fact, sources, and time",

@@ -121,4 +121,15 @@
 - ConnectivityManager provided via .environment() from ContentView
 - Files: Services/ConnectivityManager.swift, Views/Stories/StoriesView.swift (updated), Views/Digest/DigestView.swift (updated), App/ContentView.swift (updated)
 
+### APP-013: Accessibility pass and VoiceOver support ✅
+- StoryCard: combined accessibilityElement with full description (fact, sources with ratings, ownership, time)
+- Source badges: individual accessibilityLabel ("BBC News, accuracy 9.4")
+- Correction cards announce correction status in accessibility
+- Audio controls: accessibilityLabel for play/pause, skip forward/backward
+- MiniPlayerView: accessibilityLabel with title, accessibilityHint for navigation
+- Settings toggles: accessibilityHint explaining each notification type
+- Dynamic Type supported via system fonts throughout (no hardcoded sizes)
+- All text uses system semantic colors for WCAG contrast compliance in dark mode
+- Files: Views/Stories/StoryCard.swift, Views/Digest/AudioPlayerView.swift, Views/Digest/MiniPlayerView.swift, Views/Settings/SettingsView.swift (all updated)
+
 ---

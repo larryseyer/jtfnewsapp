@@ -1,0 +1,21 @@
+## Codebase Patterns
+
+- Xcode project generated manually (no Xcode IDE) — project.pbxproj uses AA-prefixed IDs
+- SwiftData models use default initializers with property defaults (Swift 6 strict concurrency requirement)
+- Folder structure: App/, Models/, Services/, Views/{Stories,Digest,Archive,Settings}/, Utilities/
+- Shared xcscheme created so `xcodebuild -scheme JTFNews` works headless
+
+---
+
+## Progress
+
+### APP-001: Create Xcode project scaffold with SwiftUI and SwiftData ✅
+- Created JTFNews.xcodeproj with project.pbxproj and shared scheme
+- iOS 17.0 deployment target, Swift 6 with strict concurrency
+- SwiftData ModelContainer configured with Story, Source, Correction, Channel, ArchivedDay
+- Three-tab TabView (Stories, Digest, Archive) with placeholder views
+- Dark mode by default via .preferredColorScheme(.dark)
+- Asset catalog with AppIcon and AccentColor placeholders
+- Files created: App/JTFNewsApp.swift, App/ContentView.swift, Views/Stories/StoriesView.swift, Views/Digest/DigestView.swift, Views/Archive/ArchiveView.swift, Models/Story.swift, Models/Source.swift, Models/Correction.swift, Models/Channel.swift, Models/ArchivedDay.swift
+
+---

@@ -1,0 +1,10 @@
+[2026-04-06 17:23:41] ==========================================
+[2026-04-06 17:23:41] Ralph Watchdog Started - JTF News App
+[2026-04-06 17:23:41] Check interval: 600s (10 min)
+[2026-04-06 17:23:41] Stall threshold: 1800s (30 min)
+[2026-04-06 17:23:41] ==========================================
+[2026-04-06 17:23:41] Starting state: 0/14 stories complete
+[2026-04-06 17:23:41] STALL DETECTED: No commits for 29591903 minutes
+[2026-04-06 17:23:41]     Last story: APP-001: Create Xcode project scaffold with SwiftUI and SwiftData
+[2026-04-06 17:23:41]     Claude running: yes
+[2026-04-06 17:23:41]     Ralph running: yes

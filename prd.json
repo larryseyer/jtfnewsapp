@@ -1,0 +1,341 @@
+{
+  "projectName": "JTF News iOS App",
+  "branchName": "main",
+  "stories": [
+    {
+      "id": "APP-001",
+      "title": "Create Xcode project scaffold with SwiftUI and SwiftData",
+      "priority": 1,
+      "passes": true,
+      "description": "Create the Xcode project using SwiftUI App lifecycle with SwiftData. Set up the folder structure, tab navigation shell, and SwiftData model container. The app should launch and display three empty tabs: Stories, Digest, Archive.",
+      "acceptanceCriteria": [
+        "Xcode project 'JTFNews' created with SwiftUI App lifecycle",
+        "Minimum deployment target iOS 17.0",
+        "Swift 6 with strict concurrency enabled",
+        "SwiftData ModelContainer configured in the App entry point",
+        "Three-tab TabView with Stories, Digest, Archive tabs",
+        "Each tab shows a placeholder view with its name",
+        "App builds and runs in iOS Simulator without errors",
+        "Folder structure: App/, Models/, Services/, Views/Stories/, Views/Digest/, Views/Archive/, Views/Settings/, Utilities/"
+      ],
+      "technicalNotes": "Use @main App struct with WindowGroup. Configure ModelContainer with Story, Source, Correction, ArchivedDay models (empty schemas for now — they'll be fleshed out in APP-002). Use SF Symbols for tab icons: newspaper (Stories), play.circle (Digest), archivebox (Archive). Dark mode by default via .preferredColorScheme(.dark) on the root view.",
+      "filesToModify": []
+    },
+    {
+      "id": "APP-002",
+      "title": "Define SwiftData models for Story, Source, Correction, Channel",
+      "priority": 2,
+      "passes": false,
+      "description": "Create SwiftData @Model classes that match the JSON structures served by jtfnews.org. Story is the core model. Source holds rating and ownership data. Correction links to a Story. Channel enables future multi-channel support (ship with Global only).",
+      "acceptanceCriteria": [
+        "Story model: id (String), hash (String), fact (String), sourceDisplay (String), sourceURLs (dict String:String), audioURL (String?), publishedAt (Date), status (String), isCorrection (Bool)",
+        "Source model: id (String), name (String), accuracy (Double), bias (Double), speed (Double), consensus (Double), controlType (String), owner (String), ownerDisplay (String)",
+        "Correction model: storyId (String), originalFact (String), correctedFact (String), reason (String), correctingSources ([String]), correctedAt (Date), type (String)",
+        "Channel model: id (String), name (String), baseURL (String) — defaults to 'https://jtfnews.org'",
+        "ArchivedDay model: date (Date), rawText (String), isIndexed (Bool)",
+        "All models use @Model macro",
+        "App builds successfully with models registered in ModelContainer",
+        "Code compiles successfully"
+      ],
+      "technicalNotes": "Reference the actual JSON structures: stories.json has {id, hash, fact, source, source_urls, audio, published_at, status}. corrections.json has {story_id, original_fact, corrected_fact, reason, correcting_sources, corrected_at, type}. feed.xml has jtf:source elements with accuracy, bias, speed, consensus, control_type, owner attributes. Channel.baseURL is the key to channel-aware architecture — all data fetching uses this as the root URL. For Global channel: 'https://jtfnews.org'.",
+      "filesToModify": [
+        "JTFNews/Models/Story.swift",
+        "JTFNews/Models/Source.swift",
+        "JTFNews/Models/Correction.swift",
+        "JTFNews/Models/Channel.swift",
+        "JTFNews/Models/ArchivedDay.swift"
+      ]
+    },
+    {
+      "id": "APP-003",
+      "title": "Build DataService to fetch and parse stories.json and corrections.json",
+      "priority": 3,
+      "passes": false,
+      "description": "Create a networking service that fetches stories.json and corrections.json from jtfnews.org, parses the JSON, and upserts into SwiftData. Include a 5-minute cooldown to avoid hammering GitHub Pages. This is the core data pipeline for the Stories tab.",
+      "acceptanceCriteria": [
+        "DataService class with async fetch methods",
+        "fetchStories() downloads and parses https://jtfnews.org/stories.json",
+        "fetchCorrections() downloads and parses https://jtfnews.org/corrections.json",
+        "JSON decoded into Story and Correction SwiftData models",
+        "Upsert logic: update existing stories by hash, insert new ones",
+        "5-minute cooldown between automatic refreshes (stored in UserDefaults)",
+        "Errors handled gracefully — never crashes, logs error, returns cached data",
+        "Uses URLSession only — no third-party networking libraries",
+        "All fetch methods parameterized by Channel.baseURL",
+        "Code compiles successfully"
+      ],
+      "technicalNotes": "stories.json structure: {date, source, stories: [{id, hash, fact, source, source_urls, audio, published_at, status}]}. corrections.json is an array of correction objects. Use Swift Codable with CodingKeys to map JSON field names (snake_case) to Swift property names (camelCase). The cooldown should use UserDefaults to store lastFetchTimestamp and compare against Date.now. Channel.baseURL defaults to 'https://jtfnews.org' — append '/stories.json' etc.",
+      "filesToModify": [
+        "JTFNews/Services/DataService.swift"
+      ]
+    },
+    {
+      "id": "APP-004",
+      "title": "Build FeedService to parse feed.xml for source metadata",
+      "priority": 4,
+      "passes": false,
+      "description": "Create a service that fetches and parses feed.xml (RSS 2.0 with custom jtf: namespace) to extract full source metadata: ratings (accuracy, bias, speed, consensus), ownership (control_type, owner, owner_display), and source URLs. This data powers the transparency layer on story cards.",
+      "acceptanceCriteria": [
+        "FeedService class with async fetchSources() method",
+        "Parses RSS 2.0 XML from https://jtfnews.org/feed.xml",
+        "Extracts jtf:source elements with all attributes: name, url, accuracy, bias, speed, consensus, control_type, owner",
+        "Creates/updates Source SwiftData models",
+        "Uses Foundation XMLParser — no third-party XML libraries unless XMLParser proves insufficient",
+        "Handles malformed XML gracefully",
+        "Parameterized by Channel.baseURL",
+        "Code compiles successfully"
+      ],
+      "technicalNotes": "feed.xml contains <jtf:source name='BBC News' url='...' accuracy='9.4' bias='9.2' speed='9.0' consensus='9.3' control_type='public_broadcaster' owner='British Broadcasting Corporation'/> inside each <item>. XMLParser requires implementing XMLParserDelegate. Parse the channel-level source list (appears once at top) rather than per-item duplicates. If XMLParser is too painful for namespaced elements, FeedKit (Swift RSS library) is an acceptable lightweight alternative.",
+      "filesToModify": [
+        "JTFNews/Services/FeedService.swift"
+      ]
+    },
+    {
+      "id": "APP-005",
+      "title": "Build Stories tab with story cards showing source transparency",
+      "priority": 5,
+      "passes": false,
+      "description": "Build the Stories tab UI. Each story card displays: the fact text, source badges with accuracy ratings (color-coded), ownership disclosure line, and relative timestamp. Corrections appear inline with distinct visual treatment. Pull-to-refresh triggers DataService.",
+      "acceptanceCriteria": [
+        "StoriesView shows a scrollable list of Story items from SwiftData",
+        "Each StoryCard displays: fact text, source badges (e.g., 'BBC 9.4'), ownership line (e.g., 'UK Public (100%)'), relative time ('2h ago')",
+        "Source badges use muted green/blue color coding",
+        "Correction cards have distinct visual treatment: red accent border, strikethrough original fact, arrow to corrected fact, correction timestamp",
+        "Pull-to-refresh calls DataService.fetchStories() and DataService.fetchCorrections()",
+        "Loading state shown on first launch",
+        "Empty state shown when no stories available",
+        "Dark mode with muted color palette, generous whitespace",
+        "Stories sorted by publishedAt descending (newest first)",
+        "Code compiles and displays real data from jtfnews.org"
+      ],
+      "technicalNotes": "Use @Query to fetch Story models sorted by publishedAt. StoryCard is a reusable view component. Parse the 'source' field string (format: 'BBC 9.4|9.2 · NPR 9.2|9.0') to extract individual source names and ratings for badge display. Ownership info may need to come from the Source models populated by FeedService. Use .refreshable modifier for pull-to-refresh. RelativeDateTimeFormatter for time display.",
+      "filesToModify": [
+        "JTFNews/Views/Stories/StoriesView.swift",
+        "JTFNews/Views/Stories/StoryCard.swift"
+      ]
+    },
+    {
+      "id": "APP-006",
+      "title": "Build PodcastService and Digest tab with YouTube video + audio player",
+      "priority": 6,
+      "passes": false,
+      "description": "Create PodcastService to parse podcast.xml for daily digest audio URLs (Archive.org). Build the Digest tab with YouTube video embed (WKWebView) and native audio player (AVFoundation). Include video/audio toggle with preference persistence.",
+      "acceptanceCriteria": [
+        "PodcastService parses https://jtfnews.org/podcast.xml for episode list",
+        "Each episode has: title, date, audio enclosure URL (Archive.org), duration",
+        "DigestView shows today's digest with YouTube video embed at top",
+        "YouTube embed uses WKWebView with the daily digest video URL from monitor.json",
+        "Video/Audio toggle switches between YouTube embed and native audio player",
+        "Audio player uses AVFoundation to stream from Archive.org URL",
+        "Play/pause, progress bar, duration display in audio mode",
+        "Toggle preference persisted in UserDefaults",
+        "Past digests listed below current day (from podcast.xml feed)",
+        "Code compiles and plays real content"
+      ],
+      "technicalNotes": "podcast.xml is iTunes-compatible RSS. Each <item> has <enclosure url='https://archive.org/download/...' type='audio/mpeg'/>. monitor.json contains daily_digest.youtube_url for the video embed. YouTube embed: load 'https://www.youtube.com/embed/VIDEO_ID' in WKWebView with allowsInlineMediaPlayback. AVPlayer for audio streaming. Use @AppStorage for toggle preference.",
+      "filesToModify": [
+        "JTFNews/Services/PodcastService.swift",
+        "JTFNews/Views/Digest/DigestView.swift",
+        "JTFNews/Views/Digest/AudioPlayerView.swift",
+        "JTFNews/Views/Digest/YouTubePlayerView.swift"
+      ]
+    },
+    {
+      "id": "APP-007",
+      "title": "Build persistent mini-player with Now Playing integration",
+      "priority": 7,
+      "passes": false,
+      "description": "When audio is playing in the Digest tab, a mini-player bar persists above the tab bar when switching to other tabs. Integrate with MPNowPlayingInfoCenter for lock screen and Control Center controls.",
+      "acceptanceCriteria": [
+        "MiniPlayerView bar appears above tab bar when audio is playing",
+        "Shows: episode title, play/pause button, progress indicator",
+        "Tapping mini-player navigates to Digest tab",
+        "Audio continues playing when switching between tabs",
+        "MPNowPlayingInfoCenter displays: title, duration, elapsed time, artwork",
+        "Lock screen controls: play/pause, skip forward 15s, skip back 15s",
+        "Control Center shows now playing info",
+        "Mini-player disappears when audio stops",
+        "Audio session configured for .playback category (plays in background)",
+        "Code compiles and lock screen controls work"
+      ],
+      "technicalNotes": "Use AVAudioSession.sharedInstance().setCategory(.playback) for background audio. MPNowPlayingInfoCenter.default().nowPlayingInfo for metadata. MPRemoteCommandCenter for lock screen controls. The mini-player should be an overlay in the root ContentView, positioned above the TabView. Use @EnvironmentObject or @Observable AudioManager shared across tabs.",
+      "filesToModify": [
+        "JTFNews/Views/Digest/MiniPlayerView.swift",
+        "JTFNews/Services/AudioManager.swift",
+        "JTFNews/App/ContentView.swift"
+      ]
+    },
+    {
+      "id": "APP-008",
+      "title": "Build Archive tab with date browser and archive fetching",
+      "priority": 8,
+      "passes": false,
+      "description": "Build the Archive tab with a calendar-style date picker for browsing past days. Fetches archive/index.json for available dates, downloads individual day archives (.txt.gz), decompresses them, and displays the stories.",
+      "acceptanceCriteria": [
+        "ArchiveView with date picker/calendar at top",
+        "Fetches https://jtfnews.org/archive/index.json for list of available dates",
+        "Tapping a date downloads archive/YYYY/YYYY-MM-DD.txt.gz if not cached",
+        "Decompresses .txt.gz using Foundation's built-in gzip support",
+        "Displays decompressed stories for selected date",
+        "Previously downloaded archives cached in SwiftData (ArchivedDay model)",
+        "Cached days load instantly without network request",
+        "Loading indicator while fetching/decompressing",
+        "Error state if archive unavailable",
+        "Code compiles and displays real archive data"
+      ],
+      "technicalNotes": "archive/index.json contains metadata about available archive dates. Use Data(contentsOf:) or URLSession to download .txt.gz files. Foundation's (NS)Data has built-in gzip: use compression framework or a small gzip helper. Each archive file is a plain text list of stories for that day. Store decompressed text in ArchivedDay.rawText for offline access. ArchiveService should be parameterized by Channel.baseURL.",
+      "filesToModify": [
+        "JTFNews/Services/ArchiveService.swift",
+        "JTFNews/Views/Archive/ArchiveView.swift",
+        "JTFNews/Views/Archive/ArchivedDayView.swift",
+        "JTFNews/Utilities/GzipUtility.swift"
+      ]
+    },
+    {
+      "id": "APP-009",
+      "title": "Build full-text search with SQLite FTS5 and progressive indexing",
+      "priority": 9,
+      "passes": false,
+      "description": "Create a local SQLite FTS5 full-text search index for archive stories. Progressive indexing: download and index last 30 days first, backfill older archives on Wi-Fi + charging. Search bar in Archive tab queries the FTS5 index.",
+      "acceptanceCriteria": [
+        "SearchIndexer creates SQLite database with FTS5 virtual table",
+        "FTS5 table columns: date, fact_text (searchable), source_info",
+        "Progressive indexing: indexes last 30 days on first launch",
+        "Backfill older archives when on Wi-Fi (detected via NWPathMonitor)",
+        "Index progress indicator in Archive tab ('Indexing archive... 45%')",
+        "Search bar at top of Archive tab",
+        "Search queries FTS5 index and returns matching stories with date and source",
+        "Search results tappable — navigates to that day's archive view",
+        "Search works fully offline against indexed content",
+        "Code compiles and search returns real results"
+      ],
+      "technicalNotes": "SwiftData doesn't expose FTS5 natively. Use a separate SQLite database via sqlite3 C API (available in Foundation). Create: CREATE VIRTUAL TABLE stories_fts USING fts5(date, fact_text, source_info). Insert decompressed archive text. Query: SELECT * FROM stories_fts WHERE stories_fts MATCH 'search term'. NWPathMonitor for Wi-Fi detection. Use ProcessInfo.processInfo.isLowPowerModeEnabled and UIDevice.current.batteryState for charging detection. Run indexing on a background Task.",
+      "filesToModify": [
+        "JTFNews/Services/SearchIndexer.swift",
+        "JTFNews/Views/Archive/ArchiveSearchView.swift"
+      ]
+    },
+    {
+      "id": "APP-010",
+      "title": "Build Settings screen with notification toggles and source details",
+      "priority": 10,
+      "passes": false,
+      "description": "Build the Settings screen accessible from a gear icon in the navigation bar. Includes notification toggles (all off by default), digest mode preference, archive download preference, About section, and full source details list.",
+      "acceptanceCriteria": [
+        "Settings accessible via gear icon in Stories tab navigation bar",
+        "Notification toggles: Daily Digest (off), Corrections (off), Breaking Facts (off)",
+        "Preferred Digest Mode toggle: Video / Audio",
+        "Archive Download: Wi-Fi only / Wi-Fi + Cellular / Manual",
+        "About JTF News section with links to whitepaper, methodology, GitHub",
+        "Source Details: list of all 22 sources with accuracy, bias, speed, consensus ratings and ownership",
+        "All settings persisted via @AppStorage / UserDefaults",
+        "Settings UI follows calm dark theme",
+        "Code compiles successfully"
+      ],
+      "technicalNotes": "Use SwiftUI Form with Sections. @AppStorage for persistence. Source details populated from Source SwiftData models (fetched by FeedService). Link to external URLs via Link() view or openURL environment action. Notification toggles will be wired to Background App Refresh in APP-011.",
+      "filesToModify": [
+        "JTFNews/Views/Settings/SettingsView.swift",
+        "JTFNews/Views/Settings/SourceDetailView.swift"
+      ]
+    },
+    {
+      "id": "APP-011",
+      "title": "Implement Background App Refresh and local notifications",
+      "priority": 11,
+      "passes": false,
+      "description": "Implement Background App Refresh to check for new stories, corrections, and digests. Fire local notifications based on user's enabled toggles. Register BGAppRefreshTask and schedule recurring checks.",
+      "acceptanceCriteria": [
+        "BGAppRefreshTask registered in Info.plist and App init",
+        "Background task checks stories.json for new stories since last check",
+        "Background task checks corrections.json for new corrections since last check",
+        "Background task checks podcast.xml for new digest since last check",
+        "Local notification fired for new digest if Daily Digest toggle is on",
+        "Local notification fired for new corrections if Corrections toggle is on",
+        "Local notification fired for breaking facts (published < 1hr ago) if Breaking Facts toggle is on",
+        "Notifications request permission on first toggle-on (not at app launch)",
+        "Background task reschedules itself for next check",
+        "Code compiles successfully"
+      ],
+      "technicalNotes": "Add BGTaskSchedulerPermittedIdentifiers to Info.plist. Register task in App.init: BGTaskScheduler.shared.register(forTaskWithIdentifier:). Schedule with BGAppRefreshTaskRequest. In the task handler: fetch data, compare against stored state, fire UNUserNotificationCenter notifications if changes detected. Request notification permission (UNUserNotificationCenter.requestAuthorization) only when user first enables a notification toggle, not at launch.",
+      "filesToModify": [
+        "JTFNews/Services/BackgroundRefreshManager.swift",
+        "JTFNews/Services/NotificationManager.swift"
+      ]
+    },
+    {
+      "id": "APP-012",
+      "title": "Implement offline support and connectivity handling",
+      "priority": 12,
+      "passes": false,
+      "description": "Ensure the app works gracefully offline. Stories are already cached in SwiftData. Add connectivity detection, 'Last updated' indicator, and graceful degradation when offline.",
+      "acceptanceCriteria": [
+        "NWPathMonitor detects online/offline state",
+        "'Last updated X ago' indicator shown on Stories tab when data is stale",
+        "Cached stories display when offline",
+        "Cached archive days load when offline",
+        "Cached audio plays when offline",
+        "YouTube embed shows 'Requires internet' message when offline",
+        "Pull-to-refresh shows error toast when offline",
+        "First launch with no connectivity shows helpful empty state",
+        "Code compiles successfully"
+      ],
+      "technicalNotes": "Use Network framework's NWPathMonitor on a background queue. Publish connectivity state via @Observable ConnectivityManager. Stories tab: show cached @Query results regardless of connectivity, add subtle banner for stale data. Audio: AVPlayer handles cached files via URL file paths. YouTube WKWebView: detect load failure and show offline message.",
+      "filesToModify": [
+        "JTFNews/Services/ConnectivityManager.swift",
+        "JTFNews/Views/Stories/StoriesView.swift",
+        "JTFNews/Views/Digest/DigestView.swift"
+      ]
+    },
+    {
+      "id": "APP-013",
+      "title": "Accessibility pass and VoiceOver support",
+      "priority": 13,
+      "passes": false,
+      "description": "Ensure all UI elements are accessible. VoiceOver reads story content, source ratings, and navigation correctly. Dynamic Type supported throughout.",
+      "acceptanceCriteria": [
+        "All story cards have meaningful accessibilityLabel combining fact, sources, and time",
+        "Source badges have accessibilityLabel (e.g., 'BBC News, accuracy 9.4')",
+        "Ownership line readable by VoiceOver",
+        "Correction cards announce correction status",
+        "Audio player controls accessible with VoiceOver",
+        "Tab bar items have accessibility labels",
+        "Dynamic Type: all text scales with system font size settings",
+        "Sufficient contrast ratios in dark theme (WCAG AA minimum)",
+        "Settings toggles have accessibility hints",
+        "Code compiles successfully"
+      ],
+      "technicalNotes": "Use .accessibilityLabel, .accessibilityHint, .accessibilityValue modifiers. Group related elements with .accessibilityElement(children: .combine). Use @ScaledMetric for custom spacing that scales with Dynamic Type. Test with Xcode Accessibility Inspector and VoiceOver in Simulator.",
+      "filesToModify": [
+        "JTFNews/Views/Stories/StoryCard.swift",
+        "JTFNews/Views/Digest/DigestView.swift",
+        "JTFNews/Views/Digest/MiniPlayerView.swift",
+        "JTFNews/Views/Archive/ArchiveView.swift",
+        "JTFNews/Views/Settings/SettingsView.swift"
+      ]
+    },
+    {
+      "id": "APP-014",
+      "title": "App icon, launch screen, and App Store metadata",
+      "priority": 14,
+      "passes": false,
+      "description": "Add app icon from JTF News branding assets, create a minimal launch screen, and prepare App Store metadata (description, keywords, screenshots, privacy policy URL).",
+      "acceptanceCriteria": [
+        "App icon set in Assets.xcassets (all required sizes generated from JTF News logo)",
+        "Launch screen: JTF News logo centered on dark background",
+        "App Store description drafted in metadata file",
+        "Keywords list prepared",
+        "Privacy policy URL set to jtfnews.org privacy page",
+        "App category: News",
+        "Age rating: 4+",
+        "Bundle identifier set (e.g., org.jtfnews.app)",
+        "Display name: JTF News",
+        "Code compiles and app icon displays correctly in Simulator"
+      ],
+      "technicalNotes": "JTF News logo SVGs are available in the production repo at /Volumes/MacLive/Users/larryseyer/JTFNews/web/ (multiple logo variants). Use the stacked logo variant for the app icon. Generate all required sizes from the 1024x1024 master. Launch screen can be a simple storyboard or SwiftUI view with the logo. App Store metadata can be stored in a metadata/ folder for reference.",
+      "filesToModify": [
+        "JTFNews/Assets.xcassets/AppIcon.appiconset/",
+        "JTFNews/LaunchScreen.storyboard"
+      ]
+    }
+  ]
+}

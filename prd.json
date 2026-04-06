@@ -219,7 +219,7 @@
       "id": "APP-010",
       "title": "Build Settings screen with notification toggles and source details",
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "description": "Build the Settings screen accessible from a gear icon in the navigation bar. Includes notification toggles (all off by default), digest mode preference, archive download preference, About section, and full source details list.",
       "acceptanceCriteria": [
         "Settings accessible via gear icon in Stories tab navigation bar",

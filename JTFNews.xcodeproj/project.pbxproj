@@ -31,6 +31,8 @@
 		AA000001022 /* GzipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002022; };
 		AA000001023 /* SearchIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002023; };
 		AA000001024 /* ArchiveSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002024; };
+		AA000001025 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002025; };
+		AA000001026 /* SourceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002026; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		AA000002022 /* GzipUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GzipUtility.swift; sourceTree = "<group>"; };
 		AA000002023 /* SearchIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIndexer.swift; sourceTree = "<group>"; };
 		AA000002024 /* ArchiveSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveSearchView.swift; sourceTree = "<group>"; };
+		AA000002025 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AA000002026 /* SourceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDetailView.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -187,6 +191,8 @@
 		AA000005012 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				AA000002025 /* SettingsView.swift */,
+				AA000002026 /* SourceDetailView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -283,6 +289,8 @@
 				AA000001022 /* GzipUtility.swift in Sources */,
 				AA000001023 /* SearchIndexer.swift in Sources */,
 				AA000001024 /* ArchiveSearchView.swift in Sources */,
+				AA000001025 /* SettingsView.swift in Sources */,
+				AA000001026 /* SourceDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

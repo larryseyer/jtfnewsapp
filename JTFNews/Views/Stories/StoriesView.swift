@@ -8,6 +8,7 @@ struct StoriesView: View {
     @Query private var sources: [Source]
     @State private var isLoading = false
     @State private var hasLoadedOnce = false
+    @State private var showSettings = false
 
     var body: some View {
         NavigationStack {
@@ -21,6 +22,18 @@ struct StoriesView: View {
                 }
             }
             .navigationTitle("Stories")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
         }
         .task {
             if !hasLoadedOnce {

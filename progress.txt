@@ -93,4 +93,15 @@
 - SearchIndexer provided via .environment() from ContentView
 - Files: Services/SearchIndexer.swift, Views/Archive/ArchiveSearchView.swift, Views/Archive/ArchiveView.swift (updated), App/ContentView.swift (updated)
 
+### APP-010: Build Settings screen with notification toggles and source details ✅
+- SettingsView presented as sheet from gear icon in Stories nav bar
+- Notification toggles: Daily Digest, Corrections, Breaking Facts (all off by default)
+- Digest mode preference (Video/Audio)
+- Archive download mode: Wi-Fi Only / Wi-Fi + Cellular / Manual
+- Source details list with all sources, ratings, and ownership info
+- SourceDetailView with progress bars for accuracy/bias/speed/consensus ratings
+- About section with links to whitepaper, GitHub, privacy policy
+- All settings via @AppStorage / UserDefaults
+- Files: Views/Settings/SettingsView.swift, Views/Settings/SourceDetailView.swift, Views/Stories/StoriesView.swift (updated)
+
 ---

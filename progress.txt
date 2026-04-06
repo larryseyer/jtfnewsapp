@@ -113,4 +113,12 @@
 - Task self-reschedules every 15 minutes
 - Files: Services/BackgroundRefreshManager.swift, Services/NotificationManager.swift, App/JTFNewsApp.swift (updated), Views/Settings/SettingsView.swift (updated)
 
+### APP-012: Implement offline support and connectivity handling ✅
+- ConnectivityManager @Observable @MainActor wraps NWPathMonitor
+- StoriesView: "Last updated X ago" banner when stale, offline empty state, error toast on pull-to-refresh while offline
+- DigestView: YouTube shows "Requires internet" message when offline
+- Cached stories/archives load without network
+- ConnectivityManager provided via .environment() from ContentView
+- Files: Services/ConnectivityManager.swift, Views/Stories/StoriesView.swift (updated), Views/Digest/DigestView.swift (updated), App/ContentView.swift (updated)
+
 ---

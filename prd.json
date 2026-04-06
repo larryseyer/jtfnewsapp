@@ -266,7 +266,7 @@
       "id": "APP-012",
       "title": "Implement offline support and connectivity handling",
       "priority": 12,
-      "passes": false,
+      "passes": true,
       "description": "Ensure the app works gracefully offline. Stories are already cached in SwiftData. Add connectivity detection, 'Last updated' indicator, and graceful degradation when offline.",
       "acceptanceCriteria": [
         "NWPathMonitor detects online/offline state",

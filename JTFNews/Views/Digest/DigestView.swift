@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DigestView: View {
+    @Environment(ConnectivityManager.self) private var connectivity
     @AppStorage("preferVideoMode") private var preferVideoMode = true
     @State private var episodes: [PodcastEpisode] = []
     @State private var youtubeURL: String?
@@ -41,7 +42,21 @@ struct DigestView: View {
 
     private var videoSection: some View {
         Group {
-            if let youtubeURL {
+            if !connectivity.isConnected {
+                VStack(spacing: 8) {
+                    Image(systemName: "wifi.slash")
+                        .font(.title2)
+                        .foregroundStyle(.secondary)
+                    Text("Video requires internet connection")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(height: 150)
+                .frame(maxWidth: .infinity)
+                .background(Color(.systemGray6).opacity(0.5))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal, 16)
+            } else if let youtubeURL {
                 YouTubePlayerView(videoURL: youtubeURL)
                     .frame(height: 220)
                     .clipShape(RoundedRectangle(cornerRadius: 12))

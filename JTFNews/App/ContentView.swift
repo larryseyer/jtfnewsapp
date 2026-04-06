@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var audioManager = AudioManager()
     @State private var searchIndexer = SearchIndexer()
+    @State private var connectivity = ConnectivityManager()
     @State private var selectedTab = 0
 
     var body: some View {
@@ -38,7 +39,9 @@ struct ContentView: View {
         }
         .environment(audioManager)
         .environment(searchIndexer)
+        .environment(connectivity)
         .animation(.easeInOut(duration: 0.2), value: audioManager.hasActiveAudio)
+        .onAppear { connectivity.start() }
     }
 }
 

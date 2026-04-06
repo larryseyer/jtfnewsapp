@@ -3,17 +3,21 @@ import SwiftData
 
 struct StoriesView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(ConnectivityManager.self) private var connectivity
     @Query(sort: \Story.publishedAt, order: .reverse) private var stories: [Story]
     @Query private var corrections: [Correction]
     @Query private var sources: [Source]
     @State private var isLoading = false
     @State private var hasLoadedOnce = false
     @State private var showSettings = false
+    @State private var showOfflineToast = false
 
     var body: some View {
         NavigationStack {
             Group {
-                if stories.isEmpty && !hasLoadedOnce {
+                if stories.isEmpty && !hasLoadedOnce && !connectivity.isConnected {
+                    offlineEmptyView
+                } else if stories.isEmpty && !hasLoadedOnce {
                     loadingView
                 } else if stories.isEmpty {
                     emptyView
@@ -48,6 +52,19 @@ struct StoriesView: View {
     private var storyList: some View {
         ScrollView {
             LazyVStack(spacing: 12) {
+                if let lastUpdated = lastUpdatedText, !connectivity.isConnected || isStale {
+                    HStack(spacing: 6) {
+                        if !connectivity.isConnected {
+                            Image(systemName: "wifi.slash")
+                                .font(.caption2)
+                        }
+                        Text("Last updated \(lastUpdated)")
+                            .font(.caption)
+                    }
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, 4)
+                }
+
                 ForEach(stories, id: \.hash) { story in
                     let correction = corrections.first { $0.storyId == story.id }
                     StoryCard(story: story, sources: sources, correction: correction)
@@ -57,8 +74,30 @@ struct StoriesView: View {
             .padding(.vertical, 8)
         }
         .refreshable {
-            await refresh(force: true)
+            if connectivity.isConnected {
+                await refresh(force: true)
+            } else {
+                showOfflineToast = true
+            }
         }
+        .overlay(alignment: .top) {
+            if showOfflineToast {
+                Text("No internet connection")
+                    .font(.caption)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Capsule())
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .onAppear {
+                        Task {
+                            try? await Task.sleep(for: .seconds(2))
+                            withAnimation { showOfflineToast = false }
+                        }
+                    }
+            }
+        }
+        .animation(.easeInOut, value: showOfflineToast)
     }
 
     // MARK: - Loading
@@ -89,6 +128,40 @@ struct StoriesView: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // MARK: - Offline Empty
+
+    private var offlineEmptyView: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "wifi.slash")
+                .font(.system(size: 48))
+                .foregroundStyle(.secondary)
+            Text("No Internet Connection")
+                .font(.title3)
+                .fontWeight(.medium)
+            Text("Connect to the internet to load stories")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // MARK: - Helpers
+
+    private var lastUpdatedText: String? {
+        let timestamp = UserDefaults.standard.double(forKey: "lastStoriesFetch")
+        guard timestamp > 0 else { return nil }
+        let date = Date(timeIntervalSince1970: timestamp)
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter.localizedString(for: date, relativeTo: Date())
+    }
+
+    private var isStale: Bool {
+        let timestamp = UserDefaults.standard.double(forKey: "lastStoriesFetch")
+        guard timestamp > 0 else { return true }
+        return Date().timeIntervalSince1970 - timestamp > 600 // 10 minutes
     }
 
     // MARK: - Refresh

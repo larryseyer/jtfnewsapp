@@ -83,4 +83,14 @@
 - ArchivedDayView for simple text display
 - Files: Services/ArchiveService.swift, Utilities/GzipUtility.swift, Views/Archive/ArchiveView.swift (updated), Views/Archive/ArchivedDayView.swift
 
+### APP-009: Build full-text search with SQLite FTS5 and progressive indexing ✅
+- SearchIndexer @Observable @MainActor: manages SQLite FTS5 database via C API
+- FTS5 virtual table with date, fact_text, source_info columns
+- Progressive indexing: last 30 days first, backfill older on Wi-Fi (NWPathMonitor)
+- Search with prefix matching (query* syntax), ranked results, limit 100
+- ArchiveSearchView with .searchable modifier, results navigate to date
+- Index progress indicator shown during indexing
+- SearchIndexer provided via .environment() from ContentView
+- Files: Services/SearchIndexer.swift, Views/Archive/ArchiveSearchView.swift, Views/Archive/ArchiveView.swift (updated), App/ContentView.swift (updated)
+
 ---

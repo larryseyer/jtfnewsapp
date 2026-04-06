@@ -1,0 +1,173 @@
+import Foundation
+import SwiftData
+import Network
+
+@Observable
+@MainActor
+final class SearchIndexer {
+    var indexProgress: Double = 0
+    var isIndexing = false
+
+    private var db: OpaquePointer?
+    private let dbPath: String
+
+    init() {
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        dbPath = documentsPath.appendingPathComponent("search_index.sqlite").path
+    }
+
+    func openDatabase() {
+        guard db == nil else { return }
+        if sqlite3_open(dbPath, &db) == SQLITE_OK {
+            let createSQL = "CREATE VIRTUAL TABLE IF NOT EXISTS stories_fts USING fts5(date, fact_text, source_info)"
+            sqlite3_exec(db, createSQL, nil, nil, nil)
+        }
+    }
+
+    func closeDatabase() {
+        if db != nil {
+            sqlite3_close(db)
+            db = nil
+        }
+    }
+
+    // MARK: - Index
+
+    func indexDay(dateString: String, text: String) {
+        openDatabase()
+        guard let db else { return }
+
+        // Check if already indexed
+        let checkSQL = "SELECT COUNT(*) FROM stories_fts WHERE date = ?"
+        var checkStmt: OpaquePointer?
+        if sqlite3_prepare_v2(db, checkSQL, -1, &checkStmt, nil) == SQLITE_OK {
+            sqlite3_bind_text(checkStmt, 1, dateString, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
+            if sqlite3_step(checkStmt) == SQLITE_ROW && sqlite3_column_int(checkStmt, 0) > 0 {
+                sqlite3_finalize(checkStmt)
+                return // Already indexed
+            }
+        }
+        sqlite3_finalize(checkStmt)
+
+        // Parse text into individual facts and index them
+        let lines = text.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        let insertSQL = "INSERT INTO stories_fts (date, fact_text, source_info) VALUES (?, ?, ?)"
+        var stmt: OpaquePointer?
+
+        if sqlite3_prepare_v2(db, insertSQL, -1, &stmt, nil) == SQLITE_OK {
+            for line in lines {
+                let parts = line.components(separatedBy: " | ")
+                let factText = parts.first ?? line
+                let sourceInfo = parts.count > 1 ? parts.dropFirst().joined(separator: " | ") : ""
+
+                sqlite3_bind_text(stmt, 1, dateString, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
+                sqlite3_bind_text(stmt, 2, factText, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
+                sqlite3_bind_text(stmt, 3, sourceInfo, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
+                sqlite3_step(stmt)
+                sqlite3_reset(stmt)
+            }
+        }
+        sqlite3_finalize(stmt)
+    }
+
+    // MARK: - Search
+
+    func search(query: String) -> [SearchResult] {
+        openDatabase()
+        guard let db, !query.isEmpty else { return [] }
+
+        let searchQuery = query.components(separatedBy: " ")
+            .map { "\($0)*" }
+            .joined(separator: " ")
+
+        let sql = "SELECT date, fact_text, source_info FROM stories_fts WHERE stories_fts MATCH ? ORDER BY rank LIMIT 100"
+        var stmt: OpaquePointer?
+        var results: [SearchResult] = []
+
+        if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
+            sqlite3_bind_text(stmt, 1, searchQuery, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
+            while sqlite3_step(stmt) == SQLITE_ROW {
+                let date = String(cString: sqlite3_column_text(stmt, 0))
+                let factText = String(cString: sqlite3_column_text(stmt, 1))
+                let sourceInfo = String(cString: sqlite3_column_text(stmt, 2))
+                results.append(SearchResult(date: date, factText: factText, sourceInfo: sourceInfo))
+            }
+        }
+        sqlite3_finalize(stmt)
+        return results
+    }
+
+    // MARK: - Progressive Indexing
+
+    func performProgressiveIndex(modelContainer: ModelContainer) async {
+        isIndexing = true
+        indexProgress = 0
+
+        let archiveService = ArchiveService(modelContainer: modelContainer)
+
+        do {
+            let dates = try await archiveService.fetchIndex()
+            let recentDates = Array(dates.suffix(30)) // Last 30 days
+
+            for (index, dateString) in recentDates.enumerated() {
+                do {
+                    let text = try await archiveService.fetchDay(dateString: dateString)
+                    indexDay(dateString: dateString, text: text)
+                } catch {
+                    // Skip unavailable days
+                }
+                indexProgress = Double(index + 1) / Double(recentDates.count)
+            }
+        } catch {
+            // Graceful degradation
+        }
+
+        isIndexing = false
+        indexProgress = 1.0
+    }
+
+    func performBackfillIndex(modelContainer: ModelContainer) async {
+        let monitor = NWPathMonitor(requiredInterfaceType: .wifi)
+        let queue = DispatchQueue(label: "wifi-check")
+
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            monitor.pathUpdateHandler = { path in
+                if path.status == .satisfied {
+                    continuation.resume()
+                    monitor.cancel()
+                }
+            }
+            monitor.start(queue: queue)
+
+            // Timeout after 2 seconds
+            queue.asyncAfter(deadline: .now() + 2) {
+                monitor.cancel()
+                continuation.resume()
+            }
+        }
+
+        let archiveService = ArchiveService(modelContainer: modelContainer)
+        do {
+            let dates = try await archiveService.fetchIndex()
+            let olderDates = Array(dates.dropLast(30))
+
+            for dateString in olderDates {
+                do {
+                    let text = try await archiveService.fetchDay(dateString: dateString)
+                    indexDay(dateString: dateString, text: text)
+                } catch {
+                    continue
+                }
+            }
+        } catch {
+            // Graceful degradation
+        }
+    }
+}
+
+struct SearchResult: Identifiable, Sendable {
+    let id = UUID()
+    let date: String
+    let factText: String
+    let sourceInfo: String
+}

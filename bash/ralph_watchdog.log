@@ -8,3 +8,4 @@
 [2026-04-06 17:23:41]     Last story: APP-001: Create Xcode project scaffold with SwiftUI and SwiftData
 [2026-04-06 17:23:41]     Claude running: yes
 [2026-04-06 17:23:41]     Ralph running: yes
+[2026-04-06 17:33:41] Progress: 8/14 complete | Next: APP-009: Build full-text search with SQLite FTS5 and progressive indexing | Commit: 9ebc250

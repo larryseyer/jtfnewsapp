@@ -8,6 +8,7 @@ struct ArchiveView: View {
     @State private var isLoadingIndex = true
     @State private var isLoadingDay = false
     @State private var errorMessage: String?
+    @State private var showSearch = false
 
     private let dateFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -31,6 +32,18 @@ struct ArchiveView: View {
                 contentArea
             }
             .navigationTitle("Archive")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSearch = true
+                    } label: {
+                        Image(systemName: "magnifyingglass")
+                    }
+                }
+            }
+            .navigationDestination(isPresented: $showSearch) {
+                ArchiveSearchView()
+            }
             .task { await loadIndex() }
             .onChange(of: selectedDate) {
                 Task { await loadDay() }

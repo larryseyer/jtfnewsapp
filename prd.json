@@ -195,7 +195,7 @@
       "id": "APP-009",
       "title": "Build full-text search with SQLite FTS5 and progressive indexing",
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "description": "Create a local SQLite FTS5 full-text search index for archive stories. Progressive indexing: download and index last 30 days first, backfill older archives on Wi-Fi + charging. Search bar in Archive tab queries the FTS5 index.",
       "acceptanceCriteria": [
         "SearchIndexer creates SQLite database with FTS5 virtual table",

@@ -26,10 +26,17 @@ struct JTFNewsApp: App {
         }
     }()
 
+    init() {
+        BackgroundRefreshManager.register()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.dark)
+                .onAppear {
+                    BackgroundRefreshManager.scheduleRefresh()
+                }
         }
         .modelContainer(sharedModelContainer)
     }

@@ -34,8 +34,23 @@ struct SettingsView: View {
     private var notificationsSection: some View {
         Section("Notifications") {
             Toggle("Daily Digest Ready", isOn: $notifyDailyDigest)
+                .onChange(of: notifyDailyDigest) { _, newValue in
+                    if newValue { requestNotificationPermission() }
+                }
             Toggle("Corrections", isOn: $notifyCorrections)
+                .onChange(of: notifyCorrections) { _, newValue in
+                    if newValue { requestNotificationPermission() }
+                }
             Toggle("Breaking Facts", isOn: $notifyBreakingFacts)
+                .onChange(of: notifyBreakingFacts) { _, newValue in
+                    if newValue { requestNotificationPermission() }
+                }
+        }
+    }
+
+    private func requestNotificationPermission() {
+        Task {
+            await NotificationManager.shared.requestPermissionIfNeeded()
         }
     }
 

@@ -242,7 +242,7 @@
       "id": "APP-011",
       "title": "Implement Background App Refresh and local notifications",
       "priority": 11,
-      "passes": false,
+      "passes": true,
       "description": "Implement Background App Refresh to check for new stories, corrections, and digests. Fire local notifications based on user's enabled toggles. Register BGAppRefreshTask and schedule recurring checks.",
       "acceptanceCriteria": [
         "BGAppRefreshTask registered in Info.plist and App init",

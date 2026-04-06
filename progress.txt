@@ -104,4 +104,13 @@
 - All settings via @AppStorage / UserDefaults
 - Files: Views/Settings/SettingsView.swift, Views/Settings/SourceDetailView.swift, Views/Stories/StoriesView.swift (updated)
 
+### APP-011: Implement Background App Refresh and local notifications ✅
+- BackgroundRefreshManager with BGAppRefreshTask registered in App.init
+- Checks stories.json (breaking), corrections.json (new corrections), podcast.xml (new digest)
+- NotificationManager actor wraps UNUserNotificationCenter
+- Permission requested on first toggle-on (not at launch)
+- BGTaskSchedulerPermittedIdentifiers and UIBackgroundModes added to Info.plist via build settings
+- Task self-reschedules every 15 minutes
+- Files: Services/BackgroundRefreshManager.swift, Services/NotificationManager.swift, App/JTFNewsApp.swift (updated), Views/Settings/SettingsView.swift (updated)
+
 ---

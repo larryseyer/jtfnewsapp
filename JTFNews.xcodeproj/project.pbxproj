@@ -21,6 +21,9 @@
 		AA000001012 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002012; };
 		AA000001013 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002013; };
 		AA000001014 /* StoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002014; };
+		AA000001015 /* PodcastService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002015; };
+		AA000001016 /* YouTubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002016; };
+		AA000001017 /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002017; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		AA000002012 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		AA000002013 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		AA000002014 /* StoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCard.swift; sourceTree = "<group>"; };
+		AA000002015 /* PodcastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastService.swift; sourceTree = "<group>"; };
+		AA000002016 /* YouTubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubePlayerView.swift; sourceTree = "<group>"; };
+		AA000002017 /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -99,6 +105,7 @@
 			children = (
 				AA000002012 /* DataService.swift */,
 				AA000002013 /* FeedService.swift */,
+				AA000002015 /* PodcastService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -127,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				AA000002004 /* DigestView.swift */,
+				AA000002016 /* YouTubePlayerView.swift */,
+				AA000002017 /* AudioPlayerView.swift */,
 			);
 			path = Digest;
 			sourceTree = "<group>";
@@ -243,6 +252,9 @@
 				AA000001012 /* DataService.swift in Sources */,
 				AA000001013 /* FeedService.swift in Sources */,
 				AA000001014 /* StoryCard.swift in Sources */,
+				AA000001015 /* PodcastService.swift in Sources */,
+				AA000001016 /* YouTubePlayerView.swift in Sources */,
+				AA000001017 /* AudioPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

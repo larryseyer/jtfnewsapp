@@ -118,7 +118,7 @@
       "id": "APP-006",
       "title": "Build PodcastService and Digest tab with YouTube video + audio player",
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "description": "Create PodcastService to parse podcast.xml for daily digest audio URLs (Archive.org). Build the Digest tab with YouTube video embed (WKWebView) and native audio player (AVFoundation). Include video/audio toggle with preference persistence.",
       "acceptanceCriteria": [
         "PodcastService parses https://jtfnews.org/podcast.xml for episode list",

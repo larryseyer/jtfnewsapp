@@ -55,4 +55,13 @@
 - Dark mode with muted colors and generous whitespace
 - Files: Views/Stories/StoriesView.swift (updated), Views/Stories/StoryCard.swift (new)
 
+### APP-006: Build PodcastService and Digest tab with YouTube video + audio player ✅
+- PodcastService actor: parses podcast.xml for episodes, monitor.json for YouTube URL
+- PodcastXMLParser handles iTunes-compatible RSS with enclosure URLs
+- DigestView with Video/Audio segmented toggle, preference stored via @AppStorage
+- YouTubePlayerView wraps WKWebView with inline playback, video ID extraction
+- AudioPlayerView uses AVPlayer with play/pause, skip ±15s, progress bar, time display
+- Past episodes listed below current digest
+- Files: Services/PodcastService.swift, Views/Digest/DigestView.swift, Views/Digest/YouTubePlayerView.swift, Views/Digest/AudioPlayerView.swift
+
 ---

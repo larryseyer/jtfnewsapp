@@ -94,7 +94,7 @@
       "id": "APP-005",
       "title": "Build Stories tab with story cards showing source transparency",
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "description": "Build the Stories tab UI. Each story card displays: the fact text, source badges with accuracy ratings (color-coded), ownership disclosure line, and relative timestamp. Corrections appear inline with distinct visual treatment. Pull-to-refresh triggers DataService.",
       "acceptanceCriteria": [
         "StoriesView shows a scrollable list of Story items from SwiftData",

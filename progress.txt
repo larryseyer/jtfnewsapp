@@ -44,4 +44,15 @@
 - SourceDTO as lightweight transfer object
 - Files: Services/FeedService.swift
 
+### APP-005: Build Stories tab with story cards showing source transparency ✅
+- StoriesView uses @Query sorted by publishedAt descending
+- StoryCard displays fact, source badges (color-coded by rating), ownership line, relative time
+- Corrections shown with red border, strikethrough original, arrow to corrected
+- Pull-to-refresh via .refreshable + force param to bypass cooldown
+- FlowLayout custom Layout for wrapping source badges
+- parseSourceDisplay() parses "BBC 9.4|9.2 · NPR 9.2|9.0" format
+- Loading/empty states handled
+- Dark mode with muted colors and generous whitespace
+- Files: Views/Stories/StoriesView.swift (updated), Views/Stories/StoryCard.swift (new)
+
 ---

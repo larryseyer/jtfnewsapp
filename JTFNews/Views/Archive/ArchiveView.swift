@@ -67,12 +67,12 @@ struct ArchiveView: View {
             }
             .navigationTitle("Archive")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .automatic) {
                     Button("Today") {
                         selectedDate = Date()
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     Button {
                         showSearch = true
                     } label: {
@@ -169,7 +169,7 @@ struct ArchiveView: View {
                         }
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(Color(.systemGray5).opacity(0.5))
+                        .background(Color(white: 0.17).opacity(0.5))
                         .clipShape(Capsule())
                     }
                 }
@@ -196,7 +196,7 @@ struct ArchiveView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.systemGray6).opacity(0.5))
+        .background(Color(white: 0.11).opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 

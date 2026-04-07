@@ -27,7 +27,7 @@ struct StoriesView: View {
             }
             .navigationTitle("JTF News")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     Button {
                         showSettings = true
                     } label: {

@@ -63,7 +63,7 @@ struct AudioPlayerView: View {
             .foregroundStyle(.primary)
         }
         .padding(20)
-        .background(Color(.systemGray6).opacity(0.5))
+        .background(Color(white: 0.11).opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .onAppear { setupPlayer() }
         .onDisappear { cleanup() }

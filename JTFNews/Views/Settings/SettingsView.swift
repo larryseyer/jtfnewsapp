@@ -21,11 +21,13 @@ struct SettingsView: View {
                 aboutSection
             }
             .navigationTitle("Settings")
+            #if os(iOS)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") { dismiss() }
                 }
             }
+            #endif
         }
     }
 

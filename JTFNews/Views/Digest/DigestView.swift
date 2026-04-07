@@ -48,6 +48,7 @@ struct DigestView: View {
         if let episode = currentEpisode {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
+            formatter.timeZone = TimeZone(identifier: "UTC")
             let dateKey = formatter.string(from: episode.date)
             if let playlistURL = youtubePlaylist[dateKey] {
                 return playlistURL
@@ -69,18 +70,18 @@ struct DigestView: View {
                 }
                 .frame(height: 150)
                 .frame(maxWidth: .infinity)
-                .background(Color(.systemGray6).opacity(0.5))
+                .background(Color(white: 0.11).opacity(0.5))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.horizontal, 16)
             } else if let videoURL = currentVideoURL {
                 YouTubePlayerView(videoURL: videoURL)
                     .id(videoURL)
-                    .frame(height: 220)
+                    .aspectRatio(16/9, contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.horizontal, 16)
             } else if isLoading {
                 ProgressView("Loading video...")
-                    .frame(height: 220)
+                    .aspectRatio(16/9, contentMode: .fit)
             } else {
                 Text("No video available")
                     .font(.subheadline)
@@ -147,7 +148,7 @@ struct DigestView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
-                    .background(selectedEpisodeId == episode.id ? Color(.systemGray5).opacity(0.5) : Color.clear)
+                    .background(selectedEpisodeId == episode.id ? Color(white: 0.17).opacity(0.5) : Color.clear)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
                 .buttonStyle(.plain)

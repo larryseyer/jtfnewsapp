@@ -28,7 +28,7 @@ struct StoryCard: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.systemGray6).opacity(0.5))
+        .background(Color(white: 0.11).opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
             RoundedRectangle(cornerRadius: 12)
@@ -112,7 +112,7 @@ struct StoryCard: View {
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
-                .background(Color(.systemGray5).opacity(0.6))
+                .background(Color(white: 0.17).opacity(0.6))
                 .clipShape(Capsule())
                 .accessibilityLabel("\(badge.name), accuracy \(String(format: "%.1f", badge.accuracy))")
             }

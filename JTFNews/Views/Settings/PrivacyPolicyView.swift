@@ -46,7 +46,9 @@ struct PrivacyPolicyView: View {
             .padding(20)
         }
         .navigationTitle("Privacy Policy")
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
 
     private func policySection(title: String, body: String) -> some View {

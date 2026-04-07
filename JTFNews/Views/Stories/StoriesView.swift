@@ -116,35 +116,91 @@ struct StoriesView: View {
     // MARK: - Empty
 
     private var emptyView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "newspaper")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
-            Text("No Stories Available")
-                .font(.title3)
-                .fontWeight(.medium)
-            Text("Pull down to refresh")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+        ScrollView {
+            VStack(spacing: 16) {
+                Image(systemName: "newspaper")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.secondary)
+                Text("No Stories Available")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                Text("Pull down to refresh")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, minHeight: 300)
+            .padding(.top, 100)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .refreshable {
+            if connectivity.isConnected {
+                await refresh(force: true)
+            } else {
+                showOfflineToast = true
+            }
+        }
+        .overlay(alignment: .top) {
+            if showOfflineToast {
+                Text("No internet connection")
+                    .font(.caption)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Capsule())
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .onAppear {
+                        Task {
+                            try? await Task.sleep(for: .seconds(2))
+                            withAnimation { showOfflineToast = false }
+                        }
+                    }
+            }
+        }
+        .animation(.easeInOut, value: showOfflineToast)
     }
 
     // MARK: - Offline Empty
 
     private var offlineEmptyView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "wifi.slash")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
-            Text("No Internet Connection")
-                .font(.title3)
-                .fontWeight(.medium)
-            Text("Connect to the internet to load stories")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+        ScrollView {
+            VStack(spacing: 16) {
+                Image(systemName: "wifi.slash")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.secondary)
+                Text("No Internet Connection")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                Text("Pull down to refresh when connected")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, minHeight: 300)
+            .padding(.top, 100)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .refreshable {
+            if connectivity.isConnected {
+                await refresh(force: true)
+            } else {
+                showOfflineToast = true
+            }
+        }
+        .overlay(alignment: .top) {
+            if showOfflineToast {
+                Text("No internet connection")
+                    .font(.caption)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Capsule())
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .onAppear {
+                        Task {
+                            try? await Task.sleep(for: .seconds(2))
+                            withAnimation { showOfflineToast = false }
+                        }
+                    }
+            }
+        }
+        .animation(.easeInOut, value: showOfflineToast)
     }
 
     // MARK: - Helpers
@@ -182,7 +238,7 @@ struct StoriesView: View {
             try await dataService.fetchCorrections()
             try await feedService.fetchSources()
         } catch {
-            // Gracefully handle — cached data will display
+            print("[StoriesView] Fetch failed: \(error.localizedDescription)")
         }
     }
 }

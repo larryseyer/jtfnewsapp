@@ -77,11 +77,13 @@ struct AudioPlayerView: View {
         timeObserver = player?.addPeriodicTimeObserver(
             forInterval: CMTime(seconds: 0.5, preferredTimescale: 600),
             queue: .main
-        ) { time in
-            currentTime = time.seconds
-            if let item = player?.currentItem {
-                let dur = item.duration.seconds
-                if dur.isFinite { duration = dur }
+        ) { [weak player] time in
+            MainActor.assumeIsolated {
+                self.currentTime = time.seconds
+                if let item = player?.currentItem {
+                    let dur = item.duration.seconds
+                    if dur.isFinite { self.duration = dur }
+                }
             }
         }
     }

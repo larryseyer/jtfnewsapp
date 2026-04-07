@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 import Network
+import SQLite3
 
 @Observable
 @MainActor

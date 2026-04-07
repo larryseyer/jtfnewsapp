@@ -4,146 +4,36 @@
 - SwiftData models use default initializers with property defaults (Swift 6 strict concurrency requirement)
 - Folder structure: App/, Models/, Services/, Views/{Stories,Digest,Archive,Settings}/, Utilities/
 - Shared xcscheme created so `xcodebuild -scheme JTFNews` works headless
+- New Swift files MUST be added to project.pbxproj in 4 places: PBXBuildFile, PBXFileReference, PBXGroup children, PBXSourcesBuildPhase
+
+---
+
+## Bugs Found During First App Testing (2026-04-06)
+
+These bugs were identified by running the app in iOS Simulator for the first time:
+
+1. Stories tab shows empty on first launch, pull-to-refresh doesn't work on empty state
+2. Whitepaper link goes to jtfnews.org homepage instead of whitepaper.html
+3. Privacy Policy link goes to jtfnews.org homepage; https://jtfnews.org/privacy returns 404
+4. YouTube video player shows Error 153 (video player configuration error)
+5. "Watch video on YouTube" link in YouTube error overlay does nothing (no WKNavigationDelegate)
+6. Archive day view shows raw pipe-delimited text instead of formatted stories
+7. Pull-to-refresh visual feedback missing (no scroll-down animation on empty state)
+
+---
+
+## Previous Work (APP-001 through APP-014) — All Complete
+
+All 14 original stories were implemented. See git log for details.
 
 ---
 
 ## Progress
 
-### APP-001: Create Xcode project scaffold with SwiftUI and SwiftData ✅
-- Created JTFNews.xcodeproj with project.pbxproj and shared scheme
-- iOS 17.0 deployment target, Swift 6 with strict concurrency
-- SwiftData ModelContainer configured with Story, Source, Correction, Channel, ArchivedDay
-- Three-tab TabView (Stories, Digest, Archive) with placeholder views
-- Dark mode by default via .preferredColorScheme(.dark)
-- Asset catalog with AppIcon and AccentColor placeholders
-- Files created: App/JTFNewsApp.swift, App/ContentView.swift, Views/Stories/StoriesView.swift, Views/Digest/DigestView.swift, Views/Archive/ArchiveView.swift, Models/Story.swift, Models/Source.swift, Models/Correction.swift, Models/Channel.swift, Models/ArchivedDay.swift
-
-### APP-002: Define SwiftData models for Story, Source, Correction, Channel ✅
-- All models already created with full schemas in APP-001
-- Story: id, hash, fact, sourceDisplay, sourceURLs (dict), audioURL, publishedAt, status, isCorrection
-- Source: id, name, accuracy, bias, speed, consensus, controlType, owner, ownerDisplay
-- Correction: storyId, originalFact, correctedFact, reason, correctingSources ([String]), correctedAt, type
-- Channel: id, name, baseURL (defaults to https://jtfnews.org)
-- ArchivedDay: date, rawText, isIndexed
-- All registered in ModelContainer in JTFNewsApp.swift
-
-### APP-003: Build DataService to fetch and parse stories.json and corrections.json ✅
-- Created DataService as an actor for thread safety (Swift 6 strict concurrency)
-- Lightweight Codable DTOs (StoryDTO, CorrectionDTO, StoriesResponse) for JSON parsing, mapped into SwiftData models
-- Upsert logic: matches stories by hash, corrections by storyId
-- 5-minute cooldown via UserDefaults timestamps
-- ISO8601 date parsing with fractional seconds fallback
-- All methods parameterized by Channel.baseURL
-- Pattern: new files must be added to project.pbxproj in 4 places (PBXBuildFile, PBXFileReference, PBXGroup children, PBXSourcesBuildPhase)
-
-### APP-004: Build FeedService to parse feed.xml for source metadata ✅
-- FeedService actor with fetchSources() method parameterized by baseURL
-- FeedXMLParser uses Foundation XMLParser with namespace-aware parsing
-- Handles jtf:source elements, deduplicates by source name
-- Creates/updates Source SwiftData models
-- SourceDTO as lightweight transfer object
-- Files: Services/FeedService.swift
-
-### APP-005: Build Stories tab with story cards showing source transparency ✅
-- StoriesView uses @Query sorted by publishedAt descending
-- StoryCard displays fact, source badges (color-coded by rating), ownership line, relative time
-- Corrections shown with red border, strikethrough original, arrow to corrected
-- Pull-to-refresh via .refreshable + force param to bypass cooldown
-- FlowLayout custom Layout for wrapping source badges
-- parseSourceDisplay() parses "BBC 9.4|9.2 · NPR 9.2|9.0" format
-- Loading/empty states handled
-- Dark mode with muted colors and generous whitespace
-- Files: Views/Stories/StoriesView.swift (updated), Views/Stories/StoryCard.swift (new)
-
-### APP-006: Build PodcastService and Digest tab with YouTube video + audio player ✅
-- PodcastService actor: parses podcast.xml for episodes, monitor.json for YouTube URL
-- PodcastXMLParser handles iTunes-compatible RSS with enclosure URLs
-- DigestView with Video/Audio segmented toggle, preference stored via @AppStorage
-- YouTubePlayerView wraps WKWebView with inline playback, video ID extraction
-- AudioPlayerView uses AVPlayer with play/pause, skip ±15s, progress bar, time display
-- Past episodes listed below current digest
-- Files: Services/PodcastService.swift, Views/Digest/DigestView.swift, Views/Digest/YouTubePlayerView.swift, Views/Digest/AudioPlayerView.swift
-
-### APP-007: Build persistent mini-player with Now Playing integration ✅
-- AudioManager @Observable singleton with @MainActor isolation
-- AVAudioSession .playback category for background audio
-- MPNowPlayingInfoCenter with title, duration, elapsed time, playback rate
-- MPRemoteCommandCenter: play/pause, skip forward/backward 15s
-- MiniPlayerView appears above tab bar when audio active and not on Digest tab
-- Tapping mini-player navigates to Digest tab
-- ContentView updated with ZStack overlay pattern
-- Files: Services/AudioManager.swift, Views/Digest/MiniPlayerView.swift, App/ContentView.swift (updated)
-
-### APP-008: Build Archive tab with date browser and archive fetching ✅
-- ArchiveService actor: fetches index.json, downloads .txt.gz archives, caches in SwiftData
-- GzipUtility: manual gzip header parsing + Compression framework COMPRESSION_ZLIB decompression
-- ArchiveView with graphical DatePicker, loads selected day's archive
-- Cached days load instantly without network
-- Loading/error/empty states handled
-- ArchivedDayView for simple text display
-- Files: Services/ArchiveService.swift, Utilities/GzipUtility.swift, Views/Archive/ArchiveView.swift (updated), Views/Archive/ArchivedDayView.swift
-
-### APP-009: Build full-text search with SQLite FTS5 and progressive indexing ✅
-- SearchIndexer @Observable @MainActor: manages SQLite FTS5 database via C API
-- FTS5 virtual table with date, fact_text, source_info columns
-- Progressive indexing: last 30 days first, backfill older on Wi-Fi (NWPathMonitor)
-- Search with prefix matching (query* syntax), ranked results, limit 100
-- ArchiveSearchView with .searchable modifier, results navigate to date
-- Index progress indicator shown during indexing
-- SearchIndexer provided via .environment() from ContentView
-- Files: Services/SearchIndexer.swift, Views/Archive/ArchiveSearchView.swift, Views/Archive/ArchiveView.swift (updated), App/ContentView.swift (updated)
-
-### APP-010: Build Settings screen with notification toggles and source details ✅
-- SettingsView presented as sheet from gear icon in Stories nav bar
-- Notification toggles: Daily Digest, Corrections, Breaking Facts (all off by default)
-- Digest mode preference (Video/Audio)
-- Archive download mode: Wi-Fi Only / Wi-Fi + Cellular / Manual
-- Source details list with all sources, ratings, and ownership info
-- SourceDetailView with progress bars for accuracy/bias/speed/consensus ratings
-- About section with links to whitepaper, GitHub, privacy policy
-- All settings via @AppStorage / UserDefaults
-- Files: Views/Settings/SettingsView.swift, Views/Settings/SourceDetailView.swift, Views/Stories/StoriesView.swift (updated)
-
-### APP-011: Implement Background App Refresh and local notifications ✅
-- BackgroundRefreshManager with BGAppRefreshTask registered in App.init
-- Checks stories.json (breaking), corrections.json (new corrections), podcast.xml (new digest)
-- NotificationManager actor wraps UNUserNotificationCenter
-- Permission requested on first toggle-on (not at launch)
-- BGTaskSchedulerPermittedIdentifiers and UIBackgroundModes added to Info.plist via build settings
-- Task self-reschedules every 15 minutes
-- Files: Services/BackgroundRefreshManager.swift, Services/NotificationManager.swift, App/JTFNewsApp.swift (updated), Views/Settings/SettingsView.swift (updated)
-
-### APP-012: Implement offline support and connectivity handling ✅
-- ConnectivityManager @Observable @MainActor wraps NWPathMonitor
-- StoriesView: "Last updated X ago" banner when stale, offline empty state, error toast on pull-to-refresh while offline
-- DigestView: YouTube shows "Requires internet" message when offline
-- Cached stories/archives load without network
-- ConnectivityManager provided via .environment() from ContentView
-- Files: Services/ConnectivityManager.swift, Views/Stories/StoriesView.swift (updated), Views/Digest/DigestView.swift (updated), App/ContentView.swift (updated)
-
-### APP-013: Accessibility pass and VoiceOver support ✅
-- StoryCard: combined accessibilityElement with full description (fact, sources with ratings, ownership, time)
-- Source badges: individual accessibilityLabel ("BBC News, accuracy 9.4")
-- Correction cards announce correction status in accessibility
-- Audio controls: accessibilityLabel for play/pause, skip forward/backward
-- MiniPlayerView: accessibilityLabel with title, accessibilityHint for navigation
-- Settings toggles: accessibilityHint explaining each notification type
-- Dynamic Type supported via system fonts throughout (no hardcoded sizes)
-- All text uses system semantic colors for WCAG contrast compliance in dark mode
-- Files: Views/Stories/StoryCard.swift, Views/Digest/AudioPlayerView.swift, Views/Digest/MiniPlayerView.swift, Views/Settings/SettingsView.swift (all updated)
-
-### APP-014: App icon, launch screen, and App Store metadata ✅
-- App icon: icon-square-dark-512.png scaled to 1024x1024 from JTF News production assets
-- AppIcon.appiconset configured with universal iOS icon
-- App Store metadata file with description, keywords, privacy info
-- Bundle identifier: org.jtfnews.app
-- Display name: JTF News
-- Category: News, Age Rating: 4+
-- Privacy label: Data Not Collected
-- Launch screen: auto-generated via INFOPLIST_KEY_UILaunchScreen_Generation
-- Files: Assets.xcassets/AppIcon.appiconset/, metadata/AppStoreMetadata.md
-
----
-
-## ALL STORIES COMPLETE ✅
-All 14 stories (APP-001 through APP-014) are implemented and marked as passing.
+### APP-015: Fix Stories tab empty state and pull-to-refresh
+- Wrapped `emptyView` and `offlineEmptyView` in ScrollView with .refreshable modifier
+- Both empty states now support pull-to-refresh (shows offline toast if no connection)
+- Updated offline empty state text to "Pull down to refresh when connected"
+- Added error logging in refresh() catch block instead of silently swallowing errors
+- Reused same offline toast overlay pattern from storyList for consistency
+- Files changed: StoriesView.swift, prd.json, progress.txt

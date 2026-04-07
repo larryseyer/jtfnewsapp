@@ -1,5 +1,5 @@
 import Foundation
-import BackgroundTasks
+@preconcurrency import BackgroundTasks
 import SwiftData
 
 enum BackgroundRefreshManager {
@@ -26,15 +26,11 @@ enum BackgroundRefreshManager {
 
         let taskRunner = Task {
             await performBackgroundCheck()
+            task.setTaskCompleted(success: true)
         }
 
         task.expirationHandler = {
             taskRunner.cancel()
-        }
-
-        Task {
-            await taskRunner.value
-            task.setTaskCompleted(success: true)
         }
     }
 

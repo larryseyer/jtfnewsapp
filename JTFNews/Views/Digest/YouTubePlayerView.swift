@@ -22,7 +22,9 @@ struct YouTubePlayerView: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
-        guard let videoID = extractVideoID(from: videoURL) else { return }
+        guard context.coordinator.loadedVideoID != videoURL,
+              let videoID = extractVideoID(from: videoURL) else { return }
+        context.coordinator.loadedVideoID = videoURL
 
         let html = """
         <!DOCTYPE html>
@@ -37,7 +39,7 @@ struct YouTubePlayerView: UIViewRepresentable {
         </head>
         <body>
         <iframe
-            src="https://www.youtube.com/embed/\(videoID)?playsinline=1&rel=0&modestbranding=1"
+            src="https://www.youtube.com/embed/\(videoID)?playsinline=1&rel=0&modestbranding=1&origin=https://jtfnews.org"
             frameborder="0"
             allowfullscreen
             allow="autoplay; encrypted-media">
@@ -46,7 +48,7 @@ struct YouTubePlayerView: UIViewRepresentable {
         </html>
         """
 
-        webView.loadHTMLString(html, baseURL: nil)
+        webView.loadHTMLString(html, baseURL: URL(string: "https://jtfnews.org"))
     }
 
     private func extractVideoID(from url: String) -> String? {
@@ -67,6 +69,8 @@ struct YouTubePlayerView: UIViewRepresentable {
     // MARK: - Coordinator
 
     final class Coordinator: NSObject, WKNavigationDelegate {
+        var loadedVideoID: String?
+
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
             guard let url = navigationAction.request.url else { return .allow }
             let urlString = url.absoluteString

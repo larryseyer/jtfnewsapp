@@ -4,14 +4,16 @@ struct DigestView: View {
     @Environment(ConnectivityManager.self) private var connectivity
     @AppStorage("preferVideoMode") private var preferVideoMode = true
     @State private var episodes: [PodcastEpisode] = []
+    @State private var selectedEpisodeId: String?
     @State private var youtubeURL: String?
+    @State private var youtubePlaylist: [String: String] = [:]
     @State private var isLoading = true
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    // Mode toggle
+            VStack(spacing: 0) {
+                // Pinned: mode toggle + player
+                VStack(spacing: 12) {
                     Picker("Mode", selection: $preferVideoMode) {
                         Label("Video", systemImage: "video").tag(true)
                         Label("Audio", systemImage: "headphones").tag(false)
@@ -19,26 +21,40 @@ struct DigestView: View {
                     .pickerStyle(.segmented)
                     .padding(.horizontal, 16)
 
-                    // Current digest
                     if preferVideoMode {
                         videoSection
                     } else {
                         audioSection
                     }
-
-                    // Past episodes
-                    if episodes.count > 1 {
-                        pastEpisodesSection
-                    }
                 }
                 .padding(.vertical, 8)
+
+                // Scrollable: past episodes
+                if episodes.count > 1 {
+                    ScrollView {
+                        pastEpisodesSection
+                            .padding(.vertical, 8)
+                    }
+                }
             }
-            .navigationTitle("Digest")
+            .navigationTitle("Daily Digest")
             .task { await loadContent() }
         }
     }
 
     // MARK: - Video
+
+    private var currentVideoURL: String? {
+        if let episode = currentEpisode {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let dateKey = formatter.string(from: episode.date)
+            if let playlistURL = youtubePlaylist[dateKey] {
+                return playlistURL
+            }
+        }
+        return youtubeURL
+    }
 
     private var videoSection: some View {
         Group {
@@ -56,30 +72,17 @@ struct DigestView: View {
                 .background(Color(.systemGray6).opacity(0.5))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.horizontal, 16)
-            } else if let youtubeURL {
-                VStack(spacing: 8) {
-                    YouTubePlayerView(videoURL: youtubeURL)
-                        .frame(height: 220)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-
-                    if let watchURL = URL(string: youtubeURL) {
-                        Link(destination: watchURL) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "play.rectangle")
-                                    .font(.caption)
-                                Text("Watch on YouTube")
-                                    .font(.caption)
-                            }
-                            .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .padding(.horizontal, 16)
+            } else if let videoURL = currentVideoURL {
+                YouTubePlayerView(videoURL: videoURL)
+                    .id(videoURL)
+                    .frame(height: 220)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal, 16)
             } else if isLoading {
                 ProgressView("Loading video...")
                     .frame(height: 220)
             } else {
-                Text("No video available today")
+                Text("No video available")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .frame(height: 100)
@@ -89,10 +92,18 @@ struct DigestView: View {
 
     // MARK: - Audio
 
+    private var currentEpisode: PodcastEpisode? {
+        if let selectedId = selectedEpisodeId {
+            return episodes.first { $0.id == selectedId }
+        }
+        return episodes.first
+    }
+
     private var audioSection: some View {
         Group {
-            if let episode = episodes.first {
+            if let episode = currentEpisode {
                 AudioPlayerView(audioURL: episode.audioURL, title: episode.title)
+                    .id(episode.id)
                     .padding(.horizontal, 16)
             } else if isLoading {
                 ProgressView("Loading audio...")
@@ -115,24 +126,31 @@ struct DigestView: View {
                 .padding(.horizontal, 16)
 
             ForEach(episodes.dropFirst()) { episode in
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(episode.title)
-                            .font(.subheadline)
-                            .lineLimit(2)
-                        Text(episode.date, style: .date)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                Button {
+                    selectedEpisodeId = episode.id
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(episode.title)
+                                .font(.subheadline)
+                                .lineLimit(2)
+                            Text(episode.date, style: .date)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        if !episode.duration.isEmpty {
+                            Text(episode.duration)
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                        }
                     }
-                    Spacer()
-                    if !episode.duration.isEmpty {
-                        Text(episode.duration)
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
-                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(selectedEpisodeId == episode.id ? Color(.systemGray5).opacity(0.5) : Color.clear)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+                .buttonStyle(.plain)
             }
         }
     }
@@ -144,8 +162,10 @@ struct DigestView: View {
         do {
             async let eps = service.fetchEpisodes()
             async let ytURL = service.fetchYouTubeURL()
+            async let playlist = service.fetchYouTubePlaylist()
             episodes = try await eps
             youtubeURL = try await ytURL
+            youtubePlaylist = (try? await playlist) ?? [:]
         } catch {
             // Gracefully handle
         }

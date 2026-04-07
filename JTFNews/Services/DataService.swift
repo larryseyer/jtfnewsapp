@@ -21,7 +21,7 @@ actor DataService {
         let context = ModelContext(modelContainer)
         for dto in response.stories {
             let descriptor = FetchDescriptor<Story>(
-                predicate: #Predicate { $0.hash == dto.hash }
+                predicate: #Predicate { $0.storyHash == dto.hash }
             )
             let existing = try context.fetch(descriptor)
 
@@ -34,7 +34,7 @@ actor DataService {
             } else {
                 let story = Story()
                 story.id = dto.id
-                story.hash = dto.hash
+                story.storyHash = dto.hash
                 story.fact = dto.fact
                 story.sourceDisplay = dto.source
                 story.sourceURLs = dto.sourceURLs ?? [:]
@@ -113,7 +113,7 @@ actor DataService {
 
 struct StoriesResponse: Codable, Sendable {
     let date: String
-    let source: String
+    let source: String?
     let stories: [StoryDTO]
 }
 

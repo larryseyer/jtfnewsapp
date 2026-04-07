@@ -4,7 +4,7 @@ import SwiftData
 @Model
 final class Story {
     var id: String = ""
-    var hash: String = ""
+    var storyHash: String = ""
     var fact: String = ""
     var sourceDisplay: String = ""
     var sourceURLs: [String: String] = [:]

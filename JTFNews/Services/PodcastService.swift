@@ -13,7 +13,7 @@ actor PodcastService {
         let url = URL(string: "\(baseURL)/podcast.xml")!
         let (data, _) = try await URLSession.shared.data(from: url)
         let parser = PodcastXMLParser(data: data)
-        return parser.parse()
+        return parser.parse().sorted { $0.date > $1.date }
     }
 
     func fetchYouTubeURL(baseURL: String = "https://jtfnews.org") async throws -> String? {
@@ -21,6 +21,51 @@ actor PodcastService {
         let (data, _) = try await URLSession.shared.data(from: url)
         let monitor = try JSONDecoder().decode(MonitorResponse.self, from: data)
         return monitor.dailyDigest?.youtubeURL
+    }
+
+    private static let playlistID = "PLm8mlmJgzmMfqH8YkhdRVFET200vZGRWN"
+
+    func fetchYouTubePlaylist() async throws -> [String: String] {
+        let url = URL(string: "https://www.youtube.com/playlist?list=\(Self.playlistID)")!
+        var request = URLRequest(url: url)
+        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", forHTTPHeaderField: "User-Agent")
+        request.setValue("en-US,en;q=0.9", forHTTPHeaderField: "Accept-Language")
+        let (data, _) = try await URLSession.shared.data(for: request)
+        guard let html = String(data: data, encoding: .utf8) else { return [:] }
+
+        // Parse videoId and title pairs from playlist page
+        var dateToVideoURL: [String: String] = [:]
+        let videoIDs = matches(in: html, pattern: #""videoId":"([^"]+)""#)
+        let titles = matches(in: html, pattern: #""title":\{"runs":\[\{"text":"([^"]+)"\}"#)
+
+        let uniqueVideoIDs = videoIDs.uniqued()
+
+        for (videoID, title) in zip(uniqueVideoIDs, titles) {
+            // Title format: "JTF News Daily Digest - YYYY-MM-DD"
+            if let dateRange = title.range(of: #"\d{4}-\d{2}-\d{2}"#, options: .regularExpression) {
+                let dateString = String(title[dateRange])
+                dateToVideoURL[dateString] = "https://youtube.com/watch?v=\(videoID)"
+            }
+        }
+        return dateToVideoURL
+    }
+
+    private func matches(in string: String, pattern: String) -> [String] {
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
+        let range = NSRange(string.startIndex..., in: string)
+        return regex.matches(in: string, range: range).compactMap { match in
+            guard let captureRange = Range(match.range(at: 1), in: string) else { return nil }
+            return String(string[captureRange])
+        }
+    }
+}
+
+// MARK: - Array Extension
+
+private extension Array where Element: Hashable {
+    func uniqued() -> [Element] {
+        var seen = Set<Element>()
+        return filter { seen.insert($0).inserted }
     }
 }
 

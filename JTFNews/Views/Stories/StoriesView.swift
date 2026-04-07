@@ -25,7 +25,7 @@ struct StoriesView: View {
                     storyList
                 }
             }
-            .navigationTitle("Stories")
+            .navigationTitle("JTF News")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -65,7 +65,7 @@ struct StoriesView: View {
                     .padding(.vertical, 4)
                 }
 
-                ForEach(stories, id: \.hash) { story in
+                ForEach(stories, id: \.storyHash) { story in
                     let correction = corrections.first { $0.storyId == story.id }
                     StoryCard(story: story, sources: sources, correction: correction)
                 }

@@ -67,6 +67,11 @@ struct ArchiveView: View {
             }
             .navigationTitle("Archive")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Today") {
+                        selectedDate = Date()
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showSearch = true
@@ -78,7 +83,10 @@ struct ArchiveView: View {
             .navigationDestination(isPresented: $showSearch) {
                 ArchiveSearchView()
             }
-            .task { await loadIndex() }
+            .task {
+                await loadIndex()
+                await loadDay()
+            }
             .onChange(of: selectedDate) {
                 Task { await loadDay() }
             }

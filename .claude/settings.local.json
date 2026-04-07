@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(xcrun simctl:*)",
-      "Bash(xcodebuild:*)",
-      "Bash(open:*)"
-    ]
-  }
-}

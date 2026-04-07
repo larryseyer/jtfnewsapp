@@ -1,5 +1,6 @@
 # Xcode
 build/
+bash/
 DerivedData/
 *.pbxuser
 !default.pbxuser
@@ -42,3 +43,13 @@ fastlane/test_output
 
 # Superpowers brainstorm artifacts
 .superpowers/
+
+# Ralph loops
+run_ralph.sh
+
+# Claude/MCP local files
+.claude/
+.serena/
+
+# Crash logs
+crash.txt

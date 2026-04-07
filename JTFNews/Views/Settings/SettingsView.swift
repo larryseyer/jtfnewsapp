@@ -108,6 +108,7 @@ struct SettingsView: View {
 
     private var aboutSection: some View {
         Section("About JTF News") {
+            Link("JTFNews.org", destination: URL(string: "https://jtfnews.org")!)
             Link("Whitepaper & Methodology", destination: URL(string: "https://jtfnews.org/whitepaper.html")!)
             Link("Source Code (GitHub)", destination: URL(string: "https://github.com/larryseyer/JTFNews")!)
             NavigationLink("Privacy Policy") {

@@ -47,3 +47,10 @@ See git log for details.
 - macOS version omits `scrollView.isScrollEnabled` (not available on macOS WKWebView)
 - Pattern: use extensions for shared cross-platform logic to avoid duplication
 
+### APP-023: Add platform-conditional navigation (sidebar vs tabs) ✅
+- Modified: JTFNews/App/ContentView.swift
+- iOS: unchanged TabView with Stories/Digest/Archive tabs + MiniPlayerView overlay
+- macOS: NavigationSplitView with sidebar List (JTF News, Daily Digest, Archive) and detail switch
+- MiniPlayerView on macOS: no 49pt tab bar offset (sits at bottom of detail area)
+- Default selection is 0 (Stories/JTF News) on both platforms
+

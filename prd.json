@@ -61,7 +61,7 @@
       "id": "APP-023",
       "title": "Add platform-conditional navigation (sidebar vs tabs)",
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "description": "ContentView currently uses TabView with bottom tabs. On macOS, use NavigationSplitView with a sidebar listing the three sections. On iOS, keep the existing TabView.",
       "acceptanceCriteria": [
         "On iOS (iPhone/iPad): existing TabView with Stories, Digest, Archive tabs — unchanged",

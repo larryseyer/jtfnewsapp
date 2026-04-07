@@ -37,3 +37,10 @@ All 14 original stories were implemented. See git log for details.
 - Added error logging in refresh() catch block instead of silently swallowing errors
 - Reused same offline toast overlay pattern from storyList for consistency
 - Files changed: StoriesView.swift, prd.json, progress.txt
+
+### APP-016: Fix Whitepaper and Privacy Policy links in Settings
+- Changed whitepaper URL from jtfnews.org to jtfnews.org/whitepaper.html
+- Replaced Privacy Policy Link (broken 404) with NavigationLink to new in-app PrivacyPolicyView
+- Created PrivacyPolicyView.swift with sections covering: zero data collection, network requests only to jtfnews.org, on-device storage, local notifications, no third-party SDKs, App Store privacy label
+- Added PrivacyPolicyView.swift to project.pbxproj (4 places: PBXBuildFile, PBXFileReference, Settings PBXGroup, PBXSourcesBuildPhase)
+- Files changed: SettingsView.swift, PrivacyPolicyView.swift (new), project.pbxproj, prd.json, progress.txt

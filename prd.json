@@ -24,7 +24,7 @@
       "id": "APP-016",
       "title": "Fix Whitepaper and Privacy Policy links in Settings",
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "description": "The Whitepaper link in Settings points to https://jtfnews.org (homepage) instead of the actual whitepaper page. The Privacy Policy link also points to the homepage, and https://jtfnews.org/privacy returns 404. Fix the whitepaper URL and create an in-app Privacy Policy view since no web page exists.",
       "acceptanceCriteria": [
         "Whitepaper & Methodology link opens https://jtfnews.org/whitepaper.html (confirmed to return 200 OK)",

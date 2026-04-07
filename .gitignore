@@ -53,3 +53,7 @@ run_ralph.sh
 
 # Crash logs
 crash.txt
+
+# internal docs
+docs/
+

@@ -1,6 +1,8 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var audioManager = AudioManager()
     @State private var searchIndexer = SearchIndexer()
     @State private var connectivity = ConnectivityManager()
@@ -53,6 +55,9 @@ struct ContentView: View {
         .environment(connectivity)
         .animation(.easeInOut(duration: 0.2), value: audioManager.hasActiveAudio)
         .onAppear { connectivity.start() }
+        .task {
+            await searchIndexer.performProgressiveIndex(modelContainer: modelContext.container)
+        }
     }
     #endif
 
@@ -95,6 +100,9 @@ struct ContentView: View {
         .environment(connectivity)
         .animation(.easeInOut(duration: 0.2), value: audioManager.hasActiveAudio)
         .onAppear { connectivity.start() }
+        .task {
+            await searchIndexer.performProgressiveIndex(modelContainer: modelContext.container)
+        }
     }
     #endif
 }

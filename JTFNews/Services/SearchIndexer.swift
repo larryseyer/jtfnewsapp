@@ -32,6 +32,15 @@ final class SearchIndexer {
         }
     }
 
+    func rebuildIndex() {
+        openDatabase()
+        guard let db else { return }
+        sqlite3_exec(db, "DROP TABLE IF EXISTS stories_fts", nil, nil, nil)
+        let createSQL = "CREATE VIRTUAL TABLE IF NOT EXISTS stories_fts USING fts5(date, fact_text, source_info)"
+        sqlite3_exec(db, createSQL, nil, nil, nil)
+        UserDefaults.standard.set(2, forKey: "searchIndexVersion")
+    }
+
     // MARK: - Index
 
     func indexDay(dateString: String, text: String) {
@@ -50,16 +59,22 @@ final class SearchIndexer {
         }
         sqlite3_finalize(checkStmt)
 
-        // Parse text into individual facts and index them
-        let lines = text.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        // Parse pipe-delimited lines: timestamp|sources|ratings|corrected|category|fact_text
+        let lines = text.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty && !$0.hasPrefix("#") }
         let insertSQL = "INSERT INTO stories_fts (date, fact_text, source_info) VALUES (?, ?, ?)"
         var stmt: OpaquePointer?
 
         if sqlite3_prepare_v2(db, insertSQL, -1, &stmt, nil) == SQLITE_OK {
             for line in lines {
-                let parts = line.components(separatedBy: " | ")
-                let factText = parts.first ?? line
-                let sourceInfo = parts.count > 1 ? parts.dropFirst().joined(separator: " | ") : ""
+                let parts = line.components(separatedBy: "|")
+                guard parts.count >= 6 else { continue }
+
+                let factText = parts[5...].joined(separator: "|").trimmingCharacters(in: .whitespaces)
+                let sources = parts[1].trimmingCharacters(in: .whitespaces)
+                let ratings = parts[2].trimmingCharacters(in: .whitespaces)
+                let sourceInfo = sources.isEmpty ? "" : "\(sources) · \(ratings)"
+
+                guard !factText.isEmpty else { continue }
 
                 sqlite3_bind_text(stmt, 1, dateString, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
                 sqlite3_bind_text(stmt, 2, factText, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
@@ -101,6 +116,11 @@ final class SearchIndexer {
     // MARK: - Progressive Indexing
 
     func performProgressiveIndex(modelContainer: ModelContainer) async {
+        // Rebuild if index was created with old (broken) parser
+        if UserDefaults.standard.integer(forKey: "searchIndexVersion") < 2 {
+            rebuildIndex()
+        }
+
         isIndexing = true
         indexProgress = 0
 

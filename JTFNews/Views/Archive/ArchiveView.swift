@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - Archived Story Parser
 
-private struct ArchivedStory: Identifiable {
+struct ArchivedStory: Identifiable {
     let id = UUID()
     let timestamp: Date?
     let sources: [String]
@@ -16,7 +16,7 @@ private struct ArchivedStory: Identifiable {
             .compactMap { parseLine($0) }
     }
 
-    private static func parseLine(_ line: String) -> ArchivedStory? {
+    static func parseLine(_ line: String) -> ArchivedStory? {
         let parts = line.components(separatedBy: "|")
         guard parts.count >= 6 else { return nil }
 

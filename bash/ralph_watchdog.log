@@ -21,3 +21,10 @@
 [2026-04-06 20:43:36]     Last story: APP-015: Fix Stories tab empty state and pull-to-refresh
 [2026-04-06 20:43:36]     Claude running: yes
 [2026-04-06 20:43:36]     Ralph running: yes
+[2026-04-06 21:57:58] ==========================================
+[2026-04-06 21:57:58] Ralph Watchdog Started - JTF News App
+[2026-04-06 21:57:58] Check interval: 600s (10 min)
+[2026-04-06 21:57:58] Stall threshold: 1800s (30 min)
+[2026-04-06 21:57:58] ==========================================
+[2026-04-06 21:57:58] Starting state: 0/6 stories complete
+[2026-04-06 21:57:58] Waiting: 0/6 | Working on: APP-020: Add macOS destination to Xcode project | 187s since last commit

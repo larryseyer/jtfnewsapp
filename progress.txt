@@ -1,67 +1,36 @@
-## Codebase Patterns
+## Multi-Platform Support (iPad + macOS)
 
+Design spec: docs/superpowers/specs/2026-04-07-multi-platform-design.md
+
+### Key Facts
+- 27 of 30 Swift files are already cross-platform compatible
+- Only 4 files need changes: project.pbxproj, BackgroundRefreshManager.swift, YouTubePlayerView.swift, ContentView.swift, JTFNewsApp.swift
+- iPad is already in device family (1,2) — just needs verification
+- macOS 14.0 minimum for SwiftData support
+- Use #if os(iOS) / #if os(macOS) conditionals — no separate targets
+
+### Codebase Patterns
 - Xcode project generated manually (no Xcode IDE) — project.pbxproj uses AA-prefixed IDs
-- SwiftData models use default initializers with property defaults (Swift 6 strict concurrency requirement)
-- Folder structure: App/, Models/, Services/, Views/{Stories,Digest,Archive,Settings}/, Utilities/
-- Shared xcscheme created so `xcodebuild -scheme JTFNews` works headless
+- SwiftData models use default initializers with property defaults (Swift 6 strict concurrency)
 - New Swift files MUST be added to project.pbxproj in 4 places: PBXBuildFile, PBXFileReference, PBXGroup children, PBXSourcesBuildPhase
+- IMPORTANT: Story model uses `storyHash` (not `hash`) — `hash` shadows NSObject.hash and crashes SwiftData
+- IMPORTANT: StoriesResponse.source is String? (optional) — the JSON field is missing from the API
+- IMPORTANT: Always do clean Release builds (iOS caches aggressively)
+- Build command pattern: xcodebuild clean -scheme JTFNews ... && xcodebuild -scheme JTFNews -configuration Release ...
 
----
-
-## Bugs Found During First App Testing (2026-04-06)
-
-These bugs were identified by running the app in iOS Simulator for the first time:
-
-1. Stories tab shows empty on first launch, pull-to-refresh doesn't work on empty state
-2. Whitepaper link goes to jtfnews.org homepage instead of whitepaper.html
-3. Privacy Policy link goes to jtfnews.org homepage; https://jtfnews.org/privacy returns 404
-4. YouTube video player shows Error 153 (video player configuration error)
-5. "Watch video on YouTube" link in YouTube error overlay does nothing (no WKNavigationDelegate)
-6. Archive day view shows raw pipe-delimited text instead of formatted stories
-7. Pull-to-refresh visual feedback missing (no scroll-down animation on empty state)
-
----
-
-## Previous Work (APP-001 through APP-014) — All Complete
-
-All 14 original stories were implemented. See git log for details.
+### Previous Work (APP-015 through APP-019) — All Complete
+See git log for details.
 
 ---
 
 ## Progress
 
-### APP-015: Fix Stories tab empty state and pull-to-refresh
-- Wrapped `emptyView` and `offlineEmptyView` in ScrollView with .refreshable modifier
-- Both empty states now support pull-to-refresh (shows offline toast if no connection)
-- Updated offline empty state text to "Pull down to refresh when connected"
-- Added error logging in refresh() catch block instead of silently swallowing errors
-- Reused same offline toast overlay pattern from storyList for consistency
-- Files changed: StoriesView.swift, prd.json, progress.txt
+### APP-020: Add macOS destination to Xcode project ✅
+- Modified: JTFNews.xcodeproj/project.pbxproj
+- Changes:
+  - Project-level Debug + Release: SDKROOT changed from `iphoneos` to `auto`, added `SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx"`, added `MACOSX_DEPLOYMENT_TARGET = 14.0`
+  - Target-level Debug + Release: Added `SUPPORTS_MACCATALYST = NO` and `SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO` (native macOS, not Catalyst)
+  - Target-level Debug + Release: Split `LD_RUNPATH_SEARCH_PATHS` into SDK-conditioned variants (macOS uses `@executable_path/../Frameworks`)
+  - iOS deployment target remains 17.0, TARGETED_DEVICE_FAMILY remains 1,2
+- Note: macOS build won't succeed yet — needs APP-021 through APP-024 for platform-conditional code
 
-### APP-016: Fix Whitepaper and Privacy Policy links in Settings
-- Changed whitepaper URL from jtfnews.org to jtfnews.org/whitepaper.html
-- Replaced Privacy Policy Link (broken 404) with NavigationLink to new in-app PrivacyPolicyView
-- Created PrivacyPolicyView.swift with sections covering: zero data collection, network requests only to jtfnews.org, on-device storage, local notifications, no third-party SDKs, App Store privacy label
-- Added PrivacyPolicyView.swift to project.pbxproj (4 places: PBXBuildFile, PBXFileReference, Settings PBXGroup, PBXSourcesBuildPhase)
-- Files changed: SettingsView.swift, PrivacyPolicyView.swift (new), project.pbxproj, prd.json, progress.txt
-
-### APP-017: Fix YouTube video player Error 153 and Watch on YouTube link
-- Replaced direct URL loading with loadHTMLString containing proper YouTube iframe embed
-- HTML template uses dark background, viewport meta tag, and fullscreen iframe with playsinline=1
-- Added WKNavigationDelegate Coordinator that intercepts navigation actions:
-  - Allows initial HTML load and YouTube embed iframe requests
-  - Opens all other URLs (Watch on YouTube, external links) in Safari via UIApplication.shared.open()
-- Added "Watch on YouTube" Link below the player in DigestView for accessibility
-- Kept inline playback and dark styling
-- Files changed: YouTubePlayerView.swift, DigestView.swift, prd.json, progress.txt
-
-### APP-018: Format Archive day view with parsed story cards
-- Created ArchivedStory parser struct (private to ArchiveView.swift) that parses pipe-delimited format
-- Parser handles: timestamp (ISO8601 with fractional seconds), sources, ratings, URLs (checks for [CORRECTED]), audio file, fact text
-- Lines starting with # (comments/headers) are filtered out
-- Each story displays as a card with: fact text (prominent), source badges with ratings, timestamp, correction indicator
-- Falls back to raw text display if parsing yields no results (graceful degradation)
-- Correction indicator shows orange warning icon + "Corrected" text
-- Source badges use capsule shape with muted colors matching app design
-- No new files needed — parser and card view are inline in ArchiveView.swift
-- Files changed: ArchiveView.swift, prd.json, progress.txt

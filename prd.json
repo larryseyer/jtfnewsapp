@@ -1,84 +1,118 @@
 {
-  "projectName": "JTF News iOS App — Bugfixes",
+  "projectName": "JTF News iOS App — Multi-Platform (iPad + macOS)",
   "branchName": "main",
   "stories": [
     {
-      "id": "APP-015",
-      "title": "Fix Stories tab empty state and pull-to-refresh",
+      "id": "APP-020",
+      "title": "Add macOS destination to Xcode project",
       "priority": 1,
       "passes": true,
-      "description": "On first launch, no stories appear and pull-to-refresh doesn't work because .refreshable is only on the storyList ScrollView — the emptyView and loadingView have no ScrollView or .refreshable modifier. Users see 'Pull down to refresh' text but can't actually pull. Fix the empty/offline states to support pull-to-refresh, and ensure the initial fetch works reliably.",
+      "description": "Add macOS as a supported platform destination to the existing JTFNews target in project.pbxproj. Set macOS deployment target to 14.0. This is the foundation for all other multi-platform stories.",
       "acceptanceCriteria": [
-        "Empty state view is wrapped in a ScrollView with .refreshable modifier so users can pull to refresh",
-        "Offline empty state also supports pull-to-refresh (shows offline toast if no connection)",
-        "Initial .task fetch errors are not silently swallowed — retry logic or user-visible feedback exists",
-        "Stories appear on first launch when network is available",
-        "Code compiles successfully"
+        "project.pbxproj includes macOS as a supported destination alongside iOS",
+        "macOS deployment target is set to 14.0 (required for SwiftData)",
+        "iOS deployment target remains 17.0",
+        "Targeted device family remains 1,2 (iPhone + iPad)",
+        "Code compiles successfully for both iOS and macOS destinations"
       ],
-      "technicalNotes": "The root issue is in StoriesView.swift. The storyList (line 52-101) has .refreshable but emptyView (line 118-131) and offlineEmptyView (line 135-148) are plain VStacks with no ScrollView. Wrap the empty states in ScrollView with .refreshable to enable pull-to-refresh. The refresh() function's catch block (line 184-186) silently swallows errors — at minimum log them. Also consider: the 5-minute cooldown (DataService.swift line 6) could block retries if the first attempt failed. The force parameter already bypasses this when called from .refreshable.",
+      "technicalNotes": "In project.pbxproj, add SUPPORTED_PLATFORMS to include macosx alongside iphoneos and iphonesimulator. Add MACOSX_DEPLOYMENT_TARGET = 14.0 to both Debug and Release build settings. You may need to add 'supports destinations' configuration depending on Xcode project format. Verify with: xcodebuild -scheme JTFNews -destination 'platform=macOS' build",
       "filesToModify": [
-        "JTFNews/Views/Stories/StoriesView.swift"
+        "JTFNews.xcodeproj/project.pbxproj"
       ]
     },
     {
-      "id": "APP-016",
-      "title": "Fix Whitepaper and Privacy Policy links in Settings",
+      "id": "APP-021",
+      "title": "Wrap BackgroundRefreshManager in #if os(iOS)",
       "priority": 2,
-      "passes": true,
-      "description": "The Whitepaper link in Settings points to https://jtfnews.org (homepage) instead of the actual whitepaper page. The Privacy Policy link also points to the homepage, and https://jtfnews.org/privacy returns 404. Fix the whitepaper URL and create an in-app Privacy Policy view since no web page exists.",
+      "passes": false,
+      "description": "BackgroundRefreshManager uses BGTaskScheduler which is iOS-only. Wrap the entire implementation in #if os(iOS) so the project compiles on macOS. Also wrap the two call sites in JTFNewsApp.swift.",
       "acceptanceCriteria": [
-        "Whitepaper & Methodology link opens https://jtfnews.org/whitepaper.html (confirmed to return 200 OK)",
-        "Privacy Policy navigates to a new in-app PrivacyPolicyView instead of opening a broken web link",
-        "PrivacyPolicyView displays the app's privacy policy: zero data collection, no analytics, no tracking, no accounts, no crash reporting SDKs",
-        "Privacy policy view follows the app's dark theme and calm design",
-        "Code compiles successfully"
+        "BackgroundRefreshManager.swift contents wrapped in #if os(iOS) / #endif",
+        "JTFNewsApp.swift: BackgroundRefreshManager.register() wrapped in #if os(iOS)",
+        "JTFNewsApp.swift: BackgroundRefreshManager.scheduleRefresh() wrapped in #if os(iOS)",
+        "Code compiles successfully for both iOS and macOS"
       ],
-      "technicalNotes": "In SettingsView.swift line 109: change URL to 'https://jtfnews.org/whitepaper.html'. Line 111: replace the Link with a NavigationLink to a new PrivacyPolicyView. Create Views/Settings/PrivacyPolicyView.swift with a ScrollView containing the privacy policy text. The policy should state: no data collected, no analytics SDKs, no crash reporting, no user accounts, no device fingerprinting, data stored only on-device via SwiftData, network requests only to jtfnews.org. Don't forget to add the new file to project.pbxproj (4 places: PBXBuildFile, PBXFileReference, PBXGroup children for Settings group, PBXSourcesBuildPhase).",
+      "technicalNotes": "In BackgroundRefreshManager.swift, wrap everything after the import statements in #if os(iOS) / #endif. In JTFNewsApp.swift, the init() calls BackgroundRefreshManager.register() and the .onAppear calls BackgroundRefreshManager.scheduleRefresh() — both need #if os(iOS) guards.",
       "filesToModify": [
-        "JTFNews/Views/Settings/SettingsView.swift",
-        "JTFNews/Views/Settings/PrivacyPolicyView.swift"
+        "JTFNews/Services/BackgroundRefreshManager.swift",
+        "JTFNews/App/JTFNewsApp.swift"
       ]
     },
     {
-      "id": "APP-017",
-      "title": "Fix YouTube video player Error 153 and Watch on YouTube link",
+      "id": "APP-022",
+      "title": "Make YouTubePlayerView cross-platform",
       "priority": 3,
-      "passes": true,
-      "description": "The YouTube embed shows 'Error 153 — Video player configuration error'. This is because the WKWebView loads the embed URL directly instead of using an HTML page with a proper YouTube iframe. Also, the 'Watch video on YouTube' link rendered by YouTube's error overlay does nothing because WKWebView has no navigation delegate to handle external URLs. Fix both issues.",
+      "passes": false,
+      "description": "YouTubePlayerView uses UIViewRepresentable (iOS-only) and UIApplication.shared.open() (iOS-only). Add platform conditionals so it uses NSViewRepresentable and NSWorkspace.shared.open() on macOS. The WKWebView configuration and HTML template are shared.",
       "acceptanceCriteria": [
-        "YouTube video plays successfully in the Digest tab video mode without Error 153",
-        "Video embed uses an HTML template with YouTube iframe API instead of loading embed URL directly",
-        "Tapping 'Watch video on YouTube' or any YouTube link opens Safari/YouTube app",
-        "WKNavigationDelegate handles navigation actions — allows YouTube embed frames, opens external URLs in Safari",
-        "A manual 'Watch on YouTube' button/link is added below the player for accessibility",
-        "Video player still respects inline playback and dark background styling",
-        "Code compiles successfully"
+        "On iOS: uses UIViewRepresentable, UIApplication.shared.open() — unchanged behavior",
+        "On macOS: uses NSViewRepresentable, NSWorkspace.shared.open()",
+        "YouTube video plays successfully on both platforms",
+        "External links (Watch on YouTube) open in default browser on both platforms",
+        "WKNavigationDelegate works on both platforms",
+        "Code compiles successfully for both iOS and macOS"
       ],
-      "technicalNotes": "In YouTubePlayerView.swift: instead of webView.load(URLRequest(url:embedURL)), load an HTML string with an iframe: '<iframe src=\"https://www.youtube.com/embed/VIDEO_ID?playsinline=1&rel=0&modestbranding=1\" frameborder=\"0\" allowfullscreen allow=\"autoplay; encrypted-media\"></iframe>' wrapped in a full HTML page with dark background. Add a Coordinator as WKNavigationDelegate that intercepts navigation actions — if the URL is not a youtube.com/embed URL, open it with UIApplication.shared.open(). In DigestView.swift: add a 'Watch on YouTube' Link below the YouTubePlayerView that opens the full youtube URL (stored in youtubeURL state). The youtubeURL from monitor.json is: 'https://youtube.com/watch?v=VIDEO_ID'.",
+      "technicalNotes": "Use #if os(iOS) / #elseif os(macOS) blocks. On iOS: struct conforms to UIViewRepresentable with makeUIView/updateUIView. On macOS: struct conforms to NSViewRepresentable with makeNSView/updateNSView. The Coordinator (WKNavigationDelegate) is shared — only the URL opening call differs: UIApplication.shared.open(url) vs NSWorkspace.shared.open(url). The HTML template, extractVideoID(), and loadedVideoID tracking are identical on both platforms.",
       "filesToModify": [
-        "JTFNews/Views/Digest/YouTubePlayerView.swift",
-        "JTFNews/Views/Digest/DigestView.swift"
+        "JTFNews/Views/Digest/YouTubePlayerView.swift"
       ]
     },
     {
-      "id": "APP-018",
-      "title": "Format Archive day view with parsed story cards",
+      "id": "APP-023",
+      "title": "Add platform-conditional navigation (sidebar vs tabs)",
       "priority": 4,
-      "passes": true,
-      "description": "Archive day data displays as raw pipe-delimited text, making it unreadable. The format is: timestamp|sources|ratings|urls|audio_file|fact_text (with lines starting with # being comments). Parse this format and display each story as a formatted card matching the app's design language.",
+      "passes": false,
+      "description": "ContentView currently uses TabView with bottom tabs. On macOS, use NavigationSplitView with a sidebar listing the three sections. On iOS, keep the existing TabView.",
       "acceptanceCriteria": [
-        "Archive day content is parsed from pipe-delimited format into structured story entries",
-        "Each archived story displays: fact text (prominent), source names, source ratings, and relative/formatted date",
-        "Comment lines (starting with #) are not displayed as stories but date header info is shown",
-        "Stories marked [CORRECTED] in their URLs field show a subtle correction indicator",
-        "Formatted view follows the app's dark theme with muted colors and generous whitespace",
-        "If parsing fails for a line, it degrades gracefully (skip or show raw text for that line only)",
+        "On iOS (iPhone/iPad): existing TabView with Stories, Digest, Archive tabs — unchanged",
+        "On macOS: NavigationSplitView with sidebar containing JTF News, Daily Digest, Archive items",
+        "Sidebar items use the same SF Symbols as the tab icons (newspaper, play.circle, archivebox)",
+        "Selecting a sidebar item shows the corresponding view in the detail area",
+        "Default selection is JTF News (Stories) on launch",
+        "Code compiles successfully for both iOS and macOS"
+      ],
+      "technicalNotes": "In ContentView.swift, use #if os(macOS) for NavigationSplitView with a List in the sidebar and a switch statement for the detail view. Use an enum or @State var for tracking selection. On #if os(iOS), keep the existing TabView code unchanged. The child views (StoriesView, DigestView, ArchiveView) are used as-is on both platforms.",
+      "filesToModify": [
+        "JTFNews/App/ContentView.swift"
+      ]
+    },
+    {
+      "id": "APP-024",
+      "title": "Add macOS Settings scene and window configuration",
+      "priority": 5,
+      "passes": false,
+      "description": "On macOS, Settings should open via the menu bar (Cmd+,) using a Settings scene, not a gear icon sheet. Also configure the macOS window with a default size and minimum size.",
+      "acceptanceCriteria": [
+        "On macOS: Settings accessible via JTF News menu > Settings (Cmd+,)",
+        "On macOS: Settings scene wraps SettingsView",
+        "On iOS: Settings gear icon and sheet behavior unchanged",
+        "macOS window default size is approximately 1000x700",
+        "macOS window minimum size is approximately 800x600",
+        "Code compiles successfully for both iOS and macOS"
+      ],
+      "technicalNotes": "In JTFNewsApp.swift, add a #if os(macOS) Settings scene: Settings { SettingsView() }. For window sizing, add .defaultSize(width: 1000, height: 700) to the WindowGroup. For minimum size, add .windowResizability(.contentMinSize) and a .frame(minWidth: 800, minHeight: 600) on the ContentView. On iOS, the gear icon in StoriesView toolbar remains unchanged.",
+      "filesToModify": [
+        "JTFNews/App/JTFNewsApp.swift"
+      ]
+    },
+    {
+      "id": "APP-025",
+      "title": "Verify iPad layout and test all platforms",
+      "priority": 6,
+      "passes": false,
+      "description": "Build and verify the app works correctly on iPad simulator. Confirm no layout issues on the larger screen. Verify macOS build runs and all features work. Run clean Release builds for all three targets.",
+      "acceptanceCriteria": [
+        "Clean Release build succeeds for iPhone simulator",
+        "Clean Release build succeeds for iPad simulator",
+        "Clean Release build succeeds for macOS",
+        "Stories tab displays and loads stories on all platforms",
+        "Daily Digest video and audio play on all platforms",
+        "Archive loads and displays on all platforms",
+        "No crash on any platform",
         "Code compiles successfully"
       ],
-      "technicalNotes": "The archive format per line is: 'timestamp|sources|ratings|urls|audio_file|fact_text'. Example: '2026-04-04T00:05:52.369633+00:00|NPR,BBC News|4.8 (74/155),5.0 (165/327)|https://www.npr.org/...,https://www.bbc.com/...|efb91719f35f.mp3|President Trump seeks $1.5 trillion...'. Lines starting with '#' are header comments (date, generation info). Create a parser struct (e.g. ArchivedStoryParser) that splits by '|' and returns an array of parsed entries. Update ArchiveView.swift to replace the raw Text(text) display (line 72-77) with a LazyVStack of formatted ArchivedStoryCard views. Each card should show the fact text prominently, source names as badges, ratings next to sources, and the timestamp formatted as a time (e.g. '12:05 AM'). Check for '[CORRECTED]' prefix in the URLs field to detect corrections. Create the parser and card view — either inline in ArchiveView or as new files. Don't forget project.pbxproj if creating new files.",
-      "filesToModify": [
-        "JTFNews/Views/Archive/ArchiveView.swift"
-      ]
+      "technicalNotes": "Build commands: iPhone: xcodebuild clean build -scheme JTFNews -configuration Release -destination 'platform=iOS Simulator,name=iPhone 16'. iPad: xcodebuild clean build -scheme JTFNews -configuration Release -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4)'. macOS: xcodebuild clean build -scheme JTFNews -configuration Release -destination 'platform=macOS'.",
+      "filesToModify": []
     }
   ]
 }

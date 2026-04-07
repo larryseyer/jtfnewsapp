@@ -43,7 +43,7 @@
       "id": "APP-017",
       "title": "Fix YouTube video player Error 153 and Watch on YouTube link",
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "description": "The YouTube embed shows 'Error 153 — Video player configuration error'. This is because the WKWebView loads the embed URL directly instead of using an HTML page with a proper YouTube iframe. Also, the 'Watch video on YouTube' link rendered by YouTube's error overlay does nothing because WKWebView has no navigation delegate to handle external URLs. Fix both issues.",
       "acceptanceCriteria": [
         "YouTube video plays successfully in the Digest tab video mode without Error 153",

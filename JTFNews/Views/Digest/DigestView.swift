@@ -57,10 +57,24 @@ struct DigestView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.horizontal, 16)
             } else if let youtubeURL {
-                YouTubePlayerView(videoURL: youtubeURL)
-                    .frame(height: 220)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal, 16)
+                VStack(spacing: 8) {
+                    YouTubePlayerView(videoURL: youtubeURL)
+                        .frame(height: 220)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                    if let watchURL = URL(string: youtubeURL) {
+                        Link(destination: watchURL) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "play.rectangle")
+                                    .font(.caption)
+                                Text("Watch on YouTube")
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
             } else if isLoading {
                 ProgressView("Loading video...")
                     .frame(height: 220)

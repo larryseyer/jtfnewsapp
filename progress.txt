@@ -44,3 +44,13 @@ All 14 original stories were implemented. See git log for details.
 - Created PrivacyPolicyView.swift with sections covering: zero data collection, network requests only to jtfnews.org, on-device storage, local notifications, no third-party SDKs, App Store privacy label
 - Added PrivacyPolicyView.swift to project.pbxproj (4 places: PBXBuildFile, PBXFileReference, Settings PBXGroup, PBXSourcesBuildPhase)
 - Files changed: SettingsView.swift, PrivacyPolicyView.swift (new), project.pbxproj, prd.json, progress.txt
+
+### APP-017: Fix YouTube video player Error 153 and Watch on YouTube link
+- Replaced direct URL loading with loadHTMLString containing proper YouTube iframe embed
+- HTML template uses dark background, viewport meta tag, and fullscreen iframe with playsinline=1
+- Added WKNavigationDelegate Coordinator that intercepts navigation actions:
+  - Allows initial HTML load and YouTube embed iframe requests
+  - Opens all other URLs (Watch on YouTube, external links) in Safari via UIApplication.shared.open()
+- Added "Watch on YouTube" Link below the player in DigestView for accessibility
+- Kept inline playback and dark styling
+- Files changed: YouTubePlayerView.swift, DigestView.swift, prd.json, progress.txt

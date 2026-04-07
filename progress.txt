@@ -54,3 +54,11 @@ See git log for details.
 - MiniPlayerView on macOS: no 49pt tab bar offset (sits at bottom of detail area)
 - Default selection is 0 (Stories/JTF News) on both platforms
 
+### APP-024: Add macOS Settings scene and window configuration ✅
+- Modified: JTFNews/App/JTFNewsApp.swift
+- macOS: Added `Settings { SettingsView() }` scene for Cmd+, menu bar access
+- macOS: `.defaultSize(width: 1000, height: 700)` on WindowGroup
+- macOS: `.windowResizability(.contentMinSize)` + `.frame(minWidth: 800, minHeight: 600)` on ContentView
+- iOS: gear icon sheet in StoriesView unchanged
+- Settings scene needs `.modelContainer(sharedModelContainer)` since it's a separate scene
+

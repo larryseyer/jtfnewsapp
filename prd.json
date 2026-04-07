@@ -80,7 +80,7 @@
       "id": "APP-024",
       "title": "Add macOS Settings scene and window configuration",
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "description": "On macOS, Settings should open via the menu bar (Cmd+,) using a Settings scene, not a gear icon sheet. Also configure the macOS window with a default size and minimum size.",
       "acceptanceCriteria": [
         "On macOS: Settings accessible via JTF News menu > Settings (Cmd+,)",

@@ -42,7 +42,7 @@
       "id": "APP-022",
       "title": "Make YouTubePlayerView cross-platform",
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "description": "YouTubePlayerView uses UIViewRepresentable (iOS-only) and UIApplication.shared.open() (iOS-only). Add platform conditionals so it uses NSViewRepresentable and NSWorkspace.shared.open() on macOS. The WKWebView configuration and HTML template are shared.",
       "acceptanceCriteria": [
         "On iOS: uses UIViewRepresentable, UIApplication.shared.open() — unchanged behavior",

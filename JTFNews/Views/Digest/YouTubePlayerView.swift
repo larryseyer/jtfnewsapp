@@ -1,6 +1,7 @@
 import SwiftUI
 import WebKit
 
+#if os(iOS)
 struct YouTubePlayerView: UIViewRepresentable {
     let videoURL: String
 
@@ -22,9 +23,39 @@ struct YouTubePlayerView: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
-        guard context.coordinator.loadedVideoID != videoURL,
+        loadVideoIfNeeded(webView, coordinator: context.coordinator)
+    }
+}
+#elseif os(macOS)
+struct YouTubePlayerView: NSViewRepresentable {
+    let videoURL: String
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    func makeNSView(context: Context) -> WKWebView {
+        let config = WKWebViewConfiguration()
+        config.mediaTypesRequiringUserActionForPlayback = []
+
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.navigationDelegate = context.coordinator
+        return webView
+    }
+
+    func updateNSView(_ webView: WKWebView, context: Context) {
+        loadVideoIfNeeded(webView, coordinator: context.coordinator)
+    }
+}
+#endif
+
+// MARK: - Shared Logic
+
+extension YouTubePlayerView {
+    func loadVideoIfNeeded(_ webView: WKWebView, coordinator: Coordinator) {
+        guard coordinator.loadedVideoID != videoURL,
               let videoID = extractVideoID(from: videoURL) else { return }
-        context.coordinator.loadedVideoID = videoURL
+        coordinator.loadedVideoID = videoURL
 
         let html = """
         <!DOCTYPE html>
@@ -51,7 +82,7 @@ struct YouTubePlayerView: UIViewRepresentable {
         webView.loadHTMLString(html, baseURL: URL(string: "https://jtfnews.org"))
     }
 
-    private func extractVideoID(from url: String) -> String? {
+    func extractVideoID(from url: String) -> String? {
         if url.contains("youtube.com/embed/") {
             return url.components(separatedBy: "embed/").last?.components(separatedBy: "?").first
         }
@@ -65,9 +96,11 @@ struct YouTubePlayerView: UIViewRepresentable {
         }
         return nil
     }
+}
 
-    // MARK: - Coordinator
+// MARK: - Coordinator
 
+extension YouTubePlayerView {
     final class Coordinator: NSObject, WKNavigationDelegate {
         var loadedVideoID: String?
 
@@ -85,9 +118,13 @@ struct YouTubePlayerView: UIViewRepresentable {
                 return .allow
             }
 
-            // Open all other URLs (Watch on YouTube, etc.) in Safari
-            await MainActor.run {
+            // Open all other URLs (Watch on YouTube, etc.) in default browser
+            _ = await MainActor.run {
+                #if os(iOS)
                 UIApplication.shared.open(url)
+                #elseif os(macOS)
+                NSWorkspace.shared.open(url)
+                #endif
             }
             return .cancel
         }

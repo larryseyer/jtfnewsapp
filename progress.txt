@@ -39,3 +39,11 @@ See git log for details.
 - BackgroundRefreshManager.swift: entire enum wrapped in `#if os(iOS)` / `#endif` (after `import Foundation`)
 - JTFNewsApp.swift: `BackgroundRefreshManager.register()` in init() and `BackgroundRefreshManager.scheduleRefresh()` in onAppear both wrapped in `#if os(iOS)` guards
 
+### APP-022: Make YouTubePlayerView cross-platform ✅
+- Modified: JTFNews/Views/Digest/YouTubePlayerView.swift
+- Split into `#if os(iOS)` (UIViewRepresentable) and `#elseif os(macOS)` (NSViewRepresentable) blocks
+- Shared logic (HTML template, extractVideoID, loadVideoIfNeeded) extracted to extensions
+- Coordinator shared, URL opening uses platform-conditional `UIApplication.shared.open` vs `NSWorkspace.shared.open`
+- macOS version omits `scrollView.isScrollEnabled` (not available on macOS WKWebView)
+- Pattern: use extensions for shared cross-platform logic to avoid duplication
+

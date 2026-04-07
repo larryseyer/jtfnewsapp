@@ -64,7 +64,7 @@
       "id": "APP-018",
       "title": "Format Archive day view with parsed story cards",
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "description": "Archive day data displays as raw pipe-delimited text, making it unreadable. The format is: timestamp|sources|ratings|urls|audio_file|fact_text (with lines starting with # being comments). Parse this format and display each story as a formatted card matching the app's design language.",
       "acceptanceCriteria": [
         "Archive day content is parsed from pipe-delimited format into structured story entries",

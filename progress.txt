@@ -54,3 +54,14 @@ All 14 original stories were implemented. See git log for details.
 - Added "Watch on YouTube" Link below the player in DigestView for accessibility
 - Kept inline playback and dark styling
 - Files changed: YouTubePlayerView.swift, DigestView.swift, prd.json, progress.txt
+
+### APP-018: Format Archive day view with parsed story cards
+- Created ArchivedStory parser struct (private to ArchiveView.swift) that parses pipe-delimited format
+- Parser handles: timestamp (ISO8601 with fractional seconds), sources, ratings, URLs (checks for [CORRECTED]), audio file, fact text
+- Lines starting with # (comments/headers) are filtered out
+- Each story displays as a card with: fact text (prominent), source badges with ratings, timestamp, correction indicator
+- Falls back to raw text display if parsing yields no results (graceful degradation)
+- Correction indicator shows orange warning icon + "Corrected" text
+- Source badges use capsule shape with muted colors matching app design
+- No new files needed — parser and card view are inline in ArchiveView.swift
+- Files changed: ArchiveView.swift, prd.json, progress.txt

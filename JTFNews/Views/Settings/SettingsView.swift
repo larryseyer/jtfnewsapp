@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage("notifyDailyDigest") private var notifyDailyDigest = false
     @AppStorage("notifyCorrections") private var notifyCorrections = false
     @AppStorage("notifyBreakingFacts") private var notifyBreakingFacts = false
+    @AppStorage("notifyWatchedTerms") private var notifyWatchedTerms = false
     @AppStorage("preferVideoMode") private var preferVideoMode = true
     @AppStorage("archiveDownloadMode") private var archiveDownloadMode = "wifi"
 
@@ -50,6 +51,16 @@ struct SettingsView: View {
                     if newValue { requestNotificationPermission() }
                 }
                 .accessibilityHint("Notify for facts published within the last hour")
+            Toggle("Watched Terms", isOn: $notifyWatchedTerms)
+                .onChange(of: notifyWatchedTerms) { _, newValue in
+                    if newValue { requestNotificationPermission() }
+                }
+                .accessibilityHint("Notify when new stories match your watched terms")
+            if notifyWatchedTerms {
+                NavigationLink("Manage Watched Terms") {
+                    WatchedTermsView()
+                }
+            }
         }
     }
 

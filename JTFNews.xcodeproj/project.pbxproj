@@ -37,6 +37,7 @@
 		AA000001028 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002028; };
 		AA000001029 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002029; };
 		AA000001030 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002030; };
+		AA000001031 /* WatchedTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002031; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		AA000002028 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		AA000002029 /* ConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityManager.swift; sourceTree = "<group>"; };
 		AA000002030 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		AA000002031 /* WatchedTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedTermsView.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -205,6 +207,7 @@
 				AA000002025 /* SettingsView.swift */,
 				AA000002026 /* SourceDetailView.swift */,
 				AA000002030 /* PrivacyPolicyView.swift */,
+				AA000002031 /* WatchedTermsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				AA000001028 /* NotificationManager.swift in Sources */,
 				AA000001029 /* ConnectivityManager.swift in Sources */,
 				AA000001030 /* PrivacyPolicyView.swift in Sources */,
+				AA000001031 /* WatchedTermsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

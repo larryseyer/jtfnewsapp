@@ -40,8 +40,9 @@ enum BackgroundRefreshManager {
         let notifyDigest = UserDefaults.standard.bool(forKey: "notifyDailyDigest")
         let notifyCorrections = UserDefaults.standard.bool(forKey: "notifyCorrections")
         let notifyBreaking = UserDefaults.standard.bool(forKey: "notifyBreakingFacts")
+        let notifyWatchedTerms = UserDefaults.standard.bool(forKey: "notifyWatchedTerms")
 
-        guard notifyDigest || notifyCorrections || notifyBreaking else { return }
+        guard notifyDigest || notifyCorrections || notifyBreaking || notifyWatchedTerms else { return }
 
         // Check for new stories
         if notifyBreaking {
@@ -56,6 +57,11 @@ enum BackgroundRefreshManager {
         // Check for new digest
         if notifyDigest {
             await checkForNewDigest()
+        }
+
+        // Check for watched term matches
+        if notifyWatchedTerms {
+            await checkForWatchedTerms()
         }
     }
 
@@ -117,6 +123,39 @@ enum BackgroundRefreshManager {
             }
 
             UserDefaults.standard.set(corrections.count, forKey: lastCountKey)
+        } catch {
+            // Graceful degradation
+        }
+    }
+
+    private static func checkForWatchedTerms() async {
+        let terms = WatchedTermsStorage.terms
+        guard !terms.isEmpty else { return }
+
+        do {
+            let url = URL(string: "https://jtfnews.org/stories.json")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let response = try JSONDecoder().decode(StoriesResponse.self, from: data)
+
+            let previouslyNotified = WatchedTermsStorage.notifiedHashes
+            let lowercasedTerms = terms.map { $0.lowercased() }
+
+            let matchingNew = response.stories.filter { story in
+                guard !previouslyNotified.contains(story.hash) else { return false }
+                let lowercasedFact = story.fact.lowercased()
+                return lowercasedTerms.contains { lowercasedFact.contains($0) }
+            }
+
+            if !matchingNew.isEmpty {
+                await NotificationManager.shared.sendNotification(
+                    title: "Watched Terms",
+                    body: "\(matchingNew.count) new stor\(matchingNew.count == 1 ? "y matches" : "ies match") your watched terms",
+                    identifier: "watched-terms-\(Date().timeIntervalSince1970)"
+                )
+            }
+
+            // Replace with all current hashes to prevent re-notification
+            WatchedTermsStorage.notifiedHashes = Set(response.stories.map(\.hash))
         } catch {
             // Graceful degradation
         }

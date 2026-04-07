@@ -24,7 +24,7 @@
       "id": "APP-021",
       "title": "Wrap BackgroundRefreshManager in #if os(iOS)",
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "description": "BackgroundRefreshManager uses BGTaskScheduler which is iOS-only. Wrap the entire implementation in #if os(iOS) so the project compiles on macOS. Also wrap the two call sites in JTFNewsApp.swift.",
       "acceptanceCriteria": [
         "BackgroundRefreshManager.swift contents wrapped in #if os(iOS) / #endif",

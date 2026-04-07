@@ -1,4 +1,6 @@
 import Foundation
+
+#if os(iOS)
 @preconcurrency import BackgroundTasks
 import SwiftData
 
@@ -144,3 +146,4 @@ enum BackgroundRefreshManager {
         }
     }
 }
+#endif

@@ -34,3 +34,8 @@ See git log for details.
   - iOS deployment target remains 17.0, TARGETED_DEVICE_FAMILY remains 1,2
 - Note: macOS build won't succeed yet — needs APP-021 through APP-024 for platform-conditional code
 
+### APP-021: Wrap BackgroundRefreshManager in #if os(iOS) ✅
+- Modified: JTFNews/Services/BackgroundRefreshManager.swift, JTFNews/App/JTFNewsApp.swift
+- BackgroundRefreshManager.swift: entire enum wrapped in `#if os(iOS)` / `#endif` (after `import Foundation`)
+- JTFNewsApp.swift: `BackgroundRefreshManager.register()` in init() and `BackgroundRefreshManager.scheduleRefresh()` in onAppear both wrapped in `#if os(iOS)` guards
+

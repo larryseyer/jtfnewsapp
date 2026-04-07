@@ -27,7 +27,9 @@ struct JTFNewsApp: App {
     }()
 
     init() {
+        #if os(iOS)
         BackgroundRefreshManager.register()
+        #endif
     }
 
     var body: some Scene {
@@ -35,7 +37,9 @@ struct JTFNewsApp: App {
             ContentView()
                 .preferredColorScheme(.dark)
                 .onAppear {
+                    #if os(iOS)
                     BackgroundRefreshManager.scheduleRefresh()
+                    #endif
                 }
         }
         .modelContainer(sharedModelContainer)

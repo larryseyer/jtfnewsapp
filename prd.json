@@ -99,7 +99,7 @@
       "id": "APP-025",
       "title": "Verify iPad layout and test all platforms",
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "description": "Build and verify the app works correctly on iPad simulator. Confirm no layout issues on the larger screen. Verify macOS build runs and all features work. Run clean Release builds for all three targets.",
       "acceptanceCriteria": [
         "Clean Release build succeeds for iPhone simulator",

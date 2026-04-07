@@ -69,12 +69,14 @@ final class AudioManager {
     // MARK: - Audio Session
 
     private func configureAudioSession() {
+        #if os(iOS)
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             // Best effort
         }
+        #endif
     }
 
     // MARK: - Time Observer
@@ -126,13 +128,12 @@ final class AudioManager {
     // MARK: - Now Playing
 
     private func updateNowPlayingInfo() {
-        var info: [String: Any] = [
+        let info: [String: Any] = [
             MPMediaItemPropertyTitle: currentTitle,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime,
             MPMediaItemPropertyPlaybackDuration: duration,
             MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? 1.0 : 0.0
         ]
-        _ = info // suppress unused warning in strict concurrency
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
     }
 }

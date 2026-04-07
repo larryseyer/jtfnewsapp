@@ -45,7 +45,7 @@ fastlane/test_output
 .superpowers/
 
 # Ralph loops
-run_ralph.sh
+# run_ralph.sh
 
 # Claude/MCP local files
 .claude/

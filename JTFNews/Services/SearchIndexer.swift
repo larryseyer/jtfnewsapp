@@ -38,7 +38,7 @@ final class SearchIndexer {
         sqlite3_exec(db, "DROP TABLE IF EXISTS stories_fts", nil, nil, nil)
         let createSQL = "CREATE VIRTUAL TABLE IF NOT EXISTS stories_fts USING fts5(date, fact_text, source_info)"
         sqlite3_exec(db, createSQL, nil, nil, nil)
-        UserDefaults.standard.set(2, forKey: "searchIndexVersion")
+        UserDefaults.standard.set(3, forKey: "searchIndexVersion")
     }
 
     // MARK: - Index
@@ -59,22 +59,31 @@ final class SearchIndexer {
         }
         sqlite3_finalize(checkStmt)
 
-        // Parse pipe-delimited lines: timestamp|sources|ratings|corrected|category|fact_text
-        let lines = text.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty && !$0.hasPrefix("#") }
+        // Pipe-delimited log lines. Known column layouts in the live archive:
+        //   timestamp | sources | ratings | urls | fact_text
+        //   timestamp | sources | ratings | urls | <hash>.mp3 | fact_text
+        // Rather than special-case either shape, we treat fact text as the LAST
+        // field on the line. That way any future metadata columns added in front
+        // of the fact don't break indexing.
+        let lines = text.components(separatedBy: "\n").filter {
+            let trimmed = $0.trimmingCharacters(in: .whitespaces)
+            return !trimmed.isEmpty && !trimmed.hasPrefix("#")
+        }
         let insertSQL = "INSERT INTO stories_fts (date, fact_text, source_info) VALUES (?, ?, ?)"
         var stmt: OpaquePointer?
 
         if sqlite3_prepare_v2(db, insertSQL, -1, &stmt, nil) == SQLITE_OK {
             for line in lines {
                 let parts = line.components(separatedBy: "|")
-                guard parts.count >= 6 else { continue }
+                // Need at least: timestamp | sources | ratings | something | fact_text
+                guard parts.count >= 5, let lastField = parts.last else { continue }
 
-                let factText = parts[5...].joined(separator: "|").trimmingCharacters(in: .whitespaces)
+                let factText = lastField.trimmingCharacters(in: .whitespaces)
+                guard !factText.isEmpty else { continue }
+
                 let sources = parts[1].trimmingCharacters(in: .whitespaces)
                 let ratings = parts[2].trimmingCharacters(in: .whitespaces)
                 let sourceInfo = sources.isEmpty ? "" : "\(sources) · \(ratings)"
-
-                guard !factText.isEmpty else { continue }
 
                 sqlite3_bind_text(stmt, 1, dateString, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
                 sqlite3_bind_text(stmt, 2, factText, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
@@ -82,6 +91,9 @@ final class SearchIndexer {
                 sqlite3_step(stmt)
                 sqlite3_reset(stmt)
             }
+        } else {
+            let err = String(cString: sqlite3_errmsg(db))
+            print("[SearchIndexer] prepare insert failed: \(err)")
         }
         sqlite3_finalize(stmt)
     }
@@ -108,6 +120,9 @@ final class SearchIndexer {
                 let sourceInfo = String(cString: sqlite3_column_text(stmt, 2))
                 results.append(SearchResult(date: date, factText: factText, sourceInfo: sourceInfo))
             }
+        } else {
+            let err = String(cString: sqlite3_errmsg(db))
+            print("[SearchIndexer] prepare search failed: \(err) — query: \(searchQuery)")
         }
         sqlite3_finalize(stmt)
         return results
@@ -117,7 +132,7 @@ final class SearchIndexer {
 
     func performProgressiveIndex(modelContainer: ModelContainer) async {
         // Rebuild if index was created with old (broken) parser
-        if UserDefaults.standard.integer(forKey: "searchIndexVersion") < 2 {
+        if UserDefaults.standard.integer(forKey: "searchIndexVersion") < 3 {
             rebuildIndex()
         }
 

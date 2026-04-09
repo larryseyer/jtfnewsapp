@@ -43,7 +43,14 @@ final class SearchIndexer {
 
     // MARK: - Index
 
-    func indexDay(dateString: String, text: String) {
+    /// Writes a day's parsed stories into the FTS5 index.
+    ///
+    /// This method is transitional — the whole `SearchIndexer` class is being
+    /// removed in the next phase in favor of a direct `@Query` + `#Predicate`
+    /// search against SwiftData. During the transition, we keep FTS5 working by
+    /// projecting already-parsed `ArchivedStory` rows into it, rather than
+    /// re-parsing raw archive text.
+    func indexDay(dateString: String, stories: [ArchivedStory]) {
         openDatabase()
         guard let db else { return }
 
@@ -59,34 +66,17 @@ final class SearchIndexer {
         }
         sqlite3_finalize(checkStmt)
 
-        // Pipe-delimited log lines. Known column layouts in the live archive:
-        //   timestamp | sources | ratings | urls | fact_text
-        //   timestamp | sources | ratings | urls | <hash>.mp3 | fact_text
-        // Rather than special-case either shape, we treat fact text as the LAST
-        // field on the line. That way any future metadata columns added in front
-        // of the fact don't break indexing.
-        let lines = text.components(separatedBy: "\n").filter {
-            let trimmed = $0.trimmingCharacters(in: .whitespaces)
-            return !trimmed.isEmpty && !trimmed.hasPrefix("#")
-        }
         let insertSQL = "INSERT INTO stories_fts (date, fact_text, source_info) VALUES (?, ?, ?)"
         var stmt: OpaquePointer?
 
         if sqlite3_prepare_v2(db, insertSQL, -1, &stmt, nil) == SQLITE_OK {
-            for line in lines {
-                let parts = line.components(separatedBy: "|")
-                // Need at least: timestamp | sources | ratings | something | fact_text
-                guard parts.count >= 5, let lastField = parts.last else { continue }
-
-                let factText = lastField.trimmingCharacters(in: .whitespaces)
-                guard !factText.isEmpty else { continue }
-
-                let sources = parts[1].trimmingCharacters(in: .whitespaces)
-                let ratings = parts[2].trimmingCharacters(in: .whitespaces)
+            for story in stories {
+                let sources = story.sources.joined(separator: ", ")
+                let ratings = story.ratings.joined(separator: ", ")
                 let sourceInfo = sources.isEmpty ? "" : "\(sources) · \(ratings)"
 
                 sqlite3_bind_text(stmt, 1, dateString, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
-                sqlite3_bind_text(stmt, 2, factText, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
+                sqlite3_bind_text(stmt, 2, story.factText, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
                 sqlite3_bind_text(stmt, 3, sourceInfo, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
                 sqlite3_step(stmt)
                 sqlite3_reset(stmt)
@@ -147,8 +137,8 @@ final class SearchIndexer {
 
             for (index, dateString) in recentDates.enumerated() {
                 do {
-                    let text = try await archiveService.fetchDay(dateString: dateString)
-                    indexDay(dateString: dateString, text: text)
+                    let stories = try await archiveService.fetchDay(dateString: dateString)
+                    indexDay(dateString: dateString, stories: stories)
                 } catch {
                     // Skip unavailable days
                 }
@@ -189,8 +179,8 @@ final class SearchIndexer {
 
             for dateString in olderDates {
                 do {
-                    let text = try await archiveService.fetchDay(dateString: dateString)
-                    indexDay(dateString: dateString, text: text)
+                    let stories = try await archiveService.fetchDay(dateString: dateString)
+                    indexDay(dateString: dateString, stories: stories)
                 } catch {
                     continue
                 }

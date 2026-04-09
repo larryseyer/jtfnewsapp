@@ -176,8 +176,7 @@ struct ArchiveView: View {
 
         let service = ArchiveService(modelContainer: modelContext.container)
         do {
-            let text = try await service.fetchDay(dateString: dateString)
-            dayStories = ArchiveLineParser.parse(rawText: text, dateString: dateString)
+            dayStories = try await service.fetchDay(dateString: dateString)
         } catch {
             errorMessage = "Archive not available for \(dateString)"
         }

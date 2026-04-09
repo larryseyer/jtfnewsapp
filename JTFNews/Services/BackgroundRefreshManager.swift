@@ -36,30 +36,27 @@ enum BackgroundRefreshManager {
         }
     }
 
+    /// Runs all enabled text-only notification checks. Deliberately excludes
+    /// the daily digest: audio/video content drops once per day at 00:00 GMT
+    /// and the user will see the new episode whenever they next open the
+    /// Digest tab. Spending scarce `BGAppRefreshTask` budget on polling
+    /// `podcast.xml` would steal runway from the breaking-news, corrections,
+    /// and watched-term checks that actually warrant interrupting the user.
     private static func performBackgroundCheck() async {
-        let notifyDigest = UserDefaults.standard.bool(forKey: "notifyDailyDigest")
         let notifyCorrections = UserDefaults.standard.bool(forKey: "notifyCorrections")
         let notifyBreaking = UserDefaults.standard.bool(forKey: "notifyBreakingFacts")
         let notifyWatchedTerms = UserDefaults.standard.bool(forKey: "notifyWatchedTerms")
 
-        guard notifyDigest || notifyCorrections || notifyBreaking || notifyWatchedTerms else { return }
+        guard notifyCorrections || notifyBreaking || notifyWatchedTerms else { return }
 
-        // Check for new stories
         if notifyBreaking {
             await checkForBreakingFacts()
         }
 
-        // Check for new corrections
         if notifyCorrections {
             await checkForCorrections()
         }
 
-        // Check for new digest
-        if notifyDigest {
-            await checkForNewDigest()
-        }
-
-        // Check for watched term matches
         if notifyWatchedTerms {
             await checkForWatchedTerms()
         }
@@ -100,7 +97,7 @@ enum BackgroundRefreshManager {
 
             UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: lastCheckKey)
         } catch {
-            // Graceful degradation
+            print("[BackgroundRefresh] checkForBreakingFacts failed: \(String(reflecting: error))")
         }
     }
 
@@ -108,7 +105,8 @@ enum BackgroundRefreshManager {
         do {
             let url = URL(string: "https://jtfnews.org/corrections.json")!
             let (data, _) = try await URLSession.shared.data(from: url)
-            let corrections = try JSONDecoder().decode([CorrectionDTO].self, from: data)
+            let response = try JSONDecoder().decode(CorrectionsResponse.self, from: data)
+            let corrections = response.corrections
 
             let lastCountKey = "lastCorrectionCount"
             let lastCount = UserDefaults.standard.integer(forKey: lastCountKey)
@@ -124,7 +122,7 @@ enum BackgroundRefreshManager {
 
             UserDefaults.standard.set(corrections.count, forKey: lastCountKey)
         } catch {
-            // Graceful degradation
+            print("[BackgroundRefresh] checkForCorrections failed: \(String(reflecting: error))")
         }
     }
 
@@ -157,32 +155,9 @@ enum BackgroundRefreshManager {
             // Replace with all current hashes to prevent re-notification
             WatchedTermsStorage.notifiedHashes = Set(response.stories.map(\.hash))
         } catch {
-            // Graceful degradation
+            print("[BackgroundRefresh] checkForWatchedTerms failed: \(String(reflecting: error))")
         }
     }
 
-    private static func checkForNewDigest() async {
-        do {
-            let service = PodcastService()
-            let episodes = try await service.fetchEpisodes()
-
-            guard let latest = episodes.first else { return }
-
-            let lastDigestKey = "lastDigestID"
-            let lastID = UserDefaults.standard.string(forKey: lastDigestKey)
-
-            if lastID != nil && latest.id != lastID {
-                await NotificationManager.shared.sendNotification(
-                    title: "Daily Digest Ready",
-                    body: latest.title,
-                    identifier: "digest-\(Date().timeIntervalSince1970)"
-                )
-            }
-
-            UserDefaults.standard.set(latest.id, forKey: lastDigestKey)
-        } catch {
-            // Graceful degradation
-        }
-    }
 }
 #endif

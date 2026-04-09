@@ -3,7 +3,6 @@ import SwiftData
 
 actor DataService {
     private let modelContainer: ModelContainer
-    private static let cooldownInterval: TimeInterval = 300 // 5 minutes
 
     init(modelContainer: ModelContainer) {
         self.modelContainer = modelContainer
@@ -12,7 +11,10 @@ actor DataService {
     // MARK: - Fetch Stories
 
     func fetchStories(baseURL: String = "https://jtfnews.org") async throws {
-        guard shouldFetch(key: "lastStoriesFetch") else { return }
+        guard FetchCooldown.shouldFetch(
+            key: FetchCooldownKey.stories,
+            interval: FetchCooldownInterval.live
+        ) else { return }
 
         let url = URL(string: "\(baseURL)/stories.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
@@ -45,20 +47,23 @@ actor DataService {
             }
         }
         try context.save()
-        markFetched(key: "lastStoriesFetch")
+        FetchCooldown.markFetched(key: FetchCooldownKey.stories)
     }
 
     // MARK: - Fetch Corrections
 
     func fetchCorrections(baseURL: String = "https://jtfnews.org") async throws {
-        guard shouldFetch(key: "lastCorrectionsFetch") else { return }
+        guard FetchCooldown.shouldFetch(
+            key: FetchCooldownKey.corrections,
+            interval: FetchCooldownInterval.live
+        ) else { return }
 
         let url = URL(string: "\(baseURL)/corrections.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
-        let corrections = try JSONDecoder().decode([CorrectionDTO].self, from: data)
+        let response = try JSONDecoder().decode(CorrectionsResponse.self, from: data)
 
         let context = ModelContext(modelContainer)
-        for dto in corrections {
+        for dto in response.corrections {
             let descriptor = FetchDescriptor<Correction>(
                 predicate: #Predicate { $0.storyId == dto.storyId }
             )
@@ -83,18 +88,7 @@ actor DataService {
             }
         }
         try context.save()
-        markFetched(key: "lastCorrectionsFetch")
-    }
-
-    // MARK: - Cooldown
-
-    private func shouldFetch(key: String) -> Bool {
-        let lastFetch = UserDefaults.standard.double(forKey: key)
-        return Date().timeIntervalSince1970 - lastFetch >= Self.cooldownInterval
-    }
-
-    private func markFetched(key: String) {
-        UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: key)
+        FetchCooldown.markFetched(key: FetchCooldownKey.corrections)
     }
 
     // MARK: - Date Parsing
@@ -132,6 +126,10 @@ struct StoryDTO: Codable, Sendable {
         case sourceURLs = "source_urls"
         case publishedAt = "published_at"
     }
+}
+
+struct CorrectionsResponse: Codable, Sendable {
+    let corrections: [CorrectionDTO]
 }
 
 struct CorrectionDTO: Codable, Sendable {

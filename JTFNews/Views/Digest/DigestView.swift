@@ -8,37 +8,81 @@ struct DigestView: View {
     @State private var youtubeURL: String?
     @State private var youtubePlaylist: [String: String] = [:]
     @State private var isLoading = true
+    @State private var hasLoadedOnce = false
+
+    /// The Digest is an inherently UTC-scheduled feed: every episode's pubDate
+    /// is `YYYY-MM-DD 00:00:00 GMT`. Rendering those dates in the device's
+    /// local timezone makes every row read a day earlier than the episode
+    /// title for any user west of GMT, which is how the "off by one" bug
+    /// originally surfaced. Forcing `.gmt` here keeps the Past Digests list
+    /// consistent with the RSS titles above it and with the UTC date key used
+    /// for the YouTube playlist lookup in `currentVideoURL`.
+    private static let pastEpisodeFormat = Date.FormatStyle(
+        date: .abbreviated,
+        time: .omitted,
+        timeZone: .gmt
+    )
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Pinned: mode toggle + player
-                VStack(spacing: 12) {
-                    Picker("Mode", selection: $preferVideoMode) {
-                        Label("Video", systemImage: "video").tag(true)
-                        Label("Audio", systemImage: "headphones").tag(false)
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 16)
-
-                    if preferVideoMode {
-                        videoSection
-                    } else {
-                        audioSection
-                    }
+                pinnedHeader
+                ScrollView {
+                    pastEpisodesContent
+                        .padding(.vertical, 8)
                 }
-                .padding(.vertical, 8)
-
-                // Scrollable: past episodes
-                if episodes.count > 1 {
-                    ScrollView {
-                        pastEpisodesSection
-                            .padding(.vertical, 8)
-                    }
+                .refreshable {
+                    guard connectivity.isConnected else { return }
+                    await loadContent(force: true)
                 }
             }
             .navigationTitle("Daily Digest")
-            .task { await loadContent() }
+            .task {
+                // First view construction per process lifetime: force a fresh
+                // fetch so a cold launch always surfaces the latest episode,
+                // bypassing any `max-age=600` response still sitting in
+                // `URLCache` from a previous session. Subsequent re-entries
+                // into the Digest tab do not re-run this `.task` because
+                // SwiftUI keeps TabView children alive, so the only way to
+                // refetch after this point is pull-to-refresh.
+                if !hasLoadedOnce {
+                    await loadContent(force: true)
+                    hasLoadedOnce = true
+                }
+            }
+        }
+    }
+
+    // MARK: - Layout
+
+    private var pinnedHeader: some View {
+        VStack(spacing: 12) {
+            Picker("Mode", selection: $preferVideoMode) {
+                Label("Video", systemImage: "video").tag(true)
+                Label("Audio", systemImage: "headphones").tag(false)
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 16)
+
+            if preferVideoMode {
+                videoSection
+            } else {
+                audioSection
+            }
+        }
+        .padding(.vertical, 8)
+    }
+
+    @ViewBuilder
+    private var pastEpisodesContent: some View {
+        if episodes.count > 1 {
+            pastEpisodesSection
+        } else if !isLoading {
+            Text("No past digests")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.top, 48)
+                .frame(maxWidth: .infinity)
         }
     }
 
@@ -135,7 +179,7 @@ struct DigestView: View {
                             Text(episode.title)
                                 .font(.subheadline)
                                 .lineLimit(2)
-                            Text(episode.date, style: .date)
+                            Text(episode.date, format: Self.pastEpisodeFormat)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -158,19 +202,43 @@ struct DigestView: View {
 
     // MARK: - Load
 
-    private func loadContent() async {
+    /// Loads episodes, the daily video URL, and the historical YouTube
+    /// playlist **independently and in parallel**.
+    ///
+    /// Each fetch is gated by its own `do/catch` so a single failure — say,
+    /// the YouTube playlist scrape hitting a layout change on youtube.com —
+    /// never hides successfully-fetched episodes or the video URL. This
+    /// mirrors the resilience pattern we use in `StoriesView.refresh`.
+    private func loadContent(force: Bool = false) async {
+        defer { isLoading = false }
         let service = PodcastService()
-        do {
-            async let eps = service.fetchEpisodes()
-            async let ytURL = service.fetchYouTubeURL()
-            async let playlist = service.fetchYouTubePlaylist()
-            episodes = try await eps
-            youtubeURL = try await ytURL
-            youtubePlaylist = (try? await playlist) ?? [:]
-        } catch {
-            // Gracefully handle
+
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                do {
+                    let eps = try await service.fetchEpisodes(force: force)
+                    await MainActor.run { episodes = eps }
+                } catch {
+                    print("[DigestView] fetchEpisodes failed: \(String(reflecting: error))")
+                }
+            }
+            group.addTask {
+                do {
+                    let url = try await service.fetchYouTubeURL()
+                    await MainActor.run { youtubeURL = url }
+                } catch {
+                    print("[DigestView] fetchYouTubeURL failed: \(String(reflecting: error))")
+                }
+            }
+            group.addTask {
+                do {
+                    let playlist = try await service.fetchYouTubePlaylist()
+                    await MainActor.run { youtubePlaylist = playlist }
+                } catch {
+                    print("[DigestView] fetchYouTubePlaylist failed: \(String(reflecting: error))")
+                }
+            }
         }
-        isLoading = false
     }
 }
 

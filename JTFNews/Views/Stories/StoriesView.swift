@@ -41,7 +41,11 @@ struct StoriesView: View {
         }
         .task {
             if !hasLoadedOnce {
-                await refresh()
+                // First view construction per process lifetime: force a fresh
+                // fetch so a cold launch always surfaces the latest stories,
+                // corrections, and source metadata regardless of any in-session
+                // cooldown state left in UserDefaults from a prior run.
+                await refresh(force: true)
                 hasLoadedOnce = true
             }
         }
@@ -206,7 +210,7 @@ struct StoriesView: View {
     // MARK: - Helpers
 
     private var lastUpdatedText: String? {
-        let timestamp = UserDefaults.standard.double(forKey: "lastStoriesFetch")
+        let timestamp = UserDefaults.standard.double(forKey: FetchCooldownKey.stories)
         guard timestamp > 0 else { return nil }
         let date = Date(timeIntervalSince1970: timestamp)
         let formatter = RelativeDateTimeFormatter()
@@ -214,31 +218,52 @@ struct StoriesView: View {
         return formatter.localizedString(for: date, relativeTo: Date())
     }
 
+    /// Stories are considered stale ~2× the server's 30-minute publish cadence.
+    /// With a 15-minute in-session cooldown, anything older than ~20 minutes
+    /// in the UI genuinely is stale — show the "Last updated …" header to
+    /// signal that the user is looking at cached content.
     private var isStale: Bool {
-        let timestamp = UserDefaults.standard.double(forKey: "lastStoriesFetch")
+        let timestamp = UserDefaults.standard.double(forKey: FetchCooldownKey.stories)
         guard timestamp > 0 else { return true }
-        return Date().timeIntervalSince1970 - timestamp > 600 // 10 minutes
+        return Date().timeIntervalSince1970 - timestamp > 20 * 60
     }
 
     // MARK: - Refresh
 
+    /// Runs all three refresh fetches **in parallel and independently**.
+    ///
+    /// The previous sequential `do/try/catch` chained all three fetches so a
+    /// single throw aborted the rest — meaning one broken endpoint would
+    /// silently hide the results of the other two. Stories, corrections, and
+    /// sources are independent resources; one failing must never hide another.
     private func refresh(force: Bool = false) async {
         isLoading = true
         defer { isLoading = false }
 
+        if force {
+            FetchCooldown.reset(
+                FetchCooldownKey.stories,
+                FetchCooldownKey.corrections,
+                FetchCooldownKey.sources
+            )
+        }
+
         let dataService = DataService(modelContainer: modelContext.container)
         let feedService = FeedService(modelContainer: modelContext.container)
 
-        do {
-            if force {
-                UserDefaults.standard.removeObject(forKey: "lastStoriesFetch")
-                UserDefaults.standard.removeObject(forKey: "lastCorrectionsFetch")
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                do { try await dataService.fetchStories() }
+                catch { print("[StoriesView] fetchStories failed: \(String(reflecting: error))") }
             }
-            try await dataService.fetchStories()
-            try await dataService.fetchCorrections()
-            try await feedService.fetchSources()
-        } catch {
-            print("[StoriesView] Fetch failed: \(error.localizedDescription)")
+            group.addTask {
+                do { try await dataService.fetchCorrections() }
+                catch { print("[StoriesView] fetchCorrections failed: \(String(reflecting: error))") }
+            }
+            group.addTask {
+                do { try await feedService.fetchSources() }
+                catch { print("[StoriesView] fetchSources failed: \(String(reflecting: error))") }
+            }
         }
     }
 }

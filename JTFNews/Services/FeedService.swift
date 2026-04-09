@@ -9,6 +9,11 @@ actor FeedService {
     }
 
     func fetchSources(baseURL: String = "https://jtfnews.org") async throws {
+        guard FetchCooldown.shouldFetch(
+            key: FetchCooldownKey.sources,
+            interval: FetchCooldownInterval.nearStatic
+        ) else { return }
+
         let url = URL(string: "\(baseURL)/feed.xml")!
         let (data, _) = try await URLSession.shared.data(from: url)
 
@@ -46,6 +51,7 @@ actor FeedService {
             }
         }
         try context.save()
+        FetchCooldown.markFetched(key: FetchCooldownKey.sources)
     }
 }
 

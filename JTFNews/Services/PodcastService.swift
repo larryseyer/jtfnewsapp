@@ -9,9 +9,26 @@ struct PodcastEpisode: Sendable, Identifiable {
 }
 
 actor PodcastService {
-    func fetchEpisodes(baseURL: String = "https://jtfnews.org") async throws -> [PodcastEpisode] {
+    /// Fetches and parses `podcast.xml`, returning episodes sorted newest first.
+    ///
+    /// GitHub Pages serves `podcast.xml` with `Cache-Control: max-age=600`, so
+    /// within a 10-minute window `URLSession.shared` will happily return the
+    /// cached response without even revalidating against the origin. That
+    /// behaviour is what we want for the passive on-appear fetch, but it is
+    /// actively wrong for a cold start or a pull-to-refresh — which is exactly
+    /// when the newly-published daily digest needs to show up.
+    ///
+    /// Pass `force: true` in those cases: the request uses
+    /// `.reloadRevalidatingCacheData`, which sends `If-None-Match`/`If-Modified-Since`
+    /// and accepts a 304 fast path when the feed is unchanged. We get the
+    /// freshness guarantee without re-downloading 68 KB of XML on every refresh.
+    func fetchEpisodes(baseURL: String = "https://jtfnews.org", force: Bool = false) async throws -> [PodcastEpisode] {
         let url = URL(string: "\(baseURL)/podcast.xml")!
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let request = URLRequest(
+            url: url,
+            cachePolicy: force ? .reloadRevalidatingCacheData : .useProtocolCachePolicy
+        )
+        let (data, _) = try await URLSession.shared.data(for: request)
         let parser = PodcastXMLParser(data: data)
         return parser.parse().sorted { $0.date > $1.date }
     }

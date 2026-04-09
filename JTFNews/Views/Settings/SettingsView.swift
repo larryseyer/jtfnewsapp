@@ -5,7 +5,6 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var sources: [Source]
 
-    @AppStorage("notifyDailyDigest") private var notifyDailyDigest = false
     @AppStorage("notifyCorrections") private var notifyCorrections = false
     @AppStorage("notifyBreakingFacts") private var notifyBreakingFacts = false
     @AppStorage("notifyWatchedTerms") private var notifyWatchedTerms = false
@@ -36,11 +35,6 @@ struct SettingsView: View {
 
     private var notificationsSection: some View {
         Section("Notifications") {
-            Toggle("Daily Digest Ready", isOn: $notifyDailyDigest)
-                .onChange(of: notifyDailyDigest) { _, newValue in
-                    if newValue { requestNotificationPermission() }
-                }
-                .accessibilityHint("Notify when a new daily digest is available")
             Toggle("Corrections", isOn: $notifyCorrections)
                 .onChange(of: notifyCorrections) { _, newValue in
                     if newValue { requestNotificationPermission() }

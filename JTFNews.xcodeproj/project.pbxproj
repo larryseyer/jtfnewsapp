@@ -37,6 +37,7 @@
 		AA000001031 /* WatchedTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002031; };
 		AA000001032 /* ArchivedStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002032; };
 		AA000001033 /* ArchiveLineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002033; };
+		AA000001034 /* FetchCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002034; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		AA000002031 /* WatchedTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedTermsView.swift; sourceTree = "<group>"; };
 		AA000002032 /* ArchivedStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedStory.swift; sourceTree = "<group>"; };
 		AA000002033 /* ArchiveLineParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveLineParser.swift; sourceTree = "<group>"; };
+		AA000002034 /* FetchCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCooldown.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 				AA000002027 /* BackgroundRefreshManager.swift */,
 				AA000002028 /* NotificationManager.swift */,
 				AA000002029 /* ConnectivityManager.swift */,
+				AA000002034 /* FetchCooldown.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				AA000001031 /* WatchedTermsView.swift in Sources */,
 				AA000001032 /* ArchivedStory.swift in Sources */,
 				AA000001033 /* ArchiveLineParser.swift in Sources */,
+				AA000001034 /* FetchCooldown.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,6 @@
 		AA000001020 /* ArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002020; };
 		AA000001021 /* ArchivedDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002021; };
 		AA000001022 /* GzipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002022; };
-		AA000001023 /* SearchIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002023; };
 		AA000001024 /* ArchiveSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002024; };
 		AA000001025 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002025; };
 		AA000001026 /* SourceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002026; };
@@ -65,7 +64,6 @@
 		AA000002020 /* ArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveService.swift; sourceTree = "<group>"; };
 		AA000002021 /* ArchivedDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedDayView.swift; sourceTree = "<group>"; };
 		AA000002022 /* GzipUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GzipUtility.swift; sourceTree = "<group>"; };
-		AA000002023 /* SearchIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIndexer.swift; sourceTree = "<group>"; };
 		AA000002024 /* ArchiveSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveSearchView.swift; sourceTree = "<group>"; };
 		AA000002025 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AA000002026 /* SourceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDetailView.swift; sourceTree = "<group>"; };
@@ -142,7 +140,6 @@
 				AA000002018 /* AudioManager.swift */,
 				AA000002020 /* ArchiveService.swift */,
 				AA000002033 /* ArchiveLineParser.swift */,
-				AA000002023 /* SearchIndexer.swift */,
 				AA000002027 /* BackgroundRefreshManager.swift */,
 				AA000002028 /* NotificationManager.swift */,
 				AA000002029 /* ConnectivityManager.swift */,
@@ -308,7 +305,6 @@
 				AA000001020 /* ArchiveService.swift in Sources */,
 				AA000001021 /* ArchivedDayView.swift in Sources */,
 				AA000001022 /* GzipUtility.swift in Sources */,
-				AA000001023 /* SearchIndexer.swift in Sources */,
 				AA000001024 /* ArchiveSearchView.swift in Sources */,
 				AA000001025 /* SettingsView.swift in Sources */,
 				AA000001026 /* SourceDetailView.swift in Sources */,

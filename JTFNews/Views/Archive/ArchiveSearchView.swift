@@ -1,103 +1,128 @@
 import SwiftUI
+import SwiftData
 
+/// Full-text search across every cached `ArchivedStory` row.
+///
+/// Search is backed directly by SwiftData via a `@Query` with a dynamic
+/// predicate on `searchableText.localizedStandardContains(query)` — no
+/// external index, no raw-text re-parsing, no cache invalidation to worry
+/// about. As new rows are ingested (e.g., by the background prefetch),
+/// they become searchable the moment they're persisted.
 struct ArchiveSearchView: View {
-    @Environment(SearchIndexer.self) private var searchIndexer
-    @Environment(\.modelContext) private var modelContext
     @State private var searchText = ""
-    @State private var results: [SearchResult] = []
 
     var body: some View {
         VStack(spacing: 0) {
-            if searchIndexer.isIndexing {
-                HStack(spacing: 8) {
-                    ProgressView(value: searchIndexer.indexProgress)
-                        .frame(width: 80)
-                        .tint(.blue)
-                    Text("Indexing archive... \(Int(searchIndexer.indexProgress * 100))%")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+            if searchText.isEmpty {
+                emptyPromptView
+            } else {
+                FilteredArchiveStoryList(query: searchText)
+            }
+        }
+        .navigationTitle("Search Archive")
+        .searchable(
+            text: $searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: "Search archive"
+        )
+        .navigationDestination(for: String.self) { dateString in
+            ArchiveDayDetailView(dateString: dateString)
+        }
+    }
+
+    private var emptyPromptView: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 36))
+                .foregroundStyle(.secondary)
+            Text("Search across all archived stories")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+/// A small private view whose sole job is to own the dynamic `@Query`.
+///
+/// Wrapping the query in its own view lets us re-initialize it with a new
+/// predicate whenever `query` changes — SwiftUI reconstructs the view, the
+/// initializer runs, and `@Query` picks up the new filter. This is the
+/// idiomatic SwiftData pattern for search-as-you-type.
+private struct FilteredArchiveStoryList: View {
+    @Query private var stories: [ArchivedStory]
+    private let query: String
+
+    init(query: String) {
+        self.query = query
+        _stories = Query(
+            filter: #Predicate<ArchivedStory> { story in
+                story.searchableText.localizedStandardContains(query)
+            },
+            sort: [
+                SortDescriptor(\.dateString, order: .reverse),
+                SortDescriptor(\.timestamp, order: .reverse)
+            ]
+        )
+    }
+
+    var body: some View {
+        if stories.isEmpty {
+            noResultsView
+        } else {
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(stories, id: \.lineHash) { story in
+                        NavigationLink(value: story.dateString) {
+                            resultCard(story)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
             }
+        }
+    }
 
-            if searchText.isEmpty {
-                VStack(spacing: 12) {
-                    Image(systemName: "magnifyingglass")
-                        .font(.system(size: 36))
-                        .foregroundStyle(.secondary)
-                    Text("Search across all archived stories")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    if searchIndexer.isIndexing {
-                        Text("Indexing in progress — results may be incomplete")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if results.isEmpty {
-                VStack(spacing: 12) {
-                    Image(systemName: "magnifyingglass")
-                        .font(.title)
-                        .foregroundStyle(.secondary)
-                    Text("No results for \"\(searchText)\"")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    if searchIndexer.isIndexing {
-                        Text("Still indexing — try again shortly")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        ForEach(results) { result in
-                            NavigationLink(value: result.date) {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text(result.factText)
-                                        .font(.body)
-                                        .foregroundStyle(.primary)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .multilineTextAlignment(.leading)
+    private var noResultsView: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .font(.title)
+                .foregroundStyle(.secondary)
+            Text("No results for \"\(query)\"")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
 
-                                    HStack(spacing: 6) {
-                                        Text(result.date)
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                        if !result.sourceInfo.isEmpty {
-                                            Text("·")
-                                                .foregroundStyle(.tertiary)
-                                            Text(result.sourceInfo)
-                                                .font(.caption)
-                                                .foregroundStyle(.tertiary)
-                                                .lineLimit(1)
-                                        }
-                                    }
-                                }
-                                .padding(14)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color(white: 0.11).opacity(0.5))
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+    private func resultCard(_ story: ArchivedStory) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(story.factText)
+                .font(.body)
+                .foregroundStyle(.primary)
+                .fixedSize(horizontal: false, vertical: true)
+                .multilineTextAlignment(.leading)
+
+            HStack(spacing: 6) {
+                Text(story.dateString)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if !story.sources.isEmpty {
+                    Text("·")
+                        .foregroundStyle(.tertiary)
+                    Text(story.sources.joined(separator: ", "))
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                        .lineLimit(1)
                 }
             }
         }
-        .navigationTitle("Search Archive")
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search archive")
-        .navigationDestination(for: String.self) { dateString in
-            ArchiveDayDetailView(dateString: dateString)
-        }
-        .onChange(of: searchText) {
-            results = searchIndexer.search(query: searchText)
-        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(white: 0.11).opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 

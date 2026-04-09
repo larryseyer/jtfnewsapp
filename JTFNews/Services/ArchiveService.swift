@@ -83,6 +83,52 @@ final class ArchiveService {
 
         return parsed
     }
+
+    // MARK: - Prefetch
+
+    /// Eagerly fetches the most recent archive days into SwiftData so the
+    /// Archive tab's search is immediately populated on first launch.
+    ///
+    /// Note `.prefix(30)` — the remote index is sorted newest-first, so prefix
+    /// gives us the most recent entries. Individual day fetches fail silently;
+    /// search remains live against whatever successfully cached.
+    func prefetchAll() async {
+        do {
+            let dates = try await fetchIndex()
+            for dateString in dates.prefix(30) {
+                _ = try? await fetchDay(dateString: dateString)
+            }
+        } catch {
+            // Graceful degradation — nothing to prefetch, search still works
+            // against any days already cached from prior sessions.
+        }
+    }
+
+    // MARK: - Legacy cleanup
+
+    /// Removes the stale `search_index.sqlite` file left behind by the
+    /// pre-refactor `SearchIndexer`. Runs once per install, gated by a
+    /// `UserDefaults` flag. No-op after the first successful call.
+    ///
+    /// Kept here (rather than, say, `@main` App init) because it's conceptually
+    /// part of the archive/search storage story this type owns.
+    static func cleanupLegacySearchIndex() {
+        let defaultsKey = "hasCleanedLegacyFTS5"
+        guard !UserDefaults.standard.bool(forKey: defaultsKey) else { return }
+        defer { UserDefaults.standard.set(true, forKey: defaultsKey) }
+
+        guard let documentsURL = FileManager.default.urls(
+            for: .documentDirectory, in: .userDomainMask
+        ).first else { return }
+
+        let dbURL = documentsURL.appendingPathComponent("search_index.sqlite")
+        try? FileManager.default.removeItem(at: dbURL)
+        // Also remove SQLite sidecar files that FTS5 sometimes leaves.
+        for suffix in ["-shm", "-wal", "-journal"] {
+            let sidecar = documentsURL.appendingPathComponent("search_index.sqlite\(suffix)")
+            try? FileManager.default.removeItem(at: sidecar)
+        }
+    }
 }
 
 struct ArchiveIndex: Codable, Sendable {

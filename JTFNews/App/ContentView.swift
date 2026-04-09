@@ -4,7 +4,6 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var audioManager = AudioManager()
-    @State private var searchIndexer = SearchIndexer()
     @State private var connectivity = ConnectivityManager()
     @State private var selectedTab = 0
 
@@ -51,12 +50,12 @@ struct ContentView: View {
             }
         }
         .environment(audioManager)
-        .environment(searchIndexer)
         .environment(connectivity)
         .animation(.easeInOut(duration: 0.2), value: audioManager.hasActiveAudio)
         .onAppear { connectivity.start() }
         .task {
-            await searchIndexer.performProgressiveIndex(modelContainer: modelContext.container)
+            ArchiveService.cleanupLegacySearchIndex()
+            await ArchiveService(modelContainer: modelContext.container).prefetchAll()
         }
     }
     #endif
@@ -96,12 +95,12 @@ struct ContentView: View {
             }
         }
         .environment(audioManager)
-        .environment(searchIndexer)
         .environment(connectivity)
         .animation(.easeInOut(duration: 0.2), value: audioManager.hasActiveAudio)
         .onAppear { connectivity.start() }
         .task {
-            await searchIndexer.performProgressiveIndex(modelContainer: modelContext.container)
+            ArchiveService.cleanupLegacySearchIndex()
+            await ArchiveService(modelContainer: modelContext.container).prefetchAll()
         }
     }
     #endif

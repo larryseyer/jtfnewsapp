@@ -1,44 +1,10 @@
 import SwiftUI
 
-// MARK: - Archived Story Parser
-
-struct ArchivedStory: Identifiable {
-    let id = UUID()
-    let timestamp: Date?
-    let sources: [String]
-    let ratings: [String]
-    let isCorrected: Bool
-    let factText: String
-
-    static func parse(from text: String) -> [ArchivedStory] {
-        text.components(separatedBy: "\n")
-            .filter { !$0.isEmpty && !$0.hasPrefix("#") }
-            .compactMap { parseLine($0) }
-    }
-
-    static func parseLine(_ line: String) -> ArchivedStory? {
-        let parts = line.components(separatedBy: "|")
-        guard parts.count >= 6 else { return nil }
-
-        let isoFormatter = ISO8601DateFormatter()
-        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        let timestamp = isoFormatter.date(from: parts[0])
-
-        let sources = parts[1].components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
-        let ratings = parts[2].components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
-        let isCorrected = parts[3].contains("[CORRECTED]")
-        let factText = parts[5...].joined(separator: "|").trimmingCharacters(in: .whitespaces)
-
-        guard !factText.isEmpty else { return nil }
-        return ArchivedStory(timestamp: timestamp, sources: sources, ratings: ratings, isCorrected: isCorrected, factText: factText)
-    }
-}
-
 struct ArchiveView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedDate = Date()
     @State private var availableDates: [String] = []
-    @State private var archiveText: String?
+    @State private var dayStories: [ArchivedStory] = []
     @State private var isLoadingIndex = true
     @State private var isLoadingDay = false
     @State private var errorMessage: String?
@@ -110,25 +76,15 @@ struct ArchiveView: View {
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else if let text = archiveText {
-            let stories = ArchivedStory.parse(from: text)
-            if stories.isEmpty {
-                ScrollView {
-                    Text(text)
-                        .font(.body)
-                        .padding(16)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        ForEach(stories) { story in
-                            archivedStoryCard(story)
-                        }
+        } else if !dayStories.isEmpty {
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(dayStories, id: \.lineHash) { story in
+                        archivedStoryCard(story)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
                 }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
             }
         } else {
             VStack(spacing: 8) {
@@ -216,11 +172,12 @@ struct ArchiveView: View {
         let dateString = dateFormatter.string(from: selectedDate)
         isLoadingDay = true
         errorMessage = nil
-        archiveText = nil
+        dayStories = []
 
         let service = ArchiveService(modelContainer: modelContext.container)
         do {
-            archiveText = try await service.fetchDay(dateString: dateString)
+            let text = try await service.fetchDay(dateString: dateString)
+            dayStories = ArchiveLineParser.parse(rawText: text, dateString: dateString)
         } catch {
             errorMessage = "Archive not available for \(dateString)"
         }

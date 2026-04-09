@@ -105,7 +105,7 @@ struct ArchiveSearchView: View {
 struct ArchiveDayDetailView: View {
     let dateString: String
     @Environment(\.modelContext) private var modelContext
-    @State private var archiveText: String?
+    @State private var stories: [ArchivedStory] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
 
@@ -124,25 +124,15 @@ struct ArchiveDayDetailView: View {
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if let text = archiveText {
-                let stories = ArchivedStory.parse(from: text)
-                if stories.isEmpty {
-                    ScrollView {
-                        Text(text)
-                            .font(.body)
-                            .padding(16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 12) {
-                            ForEach(stories) { story in
-                                storyCard(story)
-                            }
+            } else if !stories.isEmpty {
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(stories, id: \.lineHash) { story in
+                            storyCard(story)
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
                     }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
                 }
             }
         }
@@ -155,7 +145,8 @@ struct ArchiveDayDetailView: View {
     private func loadDay() async {
         let service = ArchiveService(modelContainer: modelContext.container)
         do {
-            archiveText = try await service.fetchDay(dateString: dateString)
+            let text = try await service.fetchDay(dateString: dateString)
+            stories = ArchiveLineParser.parse(rawText: text, dateString: dateString)
         } catch {
             errorMessage = "Archive not available for \(dateString)"
         }

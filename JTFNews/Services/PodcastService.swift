@@ -19,9 +19,10 @@ actor PodcastService {
     /// when the newly-published daily digest needs to show up.
     ///
     /// Pass `force: true` in those cases: the request uses
-    /// `.reloadRevalidatingCacheData`, which sends `If-None-Match`/`If-Modified-Since`
-    /// and accepts a 304 fast path when the feed is unchanged. We get the
-    /// freshness guarantee without re-downloading 68 KB of XML on every refresh.
+    /// `.reloadRevalidatingCacheData`, which sends `If-None-Match` /
+    /// `If-Modified-Since` and accepts a 304 fast path when the feed is
+    /// unchanged. We get the freshness guarantee without re-downloading 68 KB
+    /// of XML on every refresh.
     func fetchEpisodes(baseURL: String = "https://jtfnews.org", force: Bool = false) async throws -> [PodcastEpisode] {
         let url = URL(string: "\(baseURL)/podcast.xml")!
         let request = URLRequest(

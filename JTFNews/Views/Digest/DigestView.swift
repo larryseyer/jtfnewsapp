@@ -10,25 +10,37 @@ struct DigestView: View {
     @State private var isLoading = true
     @State private var hasLoadedOnce = false
 
-    /// The Digest is an inherently UTC-scheduled feed: every episode's pubDate
-    /// is `YYYY-MM-DD 00:00:00 GMT`. Rendering those dates in the device's
-    /// local timezone makes every row read a day earlier than the episode
-    /// title for any user west of GMT, which is how the "off by one" bug
-    /// originally surfaced. Forcing `.gmt` here keeps the Past Digests list
-    /// consistent with the RSS titles above it and with the UTC date key used
-    /// for the YouTube playlist lookup in `currentVideoURL`.
-    private static let pastEpisodeFormat = Date.FormatStyle(
-        date: .abbreviated,
-        time: .omitted,
-        timeZone: .gmt
-    )
+    /// Renders episode pubDates in the same GMT calendar day as the RSS
+    /// `<title>`, not the device's local day. The Daily Digest is scheduled
+    /// against UTC midnight — "April 7" has a pubDate of
+    /// `2026-04-07 00:00:00 GMT`, which in Texas (CDT, UTC-5) falls on April 6
+    /// at 19:00 local time. If we let the formatter slip into local time, the
+    /// row title ("April 7") and the row subtitle ("Apr 6") disagree, which
+    /// for an app whose brand promise is "Just the Facts" is worse than a
+    /// cosmetic bug — it's a factual contradiction on screen.
+    ///
+    /// We use `DateFormatter` rather than `Date.FormatStyle(... timeZone:)`
+    /// because the FormatStyle `timeZone` parameter has no observable effect
+    /// for date-only styles (`time: .omitted`) in practice — the rendered
+    /// date still reflects `Calendar.current.timeZone`. A plain
+    /// `DateFormatter` with an explicit `.timeZone = .gmt` is unambiguous.
+    ///
+    /// `nonisolated(unsafe)` is defensible here: `DateFormatter` is
+    /// documented-thread-safe for reads after iOS 7, and this instance is
+    /// configured exactly once at first use and never mutated thereafter.
+    nonisolated(unsafe) private static let episodeDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateStyle = .medium
+        f.timeZone = .gmt
+        return f
+    }()
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 pinnedHeader
                 ScrollView {
-                    pastEpisodesContent
+                    episodesContent
                         .padding(.vertical, 8)
                 }
                 .refreshable {
@@ -74,11 +86,11 @@ struct DigestView: View {
     }
 
     @ViewBuilder
-    private var pastEpisodesContent: some View {
-        if episodes.count > 1 {
-            pastEpisodesSection
+    private var episodesContent: some View {
+        if !episodes.isEmpty {
+            episodesSection
         } else if !isLoading {
-            Text("No past digests")
+            Text("No episodes available")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.top, 48)
@@ -162,42 +174,66 @@ struct DigestView: View {
         }
     }
 
-    // MARK: - Past Episodes
+    // MARK: - Episodes
 
-    private var pastEpisodesSection: some View {
+    private var episodesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Past Digests")
+            Text("Episodes")
                 .font(.headline)
                 .padding(.horizontal, 16)
 
-            ForEach(episodes.dropFirst()) { episode in
-                Button {
-                    selectedEpisodeId = episode.id
-                } label: {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(episode.title)
-                                .font(.subheadline)
-                                .lineLimit(2)
-                            Text(episode.date, format: Self.pastEpisodeFormat)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                        if !episode.duration.isEmpty {
-                            Text(episode.duration)
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(selectedEpisodeId == episode.id ? Color(white: 0.17).opacity(0.5) : Color.clear)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-                .buttonStyle(.plain)
+            // Show every episode, including the one currently loaded in the
+            // player above. The previous design used `dropFirst()` to hide
+            // the current episode on the assumption that it was already
+            // "represented" by the player, but that turned the list into a
+            // misleading "everything except what's playing" view — users
+            // reasonably expected a complete episode index and read the top
+            // row as the newest. Keeping every episode in the list, with the
+            // currently-loaded one marked, removes the ambiguity.
+            ForEach(episodes) { episode in
+                episodeRow(episode)
             }
         }
+    }
+
+    private func episodeRow(_ episode: PodcastEpisode) -> some View {
+        let isPlaying = episode.id == currentEpisode?.id
+        return Button {
+            selectedEpisodeId = episode.id
+        } label: {
+            HStack(spacing: 12) {
+                // Leading indicator. We keep the 16pt slot reserved on every
+                // row (via `.frame` + `.opacity`) so titles line up
+                // vertically whether or not the row is the active one.
+                Image(systemName: "speaker.wave.2.fill")
+                    .font(.caption)
+                    .foregroundStyle(.tint)
+                    .frame(width: 16)
+                    .opacity(isPlaying ? 1 : 0)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(episode.title)
+                        .font(.subheadline)
+                        .fontWeight(isPlaying ? .semibold : .regular)
+                        .lineLimit(2)
+                    Text(Self.episodeDateFormatter.string(from: episode.date))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                if !episode.duration.isEmpty {
+                    Text(episode.duration)
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(isPlaying ? Color(white: 0.17).opacity(0.5) : Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(isPlaying ? "\(episode.title), now playing" : episode.title)
     }
 
     // MARK: - Load

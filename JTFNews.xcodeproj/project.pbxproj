@@ -16,7 +16,6 @@
 		AA000001007 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002007; };
 		AA000001008 /* Correction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002008; };
 		AA000001009 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002009; };
-		AA000001010 /* ArchivedDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002010; };
 		AA000001011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000002011; };
 		AA000001012 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002012; };
 		AA000001013 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002013; };
@@ -27,7 +26,6 @@
 		AA000001018 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002018; };
 		AA000001019 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002019; };
 		AA000001020 /* ArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002020; };
-		AA000001021 /* ArchivedDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002021; };
 		AA000001022 /* GzipUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002022; };
 		AA000001024 /* ArchiveSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002024; };
 		AA000001025 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002025; };
@@ -51,7 +49,6 @@
 		AA000002007 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		AA000002008 /* Correction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Correction.swift; sourceTree = "<group>"; };
 		AA000002009 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
-		AA000002010 /* ArchivedDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedDay.swift; sourceTree = "<group>"; };
 		AA000002011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA000002012 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		AA000002013 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
@@ -62,7 +59,6 @@
 		AA000002018 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		AA000002019 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
 		AA000002020 /* ArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveService.swift; sourceTree = "<group>"; };
-		AA000002021 /* ArchivedDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedDayView.swift; sourceTree = "<group>"; };
 		AA000002022 /* GzipUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GzipUtility.swift; sourceTree = "<group>"; };
 		AA000002024 /* ArchiveSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveSearchView.swift; sourceTree = "<group>"; };
 		AA000002025 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -125,7 +121,6 @@
 				AA000002007 /* Source.swift */,
 				AA000002008 /* Correction.swift */,
 				AA000002009 /* Channel.swift */,
-				AA000002010 /* ArchivedDay.swift */,
 				AA000002032 /* ArchivedStory.swift */,
 			);
 			path = Models;
@@ -198,7 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				AA000002005 /* ArchiveView.swift */,
-				AA000002021 /* ArchivedDayView.swift */,
 				AA000002024 /* ArchiveSearchView.swift */,
 			);
 			path = Archive;
@@ -293,7 +287,6 @@
 				AA000001007 /* Source.swift in Sources */,
 				AA000001008 /* Correction.swift in Sources */,
 				AA000001009 /* Channel.swift in Sources */,
-				AA000001010 /* ArchivedDay.swift in Sources */,
 				AA000001012 /* DataService.swift in Sources */,
 				AA000001013 /* FeedService.swift in Sources */,
 				AA000001014 /* StoryCard.swift in Sources */,
@@ -303,7 +296,6 @@
 				AA000001018 /* AudioManager.swift in Sources */,
 				AA000001019 /* MiniPlayerView.swift in Sources */,
 				AA000001020 /* ArchiveService.swift in Sources */,
-				AA000001021 /* ArchivedDayView.swift in Sources */,
 				AA000001022 /* GzipUtility.swift in Sources */,
 				AA000001024 /* ArchiveSearchView.swift in Sources */,
 				AA000001025 /* SettingsView.swift in Sources */,

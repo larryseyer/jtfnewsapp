@@ -9,7 +9,6 @@ struct JTFNewsApp: App {
             Source.self,
             Correction.self,
             Channel.self,
-            ArchivedDay.self,
             ArchivedStory.self
         ])
         let modelConfiguration = ModelConfiguration(

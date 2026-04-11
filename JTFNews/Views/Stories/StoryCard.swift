@@ -34,6 +34,7 @@ struct StoryCard: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(correction != nil ? Color.red.opacity(0.4) : Color.clear, lineWidth: 1.5)
         )
+        .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityDescription)
     }

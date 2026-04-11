@@ -156,6 +156,22 @@ struct ArchiveView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
+    // MARK: - Helpers
+
+    private static func midnightGMTInLocalTime() -> String {
+        var components = Calendar.current.dateComponents(in: TimeZone(identifier: "GMT")!, from: Date())
+        components.day! += 1
+        components.hour = 0
+        components.minute = 0
+        components.second = 0
+        let midnightGMT = Calendar.current.date(from: components)!
+
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.timeZone = .current
+        return formatter.string(from: midnightGMT)
+    }
+
     // MARK: - Load
 
     private func loadIndex() async {
@@ -178,7 +194,12 @@ struct ArchiveView: View {
         do {
             dayStories = try await service.fetchDay(dateString: dateString)
         } catch {
-            errorMessage = "Archive not available for \(dateString)"
+            if Calendar.current.isDateInToday(selectedDate) {
+                let localTime = Self.midnightGMTInLocalTime()
+                errorMessage = "Today's archive will be available at \(localTime)"
+            } else {
+                errorMessage = "Archive not available for \(dateString)"
+            }
         }
         isLoadingDay = false
     }

@@ -38,6 +38,10 @@
 		AA000001032 /* ArchivedStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002032; };
 		AA000001033 /* ArchiveLineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002033; };
 		AA000001034 /* FetchCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002034; };
+		AA000001035 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002035; };
+		AA000001036 /* TermExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002036; };
+		AA000001037 /* SourceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002037; };
+		AA000001038 /* StoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002038; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +76,10 @@
 		AA000002032 /* ArchivedStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedStory.swift; sourceTree = "<group>"; };
 		AA000002033 /* ArchiveLineParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveLineParser.swift; sourceTree = "<group>"; };
 		AA000002034 /* FetchCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCooldown.swift; sourceTree = "<group>"; };
+		AA000002035 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
+		AA000002036 /* TermExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermExtractor.swift; sourceTree = "<group>"; };
+		AA000002037 /* SourceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCard.swift; sourceTree = "<group>"; };
+		AA000002038 /* StoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailView.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -124,6 +132,7 @@
 				AA000002008 /* Correction.swift */,
 				AA000002009 /* Channel.swift */,
 				AA000002032 /* ArchivedStory.swift */,
+				AA000002035 /* Bookmark.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -161,6 +170,8 @@
 			children = (
 				AA000002003 /* StoriesView.swift */,
 				AA000002014 /* StoryCard.swift */,
+				AA000002037 /* SourceCard.swift */,
+				AA000002038 /* StoryDetailView.swift */,
 			);
 			path = Stories;
 			sourceTree = "<group>";
@@ -188,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				AA000002022 /* GzipUtility.swift */,
+				AA000002036 /* TermExtractor.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -311,6 +323,10 @@
 				AA000001032 /* ArchivedStory.swift in Sources */,
 				AA000001033 /* ArchiveLineParser.swift in Sources */,
 				AA000001034 /* FetchCooldown.swift in Sources */,
+				AA000001035 /* Bookmark.swift in Sources */,
+				AA000001036 /* TermExtractor.swift in Sources */,
+				AA000001037 /* SourceCard.swift in Sources */,
+				AA000001038 /* StoryDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

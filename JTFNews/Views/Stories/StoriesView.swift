@@ -59,32 +59,36 @@ struct StoriesView: View {
     // MARK: - Story List
 
     private var storyList: some View {
-        ScrollView {
-            LazyVStack(spacing: 12) {
-                if let lastUpdated = lastUpdatedText, !connectivity.isConnected || isStale {
-                    HStack(spacing: 6) {
-                        if !connectivity.isConnected {
-                            Image(systemName: "wifi.slash")
-                                .font(.caption2)
-                        }
-                        Text("Last updated \(lastUpdated)")
-                            .font(.caption)
+        List {
+            if let lastUpdated = lastUpdatedText, !connectivity.isConnected || isStale {
+                HStack(spacing: 6) {
+                    if !connectivity.isConnected {
+                        Image(systemName: "wifi.slash")
+                            .font(.caption2)
                     }
-                    .foregroundStyle(.secondary)
-                    .padding(.vertical, 4)
+                    Text("Last updated \(lastUpdated)")
+                        .font(.caption)
                 }
-
-                ForEach(stories, id: \.storyHash) { story in
-                    let correction = corrections.first { $0.storyId == story.id }
-                    NavigationLink(value: story) {
-                        StoryCard(story: story, sources: sources, correction: correction)
-                    }
-                    .buttonStyle(.plain)
-                }
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 4)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
+
+            ForEach(stories, id: \.storyHash) { story in
+                let correction = corrections.first { $0.storyId == story.id }
+                NavigationLink(value: story) {
+                    StoryCard(story: story, sources: sources, correction: correction)
+                }
+                .buttonStyle(.plain)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+            }
         }
+        .listStyle(.plain)
         .refreshable {
             if connectivity.isConnected {
                 await refresh(force: true)

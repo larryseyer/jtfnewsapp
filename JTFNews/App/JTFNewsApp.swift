@@ -31,6 +31,7 @@ struct JTFNewsApp: App {
         #if os(iOS)
         BackgroundRefreshManager.register()
         #endif
+        Task { await NotificationManager.shared.setupDelegate() }
     }
 
     var body: some Scene {

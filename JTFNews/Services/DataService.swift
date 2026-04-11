@@ -10,11 +10,12 @@ actor DataService {
 
     // MARK: - Fetch Stories
 
-    func fetchStories(baseURL: String = "https://jtfnews.org") async throws {
+    @discardableResult
+    func fetchStories(baseURL: String = "https://jtfnews.org") async throws -> [StoryDTO] {
         guard FetchCooldown.shouldFetch(
             key: FetchCooldownKey.stories,
             interval: FetchCooldownInterval.live
-        ) else { return }
+        ) else { return [] }
 
         let url = URL(string: "\(baseURL)/stories.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
@@ -48,6 +49,7 @@ actor DataService {
         }
         try context.save()
         FetchCooldown.markFetched(key: FetchCooldownKey.stories)
+        return response.stories
     }
 
     // MARK: - Fetch Corrections

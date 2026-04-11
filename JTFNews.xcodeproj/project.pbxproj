@@ -107,6 +107,7 @@
 		AA000002048 /* SharedModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedModelContainer.swift; sourceTree = "<group>"; };
 		AA000002049 /* JTFNews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNews.entitlements; sourceTree = "<group>"; };
 		AA000002050 /* JTFNewsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNewsWidget.entitlements; sourceTree = "<group>"; };
+		AA000002051 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -291,6 +292,7 @@
 				AA000002047 /* LargeWidgetView.swift */,
 				AA000002048 /* SharedModelContainer.swift */,
 				AA000002050 /* JTFNewsWidget.entitlements */,
+			AA000002051 /* Info.plist */,
 			);
 			path = JTFNewsWidget;
 			sourceTree = "<group>";
@@ -703,6 +705,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NM84277DEZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JTFNewsWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "JTF News Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -732,6 +735,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NM84277DEZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JTFNewsWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "JTF News Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

@@ -27,7 +27,7 @@ struct WidgetEntryView: View {
             MediumWidgetView(entry: entry)
         case .systemLarge:
             LargeWidgetView(entry: entry)
-        @unknown default:
+        default:
             MediumWidgetView(entry: entry)
         }
     }

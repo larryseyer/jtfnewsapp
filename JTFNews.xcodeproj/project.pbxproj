@@ -45,6 +45,17 @@
 		AA000001039 /* WatchedTermMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002039; };
 		AA000001040 /* WatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002040; };
 		AA000001041 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002041; };
+		AA000001042 /* JTFNewsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002042; };
+		AA000001043 /* JTFNewsTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002043; };
+		AA000001044 /* WidgetStoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002044; };
+		AA000001045 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002045; };
+		AA000001046 /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002046; };
+		AA000001047 /* LargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002047; };
+		AA000001048 /* SharedModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002048; };
+		AA000001049 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002006; };
+		AA000001050 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002007; };
+		AA000001051 /* SharedModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002048; };
+		AA000001052 /* JTFNewsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000003002; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,10 +98,27 @@
 		AA000002040 /* WatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedView.swift; sourceTree = "<group>"; };
 		AA000002041 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA000002042 /* JTFNewsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsWidget.swift; sourceTree = "<group>"; };
+		AA000002043 /* JTFNewsTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsTimelineProvider.swift; sourceTree = "<group>"; };
+		AA000002044 /* WidgetStoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStoryEntry.swift; sourceTree = "<group>"; };
+		AA000002045 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
+		AA000002046 /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
+		AA000002047 /* LargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeWidgetView.swift; sourceTree = "<group>"; };
+		AA000002048 /* SharedModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedModelContainer.swift; sourceTree = "<group>"; };
+		AA000002049 /* JTFNews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNews.entitlements; sourceTree = "<group>"; };
+		AA000002050 /* JTFNewsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNewsWidget.entitlements; sourceTree = "<group>"; };
+		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		AA000004001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000004002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -104,7 +132,9 @@
 			isa = PBXGroup;
 			children = (
 				AA000005002 /* JTFNews */,
+				AA000005015 /* JTFNewsWidget */,
 				AA000005009 /* Products */,
+				AA000002049 /* JTFNews.entitlements */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				AA000003001 /* JTFNews.app */,
+				AA000003002 /* JTFNewsWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -249,7 +280,54 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		AA000005015 /* JTFNewsWidget */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002042 /* JTFNewsWidget.swift */,
+				AA000002043 /* JTFNewsTimelineProvider.swift */,
+				AA000002044 /* WidgetStoryEntry.swift */,
+				AA000002045 /* SmallWidgetView.swift */,
+				AA000002046 /* MediumWidgetView.swift */,
+				AA000002047 /* LargeWidgetView.swift */,
+				AA000002048 /* SharedModelContainer.swift */,
+				AA000002050 /* JTFNewsWidget.entitlements */,
+			);
+			path = JTFNewsWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA00000D001 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA000001052 /* JTFNewsWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		AA00000C001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA000009001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA000006002;
+			remoteInfo = JTFNewsWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		AA00000B001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA000006002 /* JTFNewsWidgetExtension */;
+			targetProxy = AA00000C001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXNativeTarget section */
 		AA000006001 /* JTFNews */ = {
@@ -259,15 +337,34 @@
 				AA000007001 /* Sources */,
 				AA000004001 /* Frameworks */,
 				AA000007002 /* Resources */,
+				AA00000D001 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA00000B001 /* PBXTargetDependency */,
 			);
 			name = JTFNews;
 			productName = JTFNews;
 			productReference = AA000003001 /* JTFNews.app */;
 			productType = "com.apple.product-type.application";
+		};
+		AA000006002 /* JTFNewsWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000008004 /* Build configuration list for PBXNativeTarget "JTFNewsWidgetExtension" */;
+			buildPhases = (
+				AA000007003 /* Sources */,
+				AA000004002 /* Frameworks */,
+				AA000007004 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JTFNewsWidgetExtension;
+			productName = JTFNewsWidgetExtension;
+			productReference = AA000003002 /* JTFNewsWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -280,6 +377,9 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					AA000006001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					AA000006002 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
@@ -298,6 +398,7 @@
 			projectRoot = "";
 			targets = (
 				AA000006001 /* JTFNews */,
+				AA000006002 /* JTFNewsWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -308,6 +409,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA000001011 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000007004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +463,23 @@
 				AA000001039 /* WatchedTermMatcher.swift in Sources */,
 				AA000001040 /* WatchedView.swift in Sources */,
 				AA000001041 /* OnboardingView.swift in Sources */,
+				AA000001051 /* SharedModelContainer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000007003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000001042 /* JTFNewsWidget.swift in Sources */,
+				AA000001043 /* JTFNewsTimelineProvider.swift in Sources */,
+				AA000001044 /* WidgetStoryEntry.swift in Sources */,
+				AA000001045 /* SmallWidgetView.swift in Sources */,
+				AA000001046 /* MediumWidgetView.swift in Sources */,
+				AA000001047 /* LargeWidgetView.swift in Sources */,
+				AA000001048 /* SharedModelContainer.swift in Sources */,
+				AA000001049 /* Story.swift in Sources */,
+				AA000001050 /* Source.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +616,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = JTFNews.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NM84277DEZ;
@@ -531,6 +657,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = JTFNews.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NM84277DEZ;
@@ -566,6 +693,64 @@
 			};
 			name = Release;
 		};
+		AA00000A005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = JTFNewsWidget/JTFNewsWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NM84277DEZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "JTF News Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.jtfnews.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA00000A006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = JTFNewsWidget/JTFNewsWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NM84277DEZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "JTF News Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.jtfnews.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -583,6 +768,15 @@
 			buildConfigurations = (
 				AA00000A003 /* Debug */,
 				AA00000A004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA000008004 /* Build configuration list for PBXNativeTarget "JTFNewsWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000A005 /* Debug */,
+				AA00000A006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

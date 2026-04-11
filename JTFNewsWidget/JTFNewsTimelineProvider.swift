@@ -26,7 +26,7 @@ struct JTFNewsTimelineProvider: TimelineProvider {
         case .systemSmall: return 1
         case .systemMedium: return 3
         case .systemLarge: return 5
-        @unknown default: return 3
+        default: return 3
         }
     }
 

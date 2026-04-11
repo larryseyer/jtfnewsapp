@@ -1,6 +1,10 @@
 import Foundation
 @preconcurrency import UserNotifications
 
+extension Notification.Name {
+    static let watchedTermsTapped = Notification.Name("watchedTermsTapped")
+}
+
 /// Presents notifications as banners even when the app is in the foreground.
 final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate, Sendable {
     func userNotificationCenter(
@@ -8,6 +12,16 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate, Se
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
         [.banner, .sound]
+    }
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse
+    ) async {
+        let userInfo = response.notification.request.content.userInfo
+        if userInfo["type"] as? String == "watchedTerms" {
+            NotificationCenter.default.post(name: .watchedTermsTapped, object: nil)
+        }
     }
 }
 

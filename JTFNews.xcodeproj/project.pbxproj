@@ -66,6 +66,22 @@
 		AA000001060 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002055; };
 		AA000001061 /* JTFNewsLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002056; };
 		AA000001062 /* JTFNewsActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002054; };
+		AA000001063 /* GetTodaysFactsIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002057; };
+		AA000001064 /* JTFNewsShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002058; };
+		AA000001065 /* JTFNewsWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002059; };
+		AA000001066 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002060; };
+		AA000001067 /* WatchStoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002061; };
+		AA000001068 /* JTFNewsWatchWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002062; };
+		AA000001069 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002006; };
+		AA000001070 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002007; };
+		AA000001071 /* Correction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002008; };
+		AA000001072 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002009; };
+		AA000001073 /* ArchivedStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002032; };
+		AA000001074 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002035; };
+		AA000001075 /* SharedModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002048; };
+		AA000001076 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000002064; };
+		AA000001077 /* JTFNewsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AA000003003; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA000001078 /* WatchDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002065; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,7 +139,17 @@
 		AA000002054 /* JTFNewsActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsActivityAttributes.swift; sourceTree = "<group>"; };
 		AA000002055 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		AA000002056 /* JTFNewsLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsLiveActivity.swift; sourceTree = "<group>"; };
+		AA000002057 /* GetTodaysFactsIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTodaysFactsIntent.swift; sourceTree = "<group>"; };
+		AA000002058 /* JTFNewsShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsShortcuts.swift; sourceTree = "<group>"; };
+		AA000002059 /* JTFNewsWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsWatchApp.swift; sourceTree = "<group>"; };
+		AA000002060 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
+		AA000002061 /* WatchStoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchStoryRow.swift; sourceTree = "<group>"; };
+		AA000002062 /* JTFNewsWatchWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsWatchWidget.swift; sourceTree = "<group>"; };
+		AA000002063 /* JTFNewsWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNewsWatch.entitlements; sourceTree = "<group>"; };
+		AA000002064 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA000002065 /* WatchDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDataService.swift; sourceTree = "<group>"; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA000003003 /* JTFNewsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNewsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +167,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000004003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -149,6 +182,7 @@
 			children = (
 				AA000005002 /* JTFNews */,
 				AA000005015 /* JTFNewsWidget */,
+				AA000005018 /* JTFNewsWatch */,
 				AA000005009 /* Products */,
 				AA000002049 /* JTFNews.entitlements */,
 			);
@@ -162,6 +196,7 @@
 				AA000005005 /* Services */,
 				AA000005006 /* Views */,
 				AA000005010 /* Utilities */,
+				AA000005017 /* Shortcuts */,
 				AA000002011 /* Assets.xcassets */,
 			);
 			path = JTFNews;
@@ -250,6 +285,7 @@
 			children = (
 				AA000003001 /* JTFNews.app */,
 				AA000003002 /* JTFNewsWidgetExtension.appex */,
+				AA000003003 /* JTFNewsWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -308,6 +344,15 @@
 			path = Saved;
 			sourceTree = "<group>";
 		};
+		AA000005017 /* Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002057 /* GetTodaysFactsIntent.swift */,
+				AA000002058 /* JTFNewsShortcuts.swift */,
+			);
+			path = Shortcuts;
+			sourceTree = "<group>";
+		};
 		AA000005015 /* JTFNewsWidget */ = {
 			isa = PBXGroup;
 			children = (
@@ -325,6 +370,20 @@
 			path = JTFNewsWidget;
 			sourceTree = "<group>";
 		};
+		AA000005018 /* JTFNewsWatch */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002059 /* JTFNewsWatchApp.swift */,
+				AA000002060 /* WatchContentView.swift */,
+				AA000002061 /* WatchStoryRow.swift */,
+				AA000002062 /* JTFNewsWatchWidget.swift */,
+				AA000002065 /* WatchDataService.swift */,
+				AA000002064 /* Assets.xcassets */,
+				AA000002063 /* JTFNewsWatch.entitlements */,
+			);
+			path = JTFNewsWatch;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -339,6 +398,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA00000D002 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				AA000001077 /* JTFNewsWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXContainerItemProxy section */
@@ -349,6 +419,13 @@
 			remoteGlobalIDString = AA000006002;
 			remoteInfo = JTFNewsWidgetExtension;
 		};
+		AA00000C002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA000009001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA000006003;
+			remoteInfo = "JTFNewsWatch Watch App";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXTargetDependency section */
@@ -356,6 +433,11 @@
 			isa = PBXTargetDependency;
 			target = AA000006002 /* JTFNewsWidgetExtension */;
 			targetProxy = AA00000C001 /* PBXContainerItemProxy */;
+		};
+		AA00000B002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA000006003 /* JTFNewsWatch Watch App */;
+			targetProxy = AA00000C002 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -396,6 +478,23 @@
 			productReference = AA000003002 /* JTFNewsWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		AA000006003 /* JTFNewsWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000008005 /* Build configuration list for PBXNativeTarget "JTFNewsWatch Watch App" */;
+			buildPhases = (
+				AA000007005 /* Sources */,
+				AA000004003 /* Frameworks */,
+				AA000007006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "JTFNewsWatch Watch App";
+			productName = "JTFNewsWatch Watch App";
+			productReference = AA000003003 /* JTFNewsWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -410,6 +509,9 @@
 						CreatedOnToolsVersion = 16.0;
 					};
 					AA000006002 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					AA000006003 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
@@ -429,6 +531,7 @@
 			targets = (
 				AA000006001 /* JTFNews */,
 				AA000006002 /* JTFNewsWidgetExtension */,
+				AA000006003 /* JTFNewsWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -446,6 +549,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000007006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000001076 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +609,8 @@
 				AA000001051 /* SharedModelContainer.swift in Sources */,
 				AA000001059 /* JTFNewsActivityAttributes.swift in Sources */,
 				AA000001060 /* LiveActivityManager.swift in Sources */,
+				AA000001063 /* GetTodaysFactsIntent.swift in Sources */,
+				AA000001064 /* JTFNewsShortcuts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +633,25 @@
 				AA000001056 /* Bookmark.swift in Sources */,
 				AA000001061 /* JTFNewsLiveActivity.swift in Sources */,
 				AA000001062 /* JTFNewsActivityAttributes.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000007005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000001065 /* JTFNewsWatchApp.swift in Sources */,
+				AA000001066 /* WatchContentView.swift in Sources */,
+				AA000001067 /* WatchStoryRow.swift in Sources */,
+				AA000001068 /* JTFNewsWatchWidget.swift in Sources */,
+				AA000001069 /* Story.swift in Sources */,
+				AA000001070 /* Source.swift in Sources */,
+				AA000001071 /* Correction.swift in Sources */,
+				AA000001072 /* Channel.swift in Sources */,
+				AA000001073 /* ArchivedStory.swift in Sources */,
+				AA000001074 /* Bookmark.swift in Sources */,
+				AA000001075 /* SharedModelContainer.swift in Sources */,
+				AA000001078 /* WatchDataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +927,66 @@
 			};
 			name = Release;
 		};
+		AA00000A007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = JTFNewsWatch/JTFNewsWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NM84277DEZ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "JTF News";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.jtfnews.app;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.jtfnews.app.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		AA00000A008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = JTFNewsWatch/JTFNewsWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NM84277DEZ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "JTF News";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.jtfnews.app;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.jtfnews.app.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -821,6 +1013,15 @@
 			buildConfigurations = (
 				AA00000A005 /* Debug */,
 				AA00000A006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA000008005 /* Build configuration list for PBXNativeTarget "JTFNewsWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000A007 /* Debug */,
+				AA00000A008 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

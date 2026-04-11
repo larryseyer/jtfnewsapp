@@ -128,6 +128,9 @@ struct SettingsView: View {
                 Label("Submit a Story", systemImage: "square.and.pencil")
             }
             Link("Source Code (GitHub)", destination: URL(string: "https://github.com/larryseyer/JTFNews")!)
+            Link(destination: URL(string: "https://jtfnews.org/support.html")!) {
+                Label("Support JTF News", systemImage: "heart")
+            }
             NavigationLink("Privacy Policy") {
                 PrivacyPolicyView()
             }

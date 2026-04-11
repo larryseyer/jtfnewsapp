@@ -56,6 +56,10 @@
 		AA000001050 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002007; };
 		AA000001051 /* SharedModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002048; };
 		AA000001052 /* JTFNewsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000003002; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA000001053 /* Correction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002008; };
+		AA000001054 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002009; };
+		AA000001055 /* ArchivedStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002032; };
+		AA000001056 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002035; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -482,6 +486,10 @@
 				AA000001048 /* SharedModelContainer.swift in Sources */,
 				AA000001049 /* Story.swift in Sources */,
 				AA000001050 /* Source.swift in Sources */,
+				AA000001053 /* Correction.swift in Sources */,
+				AA000001054 /* Channel.swift in Sources */,
+				AA000001055 /* ArchivedStory.swift in Sources */,
+				AA000001056 /* Bookmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

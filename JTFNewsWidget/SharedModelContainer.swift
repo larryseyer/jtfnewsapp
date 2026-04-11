@@ -14,7 +14,11 @@ enum SharedModelContainer {
     static func createReadOnly() throws -> ModelContainer {
         let schema = Schema([
             Story.self,
-            Source.self
+            Source.self,
+            Correction.self,
+            Channel.self,
+            ArchivedStory.self,
+            Bookmark.self
         ])
         let config = ModelConfiguration(
             schema: schema,

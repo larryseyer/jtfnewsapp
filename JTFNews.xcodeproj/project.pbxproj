@@ -44,6 +44,7 @@
 		AA000001038 /* StoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002038; };
 		AA000001039 /* WatchedTermMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002039; };
 		AA000001040 /* WatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002040; };
+		AA000001041 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002041; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		AA000002038 /* StoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailView.swift; sourceTree = "<group>"; };
 		AA000002039 /* WatchedTermMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedTermMatcher.swift; sourceTree = "<group>"; };
 		AA000002040 /* WatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedView.swift; sourceTree = "<group>"; };
+		AA000002041 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -167,6 +169,7 @@
 				AA000005011 /* Archive */,
 				AA000005012 /* Settings */,
 				AA000005013 /* Watched */,
+				AA000005014 /* Onboarding */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -236,6 +239,14 @@
 				AA000002040 /* WatchedView.swift */,
 			);
 			path = Watched;
+			sourceTree = "<group>";
+		};
+		AA000005014 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002041 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,6 +354,7 @@
 				AA000001038 /* StoryDetailView.swift in Sources */,
 				AA000001039 /* WatchedTermMatcher.swift in Sources */,
 				AA000001040 /* WatchedView.swift in Sources */,
+				AA000001041 /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@ struct StoriesView: View {
     @State private var hasLoadedOnce = false
     @State private var showSettings = false
     @State private var showOfflineToast = false
+    @State private var watchTermMatchCount = 0
 
     var body: some View {
         NavigationStack {
@@ -109,6 +110,31 @@ struct StoriesView: View {
             }
         }
         .animation(.easeInOut, value: showOfflineToast)
+        .overlay(alignment: .top) {
+            if watchTermMatchCount > 0 {
+                HStack(spacing: 6) {
+                    Image(systemName: "eye.fill")
+                        .font(.caption2)
+                    Text("\(watchTermMatchCount) stor\(watchTermMatchCount == 1 ? "y matches" : "ies match") your watched terms")
+                        .font(.caption)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(.ultraThinMaterial)
+                .clipShape(Capsule())
+                .transition(.move(edge: .top).combined(with: .opacity))
+                .onAppear {
+                    Task {
+                        try? await Task.sleep(for: .seconds(4))
+                        withAnimation { watchTermMatchCount = 0 }
+                    }
+                }
+                .onTapGesture {
+                    withAnimation { watchTermMatchCount = 0 }
+                }
+            }
+        }
+        .animation(.easeInOut, value: watchTermMatchCount)
     }
 
     // MARK: - Loading
@@ -258,18 +284,41 @@ struct StoriesView: View {
         let dataService = DataService(modelContainer: modelContext.container)
         let feedService = FeedService(modelContainer: modelContext.container)
 
-        await withTaskGroup(of: Void.self) { group in
+        var fetchedDTOs: [StoryDTO] = []
+
+        await withTaskGroup(of: [StoryDTO]?.self) { group in
             group.addTask {
-                do { try await dataService.fetchStories() }
-                catch { print("[StoriesView] fetchStories failed: \(String(reflecting: error))") }
+                do { return try await dataService.fetchStories() }
+                catch { print("[StoriesView] fetchStories failed: \(String(reflecting: error))"); return nil }
             }
             group.addTask {
                 do { try await dataService.fetchCorrections() }
                 catch { print("[StoriesView] fetchCorrections failed: \(String(reflecting: error))") }
+                return nil
             }
             group.addTask {
                 do { try await feedService.fetchSources() }
                 catch { print("[StoriesView] fetchSources failed: \(String(reflecting: error))") }
+                return nil
+            }
+            for await result in group {
+                if let dtos = result { fetchedDTOs = dtos }
+            }
+        }
+
+        // Foreground watch term check
+        if UserDefaults.standard.bool(forKey: "notifyWatchedTerms"), !fetchedDTOs.isEmpty {
+            let matches = WatchedTermMatcher.findNewMatches(in: fetchedDTOs)
+            if !matches.isEmpty {
+                withAnimation { watchTermMatchCount = matches.count }
+                UserDefaults.standard.set(matches.count, forKey: "watchedTabBadge")
+                await NotificationManager.shared.sendNotification(
+                    title: "Watched Terms",
+                    body: "\(matches.count) stor\(matches.count == 1 ? "y matches" : "ies match") your watched terms",
+                    identifier: "watched-terms-\(Date().timeIntervalSince1970)",
+                    userInfo: ["type": "watchedTerms"]
+                )
+                WatchedTermMatcher.markAllNotified(hashes: Set(fetchedDTOs.map(\.hash)))
             }
         }
     }

@@ -127,33 +127,25 @@ enum BackgroundRefreshManager {
     }
 
     private static func checkForWatchedTerms() async {
-        let terms = WatchedTermsStorage.terms
-        guard !terms.isEmpty else { return }
+        guard !WatchedTermsStorage.terms.isEmpty else { return }
 
         do {
             let url = URL(string: "https://jtfnews.org/stories.json")!
             let (data, _) = try await URLSession.shared.data(from: url)
             let response = try JSONDecoder().decode(StoriesResponse.self, from: data)
 
-            let previouslyNotified = WatchedTermsStorage.notifiedHashes
-            let lowercasedTerms = terms.map { $0.lowercased() }
-
-            let matchingNew = response.stories.filter { story in
-                guard !previouslyNotified.contains(story.hash) else { return false }
-                let lowercasedFact = story.fact.lowercased()
-                return lowercasedTerms.contains { lowercasedFact.contains($0) }
-            }
-
-            if !matchingNew.isEmpty {
+            let matches = WatchedTermMatcher.findNewMatches(in: response.stories)
+            if !matches.isEmpty {
+                UserDefaults.standard.set(matches.count, forKey: "watchedTabBadge")
                 await NotificationManager.shared.sendNotification(
                     title: "Watched Terms",
-                    body: "\(matchingNew.count) new stor\(matchingNew.count == 1 ? "y matches" : "ies match") your watched terms",
-                    identifier: "watched-terms-\(Date().timeIntervalSince1970)"
+                    body: "\(matches.count) new stor\(matches.count == 1 ? "y matches" : "ies match") your watched terms",
+                    identifier: "watched-terms-\(Date().timeIntervalSince1970)",
+                    userInfo: ["type": "watchedTerms"]
                 )
             }
 
-            // Replace with all current hashes to prevent re-notification
-            WatchedTermsStorage.notifiedHashes = Set(response.stories.map(\.hash))
+            WatchedTermMatcher.markAllNotified(hashes: Set(response.stories.map(\.hash)))
         } catch {
             print("[BackgroundRefresh] checkForWatchedTerms failed: \(String(reflecting: error))")
         }

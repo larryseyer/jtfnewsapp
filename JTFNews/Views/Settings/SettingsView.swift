@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage("notifyWatchedTerms") private var notifyWatchedTerms = false
     @AppStorage("preferVideoMode") private var preferVideoMode = true
     @AppStorage("archiveDownloadMode") private var archiveDownloadMode = "wifi"
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
         NavigationStack {
@@ -118,6 +119,10 @@ struct SettingsView: View {
             Link("Source Code (GitHub)", destination: URL(string: "https://github.com/larryseyer/JTFNews")!)
             NavigationLink("Privacy Policy") {
                 PrivacyPolicyView()
+            }
+            Button("Show Welcome") {
+                hasSeenOnboarding = false
+                dismiss()
             }
 
             HStack {

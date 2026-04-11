@@ -20,11 +20,15 @@ struct ArchiveSearchView: View {
             }
         }
         .navigationTitle("Search Archive")
+        #if os(iOS)
         .searchable(
             text: $searchText,
             placement: .navigationBarDrawer(displayMode: .always),
             prompt: "Search archive"
         )
+        #else
+        .searchable(text: $searchText, prompt: "Search archive")
+        #endif
         .navigationDestination(for: String.self) { dateString in
             ArchiveDayDetailView(dateString: dateString)
         }

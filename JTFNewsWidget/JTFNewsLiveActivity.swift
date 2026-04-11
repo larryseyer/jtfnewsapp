@@ -1,3 +1,4 @@
+#if os(iOS)
 import ActivityKit
 import SwiftUI
 import WidgetKit
@@ -95,3 +96,4 @@ struct JTFNewsLiveActivity: Widget {
         }
     }
 }
+#endif

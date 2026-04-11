@@ -1,3 +1,4 @@
+#if os(iOS)
 import ActivityKit
 import Foundation
 
@@ -8,3 +9,4 @@ struct JTFNewsActivityAttributes: ActivityAttributes {
         let publishedDate: Date
     }
 }
+#endif

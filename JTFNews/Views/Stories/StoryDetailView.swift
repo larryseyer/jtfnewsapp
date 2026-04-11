@@ -55,11 +55,19 @@ struct StoryDetailView: View {
             .padding(.vertical, 12)
         }
         .navigationTitle("Story")
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .toolbar {
+            #if os(iOS)
             ToolbarItemGroup(placement: .bottomBar) {
                 toolbarContent
             }
+            #else
+            ToolbarItemGroup {
+                toolbarContent
+            }
+            #endif
         }
         .sheet(isPresented: $showWatchTerms) {
             watchTermsSheet
@@ -234,7 +242,9 @@ struct StoryDetailView: View {
         NavigationStack {
             WatchTermsPickerView(fact: story.fact)
                 .navigationTitle("Watch Terms")
+                #if os(iOS)
                 .navigationBarTitleDisplayMode(.inline)
+                #endif
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Done") { showWatchTerms = false }

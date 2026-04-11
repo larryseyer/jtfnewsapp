@@ -69,6 +69,9 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
             selectedTab = 3
         }
+        .onOpenURL { url in
+            handleDeepLink(url)
+        }
         .fullScreenCover(isPresented: Binding(
             get: { !hasSeenOnboarding },
             set: { if !$0 { hasSeenOnboarding = true } }
@@ -127,6 +130,9 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
             selectedTab = 3
         }
+        .onOpenURL { url in
+            handleDeepLink(url)
+        }
         .sheet(isPresented: Binding(
             get: { !hasSeenOnboarding },
             set: { if !$0 { hasSeenOnboarding = true } }
@@ -136,6 +142,34 @@ struct ContentView: View {
         }
     }
     #endif
+
+    // MARK: - Deep Links
+
+    private func handleDeepLink(_ url: URL) {
+        guard url.scheme == "jtfnews" else { return }
+
+        switch url.host {
+        case "stories":
+            selectedTab = 0
+        case "story":
+            let storyId = url.lastPathComponent
+            let watchedTerms = WatchedTermsStorage.terms
+            let context = ModelContext(modelContext.container)
+            let descriptor = FetchDescriptor<Story>(
+                predicate: #Predicate { $0.id == storyId }
+            )
+            if let story = try? context.fetch(descriptor).first {
+                let matchesWatched = watchedTerms.contains { term in
+                    story.fact.localizedCaseInsensitiveContains(term)
+                }
+                selectedTab = matchesWatched ? 3 : 0
+            } else {
+                selectedTab = 0
+            }
+        default:
+            selectedTab = 0
+        }
+    }
 }
 
 #Preview {

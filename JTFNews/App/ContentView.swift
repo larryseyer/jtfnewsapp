@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var connectivity = ConnectivityManager()
     @State private var selectedTab = 0
     @AppStorage("watchedTabBadge") private var watchedBadge = 0
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
         #if os(macOS)
@@ -68,6 +69,12 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
             selectedTab = 3
         }
+        .fullScreenCover(isPresented: Binding(
+            get: { !hasSeenOnboarding },
+            set: { if !$0 { hasSeenOnboarding = true } }
+        )) {
+            OnboardingView()
+        }
     }
     #endif
 
@@ -119,6 +126,13 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
             selectedTab = 3
+        }
+        .sheet(isPresented: Binding(
+            get: { !hasSeenOnboarding },
+            set: { if !$0 { hasSeenOnboarding = true } }
+        )) {
+            OnboardingView()
+                .frame(width: 500, height: 600)
         }
     }
     #endif

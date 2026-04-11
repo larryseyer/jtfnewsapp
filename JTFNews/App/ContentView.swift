@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var audioManager = AudioManager()
     @State private var connectivity = ConnectivityManager()
     @State private var selectedTab = 0
+    @AppStorage("watchedTabBadge") private var watchedBadge = 0
 
     var body: some View {
         #if os(macOS)
@@ -38,6 +39,13 @@ struct ContentView: View {
                         Label("Archive", systemImage: "archivebox")
                     }
                     .tag(2)
+
+                WatchedView()
+                    .tabItem {
+                        Label("Watched", systemImage: "eye.fill")
+                    }
+                    .tag(3)
+                    .badge(watchedBadge > 0 ? watchedBadge : 0)
             }
 
             if audioManager.hasActiveAudio && selectedTab != 1 {
@@ -57,6 +65,9 @@ struct ContentView: View {
             ArchiveService.cleanupLegacySearchIndex()
             await ArchiveService(modelContainer: modelContext.container).prefetchAll()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
+            selectedTab = 3
+        }
     }
     #endif
 
@@ -72,6 +83,8 @@ struct ContentView: View {
                     .tag(1)
                 Label("Archive", systemImage: "archivebox")
                     .tag(2)
+                Label("Watched", systemImage: "eye.fill")
+                    .tag(3)
             }
             .navigationTitle("JTF News")
         } detail: {
@@ -81,6 +94,8 @@ struct ContentView: View {
                     DigestView()
                 case 2:
                     ArchiveView()
+                case 3:
+                    WatchedView()
                 default:
                     StoriesView()
                 }
@@ -101,6 +116,9 @@ struct ContentView: View {
         .task {
             ArchiveService.cleanupLegacySearchIndex()
             await ArchiveService(modelContainer: modelContext.container).prefetchAll()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
+            selectedTab = 3
         }
     }
     #endif

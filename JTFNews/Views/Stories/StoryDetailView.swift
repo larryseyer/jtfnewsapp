@@ -32,8 +32,11 @@ struct StoryDetailView: View {
     }
 
     private var shareText: String {
-        let sourceNames = parsedBadges.map(\.name).joined(separator: ", ")
-        return "\(story.fact)\n\nVerified by \(sourceNames) — JTF News"
+        ShareTextBuilder.shareText(
+            fact: story.fact,
+            sourceDisplay: story.sourceDisplay,
+            sources: sources
+        )
     }
 
     var body: some View {
@@ -197,7 +200,10 @@ struct StoryDetailView: View {
 
     private var toolbarContent: some View {
         HStack {
-            ShareLink(item: shareText) {
+            ShareLink(
+                item: shareText,
+                preview: SharePreview("JTF News")
+            ) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
 

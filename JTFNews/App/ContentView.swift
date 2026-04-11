@@ -41,11 +41,17 @@ struct ContentView: View {
                     }
                     .tag(2)
 
+                SavedView()
+                    .tabItem {
+                        Label("Saved", systemImage: "bookmark.fill")
+                    }
+                    .tag(3)
+
                 WatchedView()
                     .tabItem {
                         Label("Watched", systemImage: "eye.fill")
                     }
-                    .tag(3)
+                    .tag(4)
                     .badge(watchedBadge > 0 ? watchedBadge : 0)
             }
 
@@ -67,7 +73,7 @@ struct ContentView: View {
             await ArchiveService(modelContainer: modelContext.container).prefetchAll()
         }
         .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
-            selectedTab = 3
+            selectedTab = 4
         }
         .onOpenURL { url in
             handleDeepLink(url)
@@ -93,8 +99,10 @@ struct ContentView: View {
                     .tag(1)
                 Label("Archive", systemImage: "archivebox")
                     .tag(2)
-                Label("Watched", systemImage: "eye.fill")
+                Label("Saved", systemImage: "bookmark.fill")
                     .tag(3)
+                Label("Watched", systemImage: "eye.fill")
+                    .tag(4)
             }
             .navigationTitle("JTF News")
         } detail: {
@@ -105,6 +113,8 @@ struct ContentView: View {
                 case 2:
                     ArchiveView()
                 case 3:
+                    SavedView()
+                case 4:
                     WatchedView()
                 default:
                     StoriesView()
@@ -128,7 +138,7 @@ struct ContentView: View {
             await ArchiveService(modelContainer: modelContext.container).prefetchAll()
         }
         .onReceive(NotificationCenter.default.publisher(for: .watchedTermsTapped)) { _ in
-            selectedTab = 3
+            selectedTab = 4
         }
         .onOpenURL { url in
             handleDeepLink(url)
@@ -162,7 +172,7 @@ struct ContentView: View {
                 let matchesWatched = watchedTerms.contains { term in
                     story.fact.localizedCaseInsensitiveContains(term)
                 }
-                selectedTab = matchesWatched ? 3 : 0
+                selectedTab = matchesWatched ? 4 : 0
             } else {
                 selectedTab = 0
             }

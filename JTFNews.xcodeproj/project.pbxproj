@@ -60,6 +60,8 @@
 		AA000001054 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002009; };
 		AA000001055 /* ArchivedStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002032; };
 		AA000001056 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002035; };
+		AA000001057 /* ShareTextBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002052; };
+		AA000001058 /* SavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002053; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +114,8 @@
 		AA000002049 /* JTFNews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNews.entitlements; sourceTree = "<group>"; };
 		AA000002050 /* JTFNewsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNewsWidget.entitlements; sourceTree = "<group>"; };
 		AA000002051 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA000002052 /* ShareTextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTextBuilder.swift; sourceTree = "<group>"; };
+		AA000002053 /* SavedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedView.swift; sourceTree = "<group>"; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -203,6 +207,7 @@
 				AA000005008 /* Digest */,
 				AA000005011 /* Archive */,
 				AA000005012 /* Settings */,
+				AA000005016 /* Saved */,
 				AA000005013 /* Watched */,
 				AA000005014 /* Onboarding */,
 			);
@@ -244,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				AA000002022 /* GzipUtility.swift */,
+				AA000002052 /* ShareTextBuilder.swift */,
 				AA000002036 /* TermExtractor.swift */,
 			);
 			path = Utilities;
@@ -283,6 +289,14 @@
 				AA000002041 /* OnboardingView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		AA000005016 /* Saved */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002053 /* SavedView.swift */,
+			);
+			path = Saved;
 			sourceTree = "<group>";
 		};
 		AA000005015 /* JTFNewsWidget */ = {
@@ -469,6 +483,8 @@
 				AA000001039 /* WatchedTermMatcher.swift in Sources */,
 				AA000001040 /* WatchedView.swift in Sources */,
 				AA000001041 /* OnboardingView.swift in Sources */,
+				AA000001057 /* ShareTextBuilder.swift in Sources */,
+				AA000001058 /* SavedView.swift in Sources */,
 				AA000001051 /* SharedModelContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,6 +7,7 @@ struct StoriesView: View {
     @Query(sort: \Story.publishedAt, order: .reverse) private var stories: [Story]
     @Query private var corrections: [Correction]
     @Query private var sources: [Source]
+    @Query private var bookmarks: [Bookmark]
     @State private var isLoading = false
     @State private var hasLoadedOnce = false
     @State private var showSettings = false
@@ -81,6 +82,28 @@ struct StoriesView: View {
                 let correction = corrections.first { $0.storyId == story.id }
                 NavigationLink(value: story) {
                     StoryCard(story: story, sources: sources, correction: correction)
+                }
+                .contextMenu {
+                    ShareLink(
+                        item: ShareTextBuilder.shareText(
+                            fact: story.fact,
+                            sourceDisplay: story.sourceDisplay,
+                            sources: sources
+                        ),
+                        preview: SharePreview("JTF News")
+                    ) {
+                        Label("Share Story", systemImage: "square.and.arrow.up")
+                    }
+
+                    Button {
+                        toggleBookmark(for: story)
+                    } label: {
+                        let isBookmarked = bookmarks.contains { $0.storyId == story.id }
+                        Label(
+                            isBookmarked ? "Remove Bookmark" : "Bookmark",
+                            systemImage: isBookmarked ? "bookmark.slash" : "bookmark"
+                        )
+                    }
                 }
                 .buttonStyle(.plain)
                 .listRowSeparator(.hidden)
@@ -263,6 +286,19 @@ struct StoriesView: View {
         let timestamp = UserDefaults.standard.double(forKey: FetchCooldownKey.stories)
         guard timestamp > 0 else { return true }
         return Date().timeIntervalSince1970 - timestamp > 20 * 60
+    }
+
+    // MARK: - Bookmark Toggle
+
+    private func toggleBookmark(for story: Story) {
+        if let existing = bookmarks.first(where: { $0.storyId == story.id }) {
+            modelContext.delete(existing)
+        } else {
+            let bookmark = Bookmark()
+            bookmark.storyId = story.id
+            bookmark.createdAt = Date()
+            modelContext.insert(bookmark)
+        }
     }
 
     // MARK: - Refresh

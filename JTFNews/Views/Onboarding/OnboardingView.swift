@@ -47,8 +47,10 @@ struct OnboardingView: View {
                 }
                 .tag(4)
             }
+            #if os(iOS)
             .tabViewStyle(.page(indexDisplayMode: .always))
             .indexViewStyle(.page(backgroundDisplayMode: .always))
+            #endif
         }
         .preferredColorScheme(.dark)
     }

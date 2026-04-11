@@ -37,5 +37,6 @@ struct WidgetEntryView: View {
 struct JTFNewsWidgetBundle: WidgetBundle {
     var body: some Widget {
         JTFNewsWidget()
+        JTFNewsLiveActivity()
     }
 }

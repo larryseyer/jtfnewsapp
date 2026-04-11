@@ -93,6 +93,11 @@ enum BackgroundRefreshManager {
                     body: "\(newBreaking.count) new verified fact\(newBreaking.count == 1 ? "" : "s") published",
                     identifier: "breaking-\(Date().timeIntervalSince1970)"
                 )
+                LiveActivityManager.startOrUpdate(
+                    storyCount: newBreaking.count,
+                    latestFact: newBreaking.first?.fact ?? "",
+                    publishedDate: Date()
+                )
             }
 
             UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: lastCheckKey)

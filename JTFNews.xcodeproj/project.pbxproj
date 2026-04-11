@@ -62,6 +62,10 @@
 		AA000001056 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002035; };
 		AA000001057 /* ShareTextBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002052; };
 		AA000001058 /* SavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002053; };
+		AA000001059 /* JTFNewsActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002054; };
+		AA000001060 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002055; };
+		AA000001061 /* JTFNewsLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002056; };
+		AA000001062 /* JTFNewsActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002054; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +120,9 @@
 		AA000002051 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA000002052 /* ShareTextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTextBuilder.swift; sourceTree = "<group>"; };
 		AA000002053 /* SavedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedView.swift; sourceTree = "<group>"; };
+		AA000002054 /* JTFNewsActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsActivityAttributes.swift; sourceTree = "<group>"; };
+		AA000002055 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		AA000002056 /* JTFNewsLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTFNewsLiveActivity.swift; sourceTree = "<group>"; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -178,6 +185,7 @@
 				AA000002009 /* Channel.swift */,
 				AA000002032 /* ArchivedStory.swift */,
 				AA000002035 /* Bookmark.swift */,
+				AA000002054 /* JTFNewsActivityAttributes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -196,6 +204,7 @@
 				AA000002029 /* ConnectivityManager.swift */,
 				AA000002034 /* FetchCooldown.swift */,
 				AA000002039 /* WatchedTermMatcher.swift */,
+				AA000002055 /* LiveActivityManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -309,6 +318,7 @@
 				AA000002046 /* MediumWidgetView.swift */,
 				AA000002047 /* LargeWidgetView.swift */,
 				AA000002048 /* SharedModelContainer.swift */,
+				AA000002056 /* JTFNewsLiveActivity.swift */,
 				AA000002050 /* JTFNewsWidget.entitlements */,
 			AA000002051 /* Info.plist */,
 			);
@@ -486,6 +496,8 @@
 				AA000001057 /* ShareTextBuilder.swift in Sources */,
 				AA000001058 /* SavedView.swift in Sources */,
 				AA000001051 /* SharedModelContainer.swift in Sources */,
+				AA000001059 /* JTFNewsActivityAttributes.swift in Sources */,
+				AA000001060 /* LiveActivityManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +518,8 @@
 				AA000001054 /* Channel.swift in Sources */,
 				AA000001055 /* ArchivedStory.swift in Sources */,
 				AA000001056 /* Bookmark.swift in Sources */,
+				AA000001061 /* JTFNewsLiveActivity.swift in Sources */,
+				AA000001062 /* JTFNewsActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +664,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_BGTaskSchedulerPermittedIdentifiers = "$(PRODUCT_BUNDLE_IDENTIFIER).refresh";
 				INFOPLIST_KEY_CFBundleDisplayName = "JTF News";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIBackgroundModes = fetch;
@@ -691,6 +706,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_BGTaskSchedulerPermittedIdentifiers = "$(PRODUCT_BUNDLE_IDENTIFIER).refresh";
 				INFOPLIST_KEY_CFBundleDisplayName = "JTF News";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIBackgroundModes = fetch;

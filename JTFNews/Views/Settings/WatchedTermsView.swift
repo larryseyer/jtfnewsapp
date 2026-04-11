@@ -64,6 +64,11 @@ struct WatchedTermsView: View {
             }
         }
         .navigationTitle("Watched Terms")
+        #if os(iOS)
+        .toolbar {
+            EditButton()
+        }
+        #endif
     }
 
     private func addTerm() {

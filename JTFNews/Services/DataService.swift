@@ -23,6 +23,9 @@ actor DataService {
         let response = try JSONDecoder().decode(StoriesResponse.self, from: data)
 
         let context = ModelContext(modelContainer)
+        var newCount = 0
+        var latestNewFact = ""
+        var latestNewDate = Date.distantPast
         for dto in response.stories {
             let descriptor = FetchDescriptor<Story>(
                 predicate: #Predicate { $0.storyHash == dto.hash }
@@ -46,11 +49,28 @@ actor DataService {
                 story.publishedAt = parseDate(dto.publishedAt) ?? Date()
                 story.status = dto.status ?? ""
                 context.insert(story)
+                newCount += 1
+                let storyDate = story.publishedAt
+                if storyDate > latestNewDate {
+                    latestNewDate = storyDate
+                    latestNewFact = dto.fact
+                }
             }
         }
         try context.save()
         FetchCooldown.markFetched(key: FetchCooldownKey.stories)
         WidgetCenter.shared.reloadAllTimelines()
+
+        #if os(iOS)
+        if newCount > 0 {
+            LiveActivityManager.startOrUpdate(
+                storyCount: newCount,
+                latestFact: latestNewFact,
+                publishedDate: latestNewDate
+            )
+        }
+        #endif
+
         return response.stories
     }
 

@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage("notifyCorrections") private var notifyCorrections = false
     @AppStorage("notifyBreakingFacts") private var notifyBreakingFacts = false
     @AppStorage("notifyWatchedTerms") private var notifyWatchedTerms = false
+    @AppStorage("notifyLiveActivities") private var notifyLiveActivities = false
     @AppStorage("preferVideoMode") private var preferVideoMode = true
     @AppStorage("archiveDownloadMode") private var archiveDownloadMode = "wifi"
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
@@ -56,6 +57,13 @@ struct SettingsView: View {
                     WatchedTermsView()
                 }
             }
+            #if os(iOS)
+            Toggle("Live Activities", isOn: $notifyLiveActivities)
+                .onChange(of: notifyLiveActivities) { _, newValue in
+                    if newValue { requestNotificationPermission() }
+                }
+                .accessibilityHint("Show new facts on Lock Screen and Dynamic Island")
+            #endif
         }
     }
 

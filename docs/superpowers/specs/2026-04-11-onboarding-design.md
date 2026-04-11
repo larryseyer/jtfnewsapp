@@ -13,6 +13,7 @@ A full-screen swipe carousel shown once on first launch. 5 pages: a welcome page
 - First launch only, gated by `@AppStorage("hasSeenOnboarding")` (default `false`)
 - Presented as `.fullScreenCover` from `ContentView`
 - Setting `hasSeenOnboarding = true` dismisses the cover and it never appears again
+- Can be re-triggered from Settings → About → "Show Welcome" button (resets `hasSeenOnboarding` to `false`)
 
 ## Visual Style
 
@@ -48,6 +49,7 @@ Contains a `TabView` with `.tabViewStyle(.page)` wrapping 5 `OnboardingPage` ins
 |------|--------|
 | `JTFNews/Views/Onboarding/OnboardingView.swift` | New — carousel + OnboardingPage component |
 | `JTFNews/App/ContentView.swift` | Add `@AppStorage("hasSeenOnboarding")` + `.fullScreenCover` |
+| `JTFNews/Views/Settings/SettingsView.swift` | Add "Show Welcome" button in About section |
 | `JTFNews.xcodeproj/project.pbxproj` | Add file + Onboarding group |
 
 ## What We Do NOT Add
@@ -65,4 +67,5 @@ Contains a `TabView` with `.tabViewStyle(.page)` wrapping 5 `OnboardingPage` ins
 3. Swipe through all 5 pages → dot indicators update
 4. Tap "Get Started" on page 5 → onboarding dismisses, app shows Stories tab
 5. Kill and relaunch → onboarding does NOT appear again
-6. Deploy to iPhone via `./both.sh` and verify on device
+6. Go to Settings → About → tap "Show Welcome" → return to main view → onboarding appears again
+7. Deploy to iPhone via `./both.sh` and verify on device

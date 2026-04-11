@@ -66,7 +66,9 @@ struct WatchedTermsView: View {
         .navigationTitle("Watched Terms")
         #if os(iOS)
         .toolbar {
-            EditButton()
+            ToolbarItem(placement: .topBarLeading) {
+                EditButton()
+            }
         }
         #endif
     }

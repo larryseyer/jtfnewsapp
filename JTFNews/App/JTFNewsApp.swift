@@ -12,16 +12,16 @@ struct JTFNewsApp: App {
             ArchivedStory.self,
             Bookmark.self
         ])
-        let modelConfiguration = ModelConfiguration(
+        let containerURL = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.org.jtfnews.app")!
+            .appending(path: "JTFNews.sqlite")
+        let config = ModelConfiguration(
             schema: schema,
-            isStoredInMemoryOnly: false
+            url: containerURL,
+            allowsSave: true
         )
-
         do {
-            return try ModelContainer(
-                for: schema,
-                configurations: [modelConfiguration]
-            )
+            return try ModelContainer(for: schema, configurations: [config])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }

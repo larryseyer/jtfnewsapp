@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import WidgetKit
 
 actor DataService {
     private let modelContainer: ModelContainer
@@ -49,6 +50,7 @@ actor DataService {
         }
         try context.save()
         FetchCooldown.markFetched(key: FetchCooldownKey.stories)
+        WidgetCenter.shared.reloadAllTimelines()
         return response.stories
     }
 

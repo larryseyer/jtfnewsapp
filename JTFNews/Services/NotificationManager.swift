@@ -3,6 +3,9 @@ import Foundation
 
 extension Notification.Name {
     static let watchedTermsTapped = Notification.Name("watchedTermsTapped")
+    /// Posted when onboarding is dismissed so StoriesView can guarantee a
+    /// fresh fetch even if its `.task` was deferred behind `fullScreenCover`.
+    static let forceStoriesRefresh = Notification.Name("forceStoriesRefresh")
 }
 
 /// Presents notifications as banners even when the app is in the foreground.
@@ -45,7 +48,10 @@ actor NotificationManager {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
-        content.sound = .default
+        let useCustomSound = UserDefaults.standard.bool(forKey: "useCustomNotificationSound")
+        content.sound = useCustomSound
+            ? UNNotificationSound(named: UNNotificationSoundName("JTFNewsChime.caf"))
+            : .default
         content.userInfo = userInfo
 
         let request = UNNotificationRequest(

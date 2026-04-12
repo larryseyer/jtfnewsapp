@@ -2,31 +2,60 @@ import Foundation
 import SwiftData
 import WidgetKit
 
-actor DataService {
-    private let modelContainer: ModelContainer
+/// Two-phase service: network I/O returns DTOs; persistence is `@MainActor`
+/// and writes into a caller-supplied `ModelContext`. Writing through the
+/// SwiftUI-injected context lets `@Query` observe the changes immediately
+/// without relying on cross-context auto-merge (which isn't reliable on
+/// iOS 17 and caused the "only one story on first launch" bug).
+struct DataService: Sendable {
+    let modelContainer: ModelContainer
 
     init(modelContainer: ModelContainer) {
         self.modelContainer = modelContainer
     }
 
-    // MARK: - Fetch Stories
+    // MARK: - Fetch (pure I/O — returns DTOs, no persistence)
 
-    @discardableResult
-    func fetchStories(baseURL: String = "https://jtfnews.org") async throws -> [StoryDTO] {
+    /// Returns `nil` if the cooldown window blocks the fetch, otherwise the
+    /// decoded stories. Callers are responsible for persisting the DTOs on
+    /// the MainActor via `persistStories(_:in:)`.
+    func fetchStoryDTOs(baseURL: String = "https://jtfnews.org") async throws -> [StoryDTO]? {
         guard FetchCooldown.shouldFetch(
             key: FetchCooldownKey.stories,
             interval: FetchCooldownInterval.live
-        ) else { return [] }
+        ) else { return nil }
 
         let url = URL(string: "\(baseURL)/stories.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try JSONDecoder().decode(StoriesResponse.self, from: data)
+        return response.stories
+    }
 
-        let context = ModelContext(modelContainer)
+    func fetchCorrectionDTOs(baseURL: String = "https://jtfnews.org") async throws -> [CorrectionDTO]? {
+        guard FetchCooldown.shouldFetch(
+            key: FetchCooldownKey.corrections,
+            interval: FetchCooldownInterval.live
+        ) else { return nil }
+
+        let url = URL(string: "\(baseURL)/corrections.json")!
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let response = try JSONDecoder().decode(CorrectionsResponse.self, from: data)
+        return response.corrections
+    }
+
+    // MARK: - Persist (MainActor — writes into caller's ModelContext)
+
+    /// Upserts the DTOs into `context`, saves, marks the cooldown, and fires
+    /// downstream side-effects (widget reload, LiveActivity update). Returns
+    /// the DTOs so callers can feed watched-term matching, etc.
+    @MainActor
+    @discardableResult
+    static func persistStories(_ dtos: [StoryDTO], in context: ModelContext) throws -> [StoryDTO] {
         var newCount = 0
         var latestNewFact = ""
         var latestNewDate = Date.distantPast
-        for dto in response.stories {
+
+        for dto in dtos {
             let descriptor = FetchDescriptor<Story>(
                 predicate: #Predicate { $0.storyHash == dto.hash }
             )
@@ -50,9 +79,8 @@ actor DataService {
                 story.status = dto.status ?? ""
                 context.insert(story)
                 newCount += 1
-                let storyDate = story.publishedAt
-                if storyDate > latestNewDate {
-                    latestNewDate = storyDate
+                if story.publishedAt > latestNewDate {
+                    latestNewDate = story.publishedAt
                     latestNewFact = dto.fact
                 }
             }
@@ -71,23 +99,12 @@ actor DataService {
         }
         #endif
 
-        return response.stories
+        return dtos
     }
 
-    // MARK: - Fetch Corrections
-
-    func fetchCorrections(baseURL: String = "https://jtfnews.org") async throws {
-        guard FetchCooldown.shouldFetch(
-            key: FetchCooldownKey.corrections,
-            interval: FetchCooldownInterval.live
-        ) else { return }
-
-        let url = URL(string: "\(baseURL)/corrections.json")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(CorrectionsResponse.self, from: data)
-
-        let context = ModelContext(modelContainer)
-        for dto in response.corrections {
+    @MainActor
+    static func persistCorrections(_ dtos: [CorrectionDTO], in context: ModelContext) throws {
+        for dto in dtos {
             let descriptor = FetchDescriptor<Correction>(
                 predicate: #Predicate { $0.storyId == dto.storyId }
             )
@@ -117,7 +134,8 @@ actor DataService {
 
     // MARK: - Date Parsing
 
-    private func parseDate(_ string: String?) -> Date? {
+    @MainActor
+    private static func parseDate(_ string: String?) -> Date? {
         guard let string else { return nil }
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]

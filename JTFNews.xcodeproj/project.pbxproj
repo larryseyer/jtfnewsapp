@@ -82,6 +82,8 @@
 		AA000001076 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000002064; };
 		AA000001077 /* JTFNewsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AA000003003; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AA000001078 /* WatchDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002065; };
+		AA000001080 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000002067; };
+		AA000001079 /* JTFNewsChime.caf in Resources */ = {isa = PBXBuildFile; fileRef = AA000002066; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -148,6 +150,8 @@
 		AA000002063 /* JTFNewsWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JTFNewsWatch.entitlements; sourceTree = "<group>"; };
 		AA000002064 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA000002065 /* WatchDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDataService.swift; sourceTree = "<group>"; };
+		AA000002066 /* JTFNewsChime.caf */ = {isa = PBXFileReference; lastKnownFileType = audio.caf; path = JTFNewsChime.caf; sourceTree = "<group>"; };
+		AA000002067 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000003003 /* JTFNewsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNewsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -197,6 +201,7 @@
 				AA000005006 /* Views */,
 				AA000005010 /* Utilities */,
 				AA000005017 /* Shortcuts */,
+				AA000005019 /* Resources */,
 				AA000002011 /* Assets.xcassets */,
 			);
 			path = JTFNews;
@@ -364,6 +369,7 @@
 				AA000002047 /* LargeWidgetView.swift */,
 				AA000002048 /* SharedModelContainer.swift */,
 				AA000002056 /* JTFNewsLiveActivity.swift */,
+				AA000002067 /* Assets.xcassets */,
 				AA000002050 /* JTFNewsWidget.entitlements */,
 			AA000002051 /* Info.plist */,
 			);
@@ -382,6 +388,14 @@
 				AA000002063 /* JTFNewsWatch.entitlements */,
 			);
 			path = JTFNewsWatch;
+			sourceTree = "<group>";
+		};
+		AA000005019 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002066 /* JTFNewsChime.caf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -542,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA000001011 /* Assets.xcassets in Resources */,
+				AA000001079 /* JTFNewsChime.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +564,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA000001080 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,12 +810,11 @@
 				DEVELOPMENT_TEAM = NM84277DEZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_BGTaskSchedulerPermittedIdentifiers = "$(PRODUCT_BUNDLE_IDENTIFIER).refresh";
+				INFOPLIST_FILE = JTFNews/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "JTF News";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UIBackgroundModes = fetch;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -836,12 +851,11 @@
 				DEVELOPMENT_TEAM = NM84277DEZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_BGTaskSchedulerPermittedIdentifiers = "$(PRODUCT_BUNDLE_IDENTIFIER).refresh";
+				INFOPLIST_FILE = JTFNews/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "JTF News";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UIBackgroundModes = fetch;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

@@ -44,17 +44,19 @@ struct JTFNewsLiveActivity: Widget {
                     .padding(.top, 2)
                 }
             } compactLeading: {
-                Image(systemName: "shield.checkered")
-                    .font(.system(size: 14))
-                    .foregroundStyle(Self.brandGold)
+                Image("BrandMark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 14, height: 14)
             } compactTrailing: {
                 Text("\(context.state.storyCount) new")
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(Color(white: 0.88))
             } minimal: {
-                Image(systemName: "shield.checkered")
-                    .font(.system(size: 14))
-                    .foregroundStyle(Self.brandGold)
+                Image("BrandMark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 14, height: 14)
             }
         }
     }
@@ -75,9 +77,10 @@ struct JTFNewsLiveActivity: Widget {
             .padding(.vertical, 12)
         } else {
             HStack(spacing: 12) {
-                Image(systemName: "shield.checkered")
-                    .font(.system(size: 24))
-                    .foregroundStyle(Self.brandGold)
+                Image("BrandMark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 28, height: 28)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("\(context.state.storyCount) new verified fact\(context.state.storyCount == 1 ? "" : "s")")

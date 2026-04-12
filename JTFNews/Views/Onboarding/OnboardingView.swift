@@ -4,52 +4,73 @@ struct OnboardingView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @State private var currentPage = 0
 
+    private var pages: [(systemImage: String, title: String, description: String)] {
+        [
+            ("checkmark.shield", "Facts Without Opinion",
+             "No tracking. No ads. No accounts. Just verified facts from independent sources."),
+            ("newspaper", "Verified Stories",
+             "Every fact checked against two independent sources with different owners. Source ratings and ownership on every card."),
+            ("play.circle", "Daily Digest",
+             "Watch or listen to the daily news digest. Video and audio, your choice."),
+            ("archivebox", "Full Archive",
+             "Browse by date or search across every fact ever published."),
+            ("eye", "Watch What Matters",
+             "Track stories by keyword. Get notified when matching facts are published.")
+        ]
+    }
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
 
+            #if os(iOS)
             TabView(selection: $currentPage) {
+                ForEach(Array(pages.enumerated()), id: \.offset) { index, page in
+                    OnboardingPage(
+                        systemImage: page.systemImage,
+                        title: page.title,
+                        description: page.description,
+                        showButton: index == pages.count - 1
+                    ) {
+                        hasSeenOnboarding = true
+                    }
+                    .tag(index)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .indexViewStyle(.page(backgroundDisplayMode: .always))
+            #else
+            VStack(spacing: 0) {
+                let page = pages[currentPage]
                 OnboardingPage(
-                    systemImage: "checkmark.shield",
-                    title: "Facts Without Opinion",
-                    description: "No tracking. No ads. No accounts. Just verified facts from independent sources."
-                )
-                .tag(0)
-
-                OnboardingPage(
-                    systemImage: "newspaper",
-                    title: "Verified Stories",
-                    description: "Every fact checked against two independent sources with different owners. Source ratings and ownership on every card."
-                )
-                .tag(1)
-
-                OnboardingPage(
-                    systemImage: "play.circle",
-                    title: "Daily Digest",
-                    description: "Watch or listen to the daily news digest. Video and audio, your choice."
-                )
-                .tag(2)
-
-                OnboardingPage(
-                    systemImage: "archivebox",
-                    title: "Full Archive",
-                    description: "Browse by date or search across every fact ever published."
-                )
-                .tag(3)
-
-                OnboardingPage(
-                    systemImage: "eye",
-                    title: "Watch What Matters",
-                    description: "Track stories by keyword. Get notified when matching facts are published.",
-                    showButton: true
+                    systemImage: page.systemImage,
+                    title: page.title,
+                    description: page.description,
+                    showButton: currentPage == pages.count - 1
                 ) {
                     hasSeenOnboarding = true
                 }
-                .tag(4)
+
+                HStack(spacing: 16) {
+                    Button("Back") { currentPage -= 1 }
+                        .disabled(currentPage == 0)
+
+                    ForEach(0..<pages.count, id: \.self) { index in
+                        Circle()
+                            .fill(index == currentPage ? Color(red: 0.83, green: 0.69, blue: 0.22) : .gray.opacity(0.4))
+                            .frame(width: 8, height: 8)
+                    }
+
+                    if currentPage < pages.count - 1 {
+                        Button("Next") { currentPage += 1 }
+                    } else {
+                        Button("Next") { }
+                            .hidden()
+                    }
+                }
+                .padding(.bottom, 24)
             }
-            #if os(iOS)
-            .tabViewStyle(.page(indexDisplayMode: .always))
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
+            .animation(.easeInOut(duration: 0.3), value: currentPage)
             #endif
         }
         .preferredColorScheme(.dark)

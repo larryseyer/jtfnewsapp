@@ -170,7 +170,7 @@ struct StoryDetailView: View {
 
     private var relatedSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Related Stories")
+            Text("More from Today")
                 .font(.headline)
                 .foregroundStyle(.secondary)
 

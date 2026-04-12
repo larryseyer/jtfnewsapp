@@ -28,6 +28,9 @@ struct JTFNewsApp: App {
     }()
 
     init() {
+        UserDefaults.standard.register(defaults: [
+            "useCustomNotificationSound": true
+        ])
         #if os(iOS)
         BackgroundRefreshManager.register()
         #endif

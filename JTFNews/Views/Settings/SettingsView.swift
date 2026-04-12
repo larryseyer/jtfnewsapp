@@ -9,9 +9,14 @@ struct SettingsView: View {
     @AppStorage("notifyBreakingFacts") private var notifyBreakingFacts = false
     @AppStorage("notifyWatchedTerms") private var notifyWatchedTerms = false
     @AppStorage("notifyLiveActivities") private var notifyLiveActivities = false
+    @AppStorage("useCustomNotificationSound") private var useCustomNotificationSound = true
     @AppStorage("preferVideoMode") private var preferVideoMode = true
     @AppStorage("archiveDownloadMode") private var archiveDownloadMode = "wifi"
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+
+    @State private var showWatchedTerms = false
+    @State private var showPrivacyPolicy = false
+    @State private var selectedSource: Source?
 
     var body: some View {
         NavigationStack {
@@ -28,6 +33,41 @@ struct SettingsView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") { dismiss() }
                 }
+            }
+            #endif
+            #if os(macOS)
+            .sheet(isPresented: $showWatchedTerms) {
+                NavigationStack {
+                    WatchedTermsView()
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { showWatchedTerms = false }
+                            }
+                        }
+                }
+                .frame(width: 400, height: 350)
+            }
+            .sheet(isPresented: $showPrivacyPolicy) {
+                NavigationStack {
+                    PrivacyPolicyView()
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { showPrivacyPolicy = false }
+                            }
+                        }
+                }
+                .frame(width: 500, height: 500)
+            }
+            .sheet(item: $selectedSource) { source in
+                NavigationStack {
+                    SourceDetailView(source: source)
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { selectedSource = nil }
+                            }
+                        }
+                }
+                .frame(width: 450, height: 400)
             }
             #endif
         }
@@ -53,10 +93,16 @@ struct SettingsView: View {
                 }
                 .accessibilityHint("Notify when new stories match your watched terms")
             if notifyWatchedTerms {
+                #if os(macOS)
+                Button("Manage Watched Terms") { showWatchedTerms = true }
+                #else
                 NavigationLink("Manage Watched Terms") {
                     WatchedTermsView()
                 }
+                #endif
             }
+            Toggle("Custom Sound", isOn: $useCustomNotificationSound)
+                .accessibilityHint("Use the JTF News chime instead of the default notification sound")
             #if os(iOS)
             Toggle("Live Activities", isOn: $notifyLiveActivities)
                 .onChange(of: notifyLiveActivities) { _, newValue in
@@ -101,6 +147,22 @@ struct SettingsView: View {
     private var sourceDetailsSection: some View {
         Section("Source Details (\(sources.count) sources)") {
             ForEach(sources.sorted(by: { $0.name < $1.name }), id: \.name) { source in
+                #if os(macOS)
+                Button {
+                    selectedSource = source
+                } label: {
+                    HStack {
+                        Text(source.name)
+                            .font(.body)
+                        Spacer()
+                        Text(String(format: "%.1f", source.accuracy))
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.green.opacity(0.8))
+                    }
+                }
+                .buttonStyle(.plain)
+                #else
                 NavigationLink {
                     SourceDetailView(source: source)
                 } label: {
@@ -114,6 +176,7 @@ struct SettingsView: View {
                             .foregroundStyle(.green.opacity(0.8))
                     }
                 }
+                #endif
             }
         }
     }
@@ -131,9 +194,13 @@ struct SettingsView: View {
             Link(destination: URL(string: "https://jtfnews.org/support.html")!) {
                 Label("Support JTF News", systemImage: "heart")
             }
+            #if os(macOS)
+            Button("Privacy Policy") { showPrivacyPolicy = true }
+            #else
             NavigationLink("Privacy Policy") {
                 PrivacyPolicyView()
             }
+            #endif
             Button("Show Welcome") {
                 hasSeenOnboarding = false
                 dismiss()

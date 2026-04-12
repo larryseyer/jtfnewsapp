@@ -1,27 +1,33 @@
 import Foundation
 import SwiftData
 
-actor FeedService {
-    private let modelContainer: ModelContainer
+/// Same two-phase pattern as `DataService`: pure-I/O fetch returns DTOs;
+/// MainActor persist writes them through the caller's `ModelContext` so
+/// `@Query` observers update without cross-context merge flakiness.
+struct FeedService: Sendable {
+    let modelContainer: ModelContainer
 
     init(modelContainer: ModelContainer) {
         self.modelContainer = modelContainer
     }
 
-    func fetchSources(baseURL: String = "https://jtfnews.org") async throws {
+    /// Returns `nil` if the cooldown blocks the fetch.
+    func fetchSourceDTOs(baseURL: String = "https://jtfnews.org") async throws -> [SourceDTO]? {
         guard FetchCooldown.shouldFetch(
             key: FetchCooldownKey.sources,
             interval: FetchCooldownInterval.nearStatic
-        ) else { return }
+        ) else { return nil }
 
         let url = URL(string: "\(baseURL)/feed.xml")!
         let (data, _) = try await URLSession.shared.data(from: url)
 
         let parser = FeedXMLParser(data: data)
-        let sourceDTOs = parser.parse()
+        return parser.parse()
+    }
 
-        let context = ModelContext(modelContainer)
-        for dto in sourceDTOs {
+    @MainActor
+    static func persistSources(_ dtos: [SourceDTO], in context: ModelContext) throws {
+        for dto in dtos {
             let name = dto.name
             let descriptor = FetchDescriptor<Source>(
                 predicate: #Predicate { $0.name == name }

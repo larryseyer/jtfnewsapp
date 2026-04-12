@@ -55,6 +55,13 @@ struct StoriesView: View {
                 hasLoadedOnce = true
             }
         }
+        // Onboarding dismissal fires this on first launch. `fullScreenCover`
+        // can delay the underlying view's `.task` until the cover disappears,
+        // so this guarantees the fresh-install fetch actually runs with the
+        // view visible.
+        .onReceive(NotificationCenter.default.publisher(for: .forceStoriesRefresh)) { _ in
+            Task { await refresh(force: true) }
+        }
     }
 
     // MARK: - Story List
@@ -303,12 +310,16 @@ struct StoriesView: View {
 
     // MARK: - Refresh
 
-    /// Runs all three refresh fetches **in parallel and independently**.
+    /// Runs all three fetches **in parallel and independently**, then
+    /// persists the results through `self.modelContext` on MainActor so
+    /// `@Query` picks up the new rows immediately. Writing through a
+    /// separate `ModelContext` (the previous shape) leaves the UI's query
+    /// with a stale snapshot until the next re-evaluation — that's the
+    /// bug that made fresh installs show a single story until the user
+    /// pulled down to refresh.
     ///
-    /// The previous sequential `do/try/catch` chained all three fetches so a
-    /// single throw aborted the rest — meaning one broken endpoint would
-    /// silently hide the results of the other two. Stories, corrections, and
-    /// sources are independent resources; one failing must never hide another.
+    /// One endpoint failing must never hide another: per-task `do/catch`
+    /// keeps stories, corrections, and sources independent.
     private func refresh(force: Bool = false) async {
         isLoading = true
         defer { isLoading = false }
@@ -324,27 +335,41 @@ struct StoriesView: View {
         let dataService = DataService(modelContainer: modelContext.container)
         let feedService = FeedService(modelContainer: modelContext.container)
 
-        var fetchedDTOs: [StoryDTO] = []
+        // Phase 1: pure network I/O off the MainActor. Three child tasks run
+        // concurrently and return DTOs (or nil on error / cooldown skip).
+        async let storiesResult: [StoryDTO]? = {
+            do { return try await dataService.fetchStoryDTOs() }
+            catch { print("[StoriesView] fetchStoryDTOs failed: \(String(reflecting: error))"); return nil }
+        }()
+        async let correctionsResult: [CorrectionDTO]? = {
+            do { return try await dataService.fetchCorrectionDTOs() }
+            catch { print("[StoriesView] fetchCorrectionDTOs failed: \(String(reflecting: error))"); return nil }
+        }()
+        async let sourcesResult: [SourceDTO]? = {
+            do { return try await feedService.fetchSourceDTOs() }
+            catch { print("[StoriesView] fetchSourceDTOs failed: \(String(reflecting: error))"); return nil }
+        }()
 
-        await withTaskGroup(of: [StoryDTO]?.self) { group in
-            group.addTask {
-                do { return try await dataService.fetchStories() }
-                catch { print("[StoriesView] fetchStories failed: \(String(reflecting: error))"); return nil }
-            }
-            group.addTask {
-                do { try await dataService.fetchCorrections() }
-                catch { print("[StoriesView] fetchCorrections failed: \(String(reflecting: error))") }
-                return nil
-            }
-            group.addTask {
-                do { try await feedService.fetchSources() }
-                catch { print("[StoriesView] fetchSources failed: \(String(reflecting: error))") }
-                return nil
-            }
-            for await result in group {
-                if let dtos = result { fetchedDTOs = dtos }
-            }
+        let storyDTOs = await storiesResult
+        let correctionDTOs = await correctionsResult
+        let sourceDTOs = await sourcesResult
+
+        // Phase 2: persist through the SwiftUI-injected context so @Query
+        // observes the writes immediately.
+        if let storyDTOs {
+            do { try DataService.persistStories(storyDTOs, in: modelContext) }
+            catch { print("[StoriesView] persistStories failed: \(String(reflecting: error))") }
         }
+        if let correctionDTOs {
+            do { try DataService.persistCorrections(correctionDTOs, in: modelContext) }
+            catch { print("[StoriesView] persistCorrections failed: \(String(reflecting: error))") }
+        }
+        if let sourceDTOs {
+            do { try FeedService.persistSources(sourceDTOs, in: modelContext) }
+            catch { print("[StoriesView] persistSources failed: \(String(reflecting: error))") }
+        }
+
+        let fetchedDTOs = storyDTOs ?? []
 
         // Foreground watch term check
         if UserDefaults.standard.bool(forKey: "notifyWatchedTerms"), !fetchedDTOs.isEmpty {

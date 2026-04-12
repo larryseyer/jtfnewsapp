@@ -84,6 +84,15 @@ struct ContentView: View {
         )) {
             OnboardingView()
         }
+        .onChange(of: hasSeenOnboarding) { _, newValue in
+            // Guarantee a fresh stories fetch once onboarding dismisses —
+            // the underlying StoriesView's `.task` can be deferred by
+            // `fullScreenCover` on first launch, and that's why a brand-new
+            // install previously showed a single story until manual refresh.
+            if newValue {
+                NotificationCenter.default.post(name: .forceStoriesRefresh, object: nil)
+            }
+        }
     }
     #endif
 
@@ -149,6 +158,11 @@ struct ContentView: View {
         )) {
             OnboardingView()
                 .frame(width: 500, height: 600)
+        }
+        .onChange(of: hasSeenOnboarding) { _, newValue in
+            if newValue {
+                NotificationCenter.default.post(name: .forceStoriesRefresh, object: nil)
+            }
         }
     }
     #endif

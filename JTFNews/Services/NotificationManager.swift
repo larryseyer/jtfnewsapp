@@ -6,6 +6,10 @@ extension Notification.Name {
     /// Posted when onboarding is dismissed so StoriesView can guarantee a
     /// fresh fetch even if its `.task` was deferred behind `fullScreenCover`.
     static let forceStoriesRefresh = Notification.Name("forceStoriesRefresh")
+    /// Posted by the macOS ⌘, menu command (and any future trigger) to open
+    /// the in-app Settings sheet. The legacy SwiftUI `Settings` scene was
+    /// removed so macOS uses the same modal Settings flow as iOS.
+    static let openSettingsRequested = Notification.Name("openSettingsRequested")
 }
 
 /// Presents notifications as banners even when the app is in the foreground.

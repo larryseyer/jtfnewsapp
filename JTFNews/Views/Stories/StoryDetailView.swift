@@ -80,17 +80,17 @@ struct StoryDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
             if correction != nil {
                 Label("Correction", systemImage: "exclamationmark.triangle")
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.red)
             }
 
             Text(story.fact)
-                .font(.body)
+                .font(.jtfBody)
                 .fixedSize(horizontal: false, vertical: true)
 
             Text(relativeTime)
-                .font(.caption)
+                .font(.jtfCaption)
                 .foregroundStyle(.tertiary)
         }
     }
@@ -122,7 +122,7 @@ struct StoryDetailView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(correction.originalFact)
-                        .font(.body)
+                        .font(.jtfBody)
                         .strikethrough()
                         .foregroundStyle(.secondary)
 
@@ -131,11 +131,11 @@ struct StoryDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
 
                     Text(correction.correctedFact)
-                        .font(.body)
+                        .font(.jtfBody)
 
                     if !correction.reason.isEmpty {
                         Text(correction.reason)
-                            .font(.caption)
+                            .font(.jtfCaption)
                             .foregroundStyle(.secondary)
                             .italic()
                     }
@@ -143,16 +143,16 @@ struct StoryDetailView: View {
                     if !correction.correctingSources.isEmpty {
                         HStack(spacing: 4) {
                             Text("Corrected by:")
-                                .font(.caption2)
+                                .font(.jtfCaption2)
                                 .foregroundStyle(.tertiary)
                             Text(correction.correctingSources.joined(separator: ", "))
-                                .font(.caption2)
+                                .font(.jtfCaption2)
                                 .foregroundStyle(.secondary)
                         }
                     }
 
                     Text(formattedDate(correction.correctedAt))
-                        .font(.caption2)
+                        .font(.jtfCaption2)
                         .foregroundStyle(.tertiary)
                 }
                 .padding(12)
@@ -178,7 +178,7 @@ struct StoryDetailView: View {
                 NavigationLink(value: related) {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(related.fact)
-                            .font(.subheadline)
+                            .font(.jtfSubheadline)
                             .lineLimit(2)
                             .foregroundStyle(.primary)
 
@@ -186,7 +186,7 @@ struct StoryDetailView: View {
                         FlowLayout(spacing: 4) {
                             ForEach(badges, id: \.name) { badge in
                                 Text(badge.name)
-                                    .font(.caption2)
+                                    .font(.jtfCaption2)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
                                     .background(Color(white: 0.17).opacity(0.6))
@@ -299,7 +299,7 @@ struct WatchTermsPickerView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Tap a term to add it to your watched list. You'll be notified when matching stories appear.")
-                .font(.caption)
+                .font(.jtfCaption)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 16)
 
@@ -308,7 +308,7 @@ struct WatchTermsPickerView: View {
                     "Watched terms full (\(WatchedTermsStorage.maxTerms)/\(WatchedTermsStorage.maxTerms)). Manage in Settings.",
                     systemImage: "exclamationmark.circle"
                 )
-                .font(.caption)
+                .font(.jtfCaption)
                 .foregroundStyle(.orange)
                 .padding(.horizontal, 16)
             }
@@ -320,7 +320,7 @@ struct WatchTermsPickerView: View {
                         addTerm(term)
                     } label: {
                         Text(term)
-                            .font(.subheadline)
+                            .font(.jtfSubheadline)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
                             .background(isWatched ? Color.green.opacity(0.2) : Color(white: 0.17).opacity(0.6))

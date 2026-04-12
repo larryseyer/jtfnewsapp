@@ -72,10 +72,10 @@ struct StoriesView: View {
                 HStack(spacing: 6) {
                     if !connectivity.isConnected {
                         Image(systemName: "wifi.slash")
-                            .font(.caption2)
+                            .font(.jtfCaption2)
                     }
                     Text("Last updated \(lastUpdated)")
-                        .font(.caption)
+                        .font(.jtfCaption)
                 }
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)
@@ -129,7 +129,7 @@ struct StoriesView: View {
         .overlay(alignment: .top) {
             if showOfflineToast {
                 Text("No internet connection")
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(.ultraThinMaterial)
@@ -148,9 +148,9 @@ struct StoriesView: View {
             if watchTermMatchCount > 0 {
                 HStack(spacing: 6) {
                     Image(systemName: "eye.fill")
-                        .font(.caption2)
+                        .font(.jtfCaption2)
                     Text("\(watchTermMatchCount) stor\(watchTermMatchCount == 1 ? "y matches" : "ies match") your watched terms")
-                        .font(.caption)
+                        .font(.jtfCaption)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -178,7 +178,7 @@ struct StoriesView: View {
             ProgressView()
                 .controlSize(.large)
             Text("Loading stories...")
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -196,7 +196,7 @@ struct StoriesView: View {
                     .font(.title3)
                     .fontWeight(.medium)
                 Text("Pull down to refresh")
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, minHeight: 300)
@@ -212,7 +212,7 @@ struct StoriesView: View {
         .overlay(alignment: .top) {
             if showOfflineToast {
                 Text("No internet connection")
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(.ultraThinMaterial)
@@ -241,7 +241,7 @@ struct StoriesView: View {
                     .font(.title3)
                     .fontWeight(.medium)
                 Text("Pull down to refresh when connected")
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, minHeight: 300)
@@ -257,7 +257,7 @@ struct StoriesView: View {
         .overlay(alignment: .top) {
             if showOfflineToast {
                 Text("No internet connection")
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(.ultraThinMaterial)

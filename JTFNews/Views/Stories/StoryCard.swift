@@ -18,12 +18,12 @@ struct StoryCard: View {
 
             if let ownershipText = ownershipLine {
                 Text(ownershipText)
-                    .font(.caption2)
+                    .font(.jtfCaption2)
                     .foregroundStyle(.secondary)
             }
 
             Text(relativeTime)
-                .font(.caption2)
+                .font(.jtfCaption2)
                 .foregroundStyle(.tertiary)
         }
         .padding(16)
@@ -60,7 +60,7 @@ struct StoryCard: View {
 
     private var factView: some View {
         Text(story.fact)
-            .font(.body)
+            .font(.jtfBody)
             .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
     }
@@ -70,12 +70,12 @@ struct StoryCard: View {
     private func correctionView(_ correction: Correction) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Label("Correction", systemImage: "exclamationmark.triangle")
-                .font(.caption)
+                .font(.jtfCaption)
                 .fontWeight(.semibold)
                 .foregroundStyle(.red)
 
             Text(correction.originalFact)
-                .font(.body)
+                .font(.jtfBody)
                 .strikethrough()
                 .foregroundStyle(.secondary)
 
@@ -84,12 +84,12 @@ struct StoryCard: View {
                 .frame(maxWidth: .infinity, alignment: .center)
 
             Text(correction.correctedFact)
-                .font(.body)
+                .font(.jtfBody)
                 .foregroundStyle(.primary)
 
             if !correction.reason.isEmpty {
                 Text(correction.reason)
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.secondary)
                     .italic()
             }
@@ -104,10 +104,10 @@ struct StoryCard: View {
             ForEach(parsed, id: \.name) { badge in
                 HStack(spacing: 4) {
                     Text(badge.name)
-                        .font(.caption)
+                        .font(.jtfCaption)
                         .fontWeight(.medium)
                     Text(String(format: "%.1f", badge.accuracy))
-                        .font(.caption)
+                        .font(.jtfCaption)
                         .fontWeight(.bold)
                         .foregroundStyle(ratingColor(badge.accuracy))
                 }

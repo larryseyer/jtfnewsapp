@@ -32,11 +32,11 @@ struct SourceCard: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 8) {
                 Text(badge.name)
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .fontWeight(.semibold)
 
                 Text(String(format: "%.1f", badge.accuracy))
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .fontWeight(.bold)
                     .foregroundStyle(ratingColor(badge.accuracy))
                     .padding(.horizontal, 6)
@@ -47,7 +47,7 @@ struct SourceCard: View {
 
             if let source, !ownershipText(source).isEmpty {
                 Text(ownershipText(source))
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.secondary)
             }
         }
@@ -67,20 +67,20 @@ struct SourceCard: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Ownership")
-                        .font(.caption)
+                        .font(.jtfCaption)
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
                     Text(ownershipText(source))
-                        .font(.caption)
+                        .font(.jtfCaption)
                     Text(source.controlType
                         .replacingOccurrences(of: "_", with: " ")
                         .capitalized)
-                        .font(.caption2)
+                        .font(.jtfCaption2)
                         .foregroundStyle(.secondary)
                 }
             } else {
                 Text("Source details loading…")
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.tertiary)
             }
         }
@@ -92,13 +92,13 @@ struct SourceCard: View {
     private func ratingRow(_ label: String, value: Double) -> some View {
         HStack {
             Text(label)
-                .font(.caption)
+                .font(.jtfCaption)
                 .frame(width: 72, alignment: .leading)
             ProgressView(value: value, total: 10)
                 .frame(width: 80)
                 .tint(ratingColor(value))
             Text(String(format: "%.1f", value))
-                .font(.caption)
+                .font(.jtfCaption)
                 .fontWeight(.bold)
                 .foregroundStyle(ratingColor(value))
                 .frame(width: 32, alignment: .trailing)

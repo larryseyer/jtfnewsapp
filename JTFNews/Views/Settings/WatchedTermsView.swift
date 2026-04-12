@@ -41,18 +41,25 @@ struct WatchedTermsView: View {
     var body: some View {
         Form {
             Section {
-                ForEach(terms, id: \.self) { term in
-                    Text(term)
+                if terms.isEmpty {
+                    Text("No watched terms yet. Add one below to get notified when matching facts are published.")
+                        .font(.jtfCallout)
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(terms, id: \.self) { term in
+                        termRow(term)
+                    }
+                    .onDelete(perform: deleteTerm)
                 }
-                .onDelete(perform: deleteTerm)
             } header: {
                 Text("Terms (\(terms.count)/\(WatchedTermsStorage.maxTerms))")
             } footer: {
                 Text("Case-insensitive match against story text. All matching is done on-device.")
+                    .font(.jtfCaption)
             }
 
             if terms.count < WatchedTermsStorage.maxTerms {
-                Section {
+                Section("Add Term") {
                     HStack {
                         TextField("New term", text: $newTerm)
                             .autocorrectionDisabled()
@@ -63,6 +70,7 @@ struct WatchedTermsView: View {
                 }
             }
         }
+        .formStyle(.grouped)
         .navigationTitle("Watched Terms")
         #if os(iOS)
         .toolbar {
@@ -70,6 +78,31 @@ struct WatchedTermsView: View {
                 EditButton()
             }
         }
+        #endif
+    }
+
+    @ViewBuilder
+    private func termRow(_ term: String) -> some View {
+        #if os(macOS)
+        // macOS has no EditButton / swipe-to-delete affordance, so give
+        // each row an inline trash action so users can actually remove
+        // terms without hunting for a gesture.
+        HStack {
+            Text(term)
+                .font(.jtfBody)
+            Spacer()
+            Button {
+                delete(term)
+            } label: {
+                Image(systemName: "trash")
+                    .foregroundStyle(.red)
+            }
+            .buttonStyle(.borderless)
+            .help("Remove this term")
+        }
+        #else
+        Text(term)
+            .font(.jtfBody)
         #endif
     }
 
@@ -84,6 +117,11 @@ struct WatchedTermsView: View {
 
     private func deleteTerm(at offsets: IndexSet) {
         terms.remove(atOffsets: offsets)
+        save()
+    }
+
+    private func delete(_ term: String) {
+        terms.removeAll { $0 == term }
         save()
     }
 

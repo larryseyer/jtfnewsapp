@@ -24,6 +24,7 @@ struct OnboardingView: View {
             Color.black.ignoresSafeArea()
 
             #if os(iOS)
+            // iOS: native paged swipe.
             TabView(selection: $currentPage) {
                 ForEach(Array(pages.enumerated()), id: \.offset) { index, page in
                     OnboardingPage(
@@ -40,6 +41,9 @@ struct OnboardingView: View {
             .tabViewStyle(.page(indexDisplayMode: .always))
             .indexViewStyle(.page(backgroundDisplayMode: .always))
             #else
+            // macOS: no page-style TabView exists in plain SwiftUI, so
+            // render one page at a time with a dot indicator and a
+            // discreet chevron nav that matches the iOS visual language.
             VStack(spacing: 0) {
                 let page = pages[currentPage]
                 OnboardingPage(
@@ -50,27 +54,45 @@ struct OnboardingView: View {
                 ) {
                     hasSeenOnboarding = true
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .id(currentPage)
+                .transition(.opacity)
 
                 HStack(spacing: 16) {
-                    Button("Back") { currentPage -= 1 }
-                        .disabled(currentPage == 0)
-
-                    ForEach(0..<pages.count, id: \.self) { index in
-                        Circle()
-                            .fill(index == currentPage ? Color(red: 0.83, green: 0.69, blue: 0.22) : .gray.opacity(0.4))
-                            .frame(width: 8, height: 8)
+                    Button {
+                        withAnimation { currentPage -= 1 }
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.title3)
                     }
+                    .buttonStyle(.plain)
+                    .disabled(currentPage == 0)
+                    .opacity(currentPage == 0 ? 0.3 : 0.8)
 
-                    if currentPage < pages.count - 1 {
-                        Button("Next") { currentPage += 1 }
-                    } else {
-                        Button("Next") { }
-                            .hidden()
+                    HStack(spacing: 10) {
+                        ForEach(0..<pages.count, id: \.self) { index in
+                            Circle()
+                                .fill(index == currentPage
+                                      ? Color(red: 0.83, green: 0.69, blue: 0.22)
+                                      : .gray.opacity(0.4))
+                                .frame(width: 8, height: 8)
+                        }
                     }
+                    .padding(.horizontal, 8)
+
+                    Button {
+                        withAnimation { currentPage += 1 }
+                    } label: {
+                        Image(systemName: "chevron.right")
+                            .font(.title3)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(currentPage == pages.count - 1)
+                    .opacity(currentPage == pages.count - 1 ? 0.3 : 0.8)
                 }
-                .padding(.bottom, 24)
+                .padding(.bottom, 28)
             }
-            .animation(.easeInOut(duration: 0.3), value: currentPage)
+            .animation(.easeInOut(duration: 0.25), value: currentPage)
             #endif
         }
         .preferredColorScheme(.dark)

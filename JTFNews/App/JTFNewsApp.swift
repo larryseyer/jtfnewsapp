@@ -44,7 +44,7 @@ struct JTFNewsApp: App {
             ContentView()
                 .preferredColorScheme(.dark)
                 #if os(macOS)
-                .frame(minWidth: 800, minHeight: 600)
+                .frame(minWidth: 420, minHeight: 640)
                 #endif
                 .onAppear {
                     #if os(iOS)
@@ -66,14 +66,18 @@ struct JTFNewsApp: App {
         }
         .modelContainer(sharedModelContainer)
         #if os(macOS)
-        .defaultSize(width: 1000, height: 700)
+        .defaultSize(width: 500, height: 900)
         .windowResizability(.contentMinSize)
-        #endif
-
-        #if os(macOS)
-        Settings {
-            SettingsView()
-                .modelContainer(sharedModelContainer)
+        .commands {
+            CommandGroup(replacing: .appSettings) {
+                Button("Settings…") {
+                    NotificationCenter.default.post(
+                        name: .openSettingsRequested,
+                        object: nil
+                    )
+                }
+                .keyboardShortcut(",", modifiers: .command)
+            }
         }
         #endif
     }

@@ -34,10 +34,19 @@ struct SettingsView: View {
                 sourceDetailsSection
                 aboutSection
             }
+            .formStyle(.grouped)
             .navigationTitle("Settings")
             #if os(iOS)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+            #else
+            // macOS: the Settings sheet has no navigation bar, so give
+            // it a toolbar Done button for consistent dismissal.
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
                     Button("Done") { dismiss() }
                 }
             }

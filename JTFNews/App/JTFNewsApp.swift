@@ -3,6 +3,8 @@ import SwiftData
 
 @main
 struct JTFNewsApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Story.self,
@@ -49,6 +51,18 @@ struct JTFNewsApp: App {
                     BackgroundRefreshManager.scheduleRefresh()
                     #endif
                 }
+                #if os(iOS)
+                .onChange(of: scenePhase) { _, newPhase in
+                    // Foreground catch-up: BGAppRefreshTask is opportunistic
+                    // on iOS and may never fire on older devices. Running the
+                    // notification checks when the app becomes active is the
+                    // only way to guarantee the user sees new facts/
+                    // corrections they missed while the app was closed.
+                    if newPhase == .active {
+                        BackgroundRefreshManager.performForegroundCheck()
+                    }
+                }
+                #endif
         }
         .modelContainer(sharedModelContainer)
         #if os(macOS)

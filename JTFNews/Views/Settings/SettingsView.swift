@@ -1,5 +1,9 @@
 import SwiftUI
 import SwiftData
+@preconcurrency import UserNotifications
+#if os(iOS)
+import UIKit
+#endif
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
@@ -22,6 +26,9 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 notificationsSection
+                if anyNotifyToggleOn {
+                    NotificationsDiagnosticsSection()
+                }
                 digestSection
                 archiveSection
                 sourceDetailsSection
@@ -119,6 +126,10 @@ struct SettingsView: View {
         }
     }
 
+    private var anyNotifyToggleOn: Bool {
+        notifyCorrections || notifyBreakingFacts || notifyWatchedTerms || notifyLiveActivities
+    }
+
     // MARK: - Digest
 
     private var digestSection: some View {
@@ -213,5 +224,173 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
         }
+    }
+}
+
+// MARK: - Notifications Diagnostics
+
+/// Live introspection of the notification subsystem. Surfaces iOS-granted
+/// state (authorization, sound, badge, BG refresh) alongside the app's own
+/// scheduling timestamps, and provides a one-tap test notification so the
+/// user can verify the audio path independent of jtfnews.org content.
+private struct NotificationsDiagnosticsSection: View {
+    @State private var authStatus: UNAuthorizationStatus = .notDetermined
+    @State private var soundSetting: UNNotificationSetting = .notSupported
+    @State private var badgeSetting: UNNotificationSetting = .notSupported
+    @State private var alertSetting: UNNotificationSetting = .notSupported
+    @State private var lastTestResult: String?
+
+    #if os(iOS)
+    @State private var backgroundRefreshStatus: UIBackgroundRefreshStatus = .available
+    #endif
+
+    var body: some View {
+        Section("Notification Diagnostics") {
+            diagnosticRow("System Permission", value: authStatusText, tint: authStatusTint)
+            diagnosticRow("Sound", value: settingText(soundSetting), tint: settingTint(soundSetting))
+            diagnosticRow("Banner / Alert", value: settingText(alertSetting), tint: settingTint(alertSetting))
+            diagnosticRow("Badge", value: settingText(badgeSetting), tint: settingTint(badgeSetting))
+
+            #if os(iOS)
+            diagnosticRow("Background Refresh", value: backgroundRefreshText, tint: backgroundRefreshTint)
+            #endif
+
+            diagnosticRow("Last Breaking check", value: relativeTime(forKey: "lastBreakingCheck"))
+            diagnosticRow("Last Foreground check", value: relativeTime(forKey: "lastForegroundCheck"))
+            diagnosticRow("Corrections baseline", value: countText(forKey: "lastCorrectionCount"))
+
+            if authStatus == .denied {
+                #if os(iOS)
+                Button("Open iOS Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                #endif
+            }
+
+            Button {
+                sendTestNotification()
+            } label: {
+                Label("Send Test Notification", systemImage: "bell.badge")
+            }
+            .accessibilityHint("Fires a test notification so you can verify sound and banner delivery")
+
+            if let lastTestResult {
+                Text(lastTestResult)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .task { await refreshState() }
+    }
+
+    private func diagnosticRow(_ label: String, value: String, tint: Color? = nil) -> some View {
+        HStack {
+            Text(label)
+            Spacer()
+            Text(value)
+                .font(.caption)
+                .foregroundStyle(tint ?? .secondary)
+        }
+    }
+
+    private func refreshState() async {
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
+        authStatus = settings.authorizationStatus
+        soundSetting = settings.soundSetting
+        badgeSetting = settings.badgeSetting
+        alertSetting = settings.alertSetting
+        #if os(iOS)
+        backgroundRefreshStatus = await MainActor.run { UIApplication.shared.backgroundRefreshStatus }
+        #endif
+    }
+
+    private func sendTestNotification() {
+        Task {
+            await NotificationManager.shared.requestPermissionIfNeeded()
+            await refreshState()
+            guard authStatus == .authorized || authStatus == .provisional else {
+                lastTestResult = "Permission not granted — tap 'Open iOS Settings' above."
+                return
+            }
+            await NotificationManager.shared.sendNotification(
+                title: "JTF News — Test",
+                body: "If you hear the chime, notifications are working.",
+                identifier: "test-\(UUID().uuidString)"
+            )
+            lastTestResult = "Test notification sent. Lower ringer volume or Focus mode can silence the chime."
+        }
+    }
+
+    // MARK: - Display helpers
+
+    private var authStatusText: String {
+        switch authStatus {
+        case .notDetermined: return "Not yet asked"
+        case .denied: return "Denied"
+        case .authorized: return "Authorized"
+        case .provisional: return "Provisional"
+        case .ephemeral: return "Ephemeral"
+        @unknown default: return "Unknown"
+        }
+    }
+
+    private var authStatusTint: Color {
+        switch authStatus {
+        case .authorized, .provisional: return .green
+        case .denied: return .red
+        default: return .secondary
+        }
+    }
+
+    private func settingText(_ setting: UNNotificationSetting) -> String {
+        switch setting {
+        case .enabled: return "Enabled"
+        case .disabled: return "Disabled"
+        case .notSupported: return "Not supported"
+        @unknown default: return "Unknown"
+        }
+    }
+
+    private func settingTint(_ setting: UNNotificationSetting) -> Color? {
+        switch setting {
+        case .enabled: return .green
+        case .disabled: return .red
+        default: return nil
+        }
+    }
+
+    #if os(iOS)
+    private var backgroundRefreshText: String {
+        switch backgroundRefreshStatus {
+        case .available: return "Available"
+        case .denied: return "Denied"
+        case .restricted: return "Restricted"
+        @unknown default: return "Unknown"
+        }
+    }
+
+    private var backgroundRefreshTint: Color? {
+        switch backgroundRefreshStatus {
+        case .available: return .green
+        case .denied, .restricted: return .red
+        @unknown default: return nil
+        }
+    }
+    #endif
+
+    private func relativeTime(forKey key: String) -> String {
+        let stamp = UserDefaults.standard.double(forKey: key)
+        guard stamp > 0 else { return "Never" }
+        let date = Date(timeIntervalSince1970: stamp)
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter.localizedString(for: date, relativeTo: Date())
+    }
+
+    private func countText(forKey key: String) -> String {
+        guard UserDefaults.standard.object(forKey: key) != nil else { return "Not seeded" }
+        return "\(UserDefaults.standard.integer(forKey: key))"
     }
 }

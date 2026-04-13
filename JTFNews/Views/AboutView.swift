@@ -4,7 +4,6 @@ import AppKit
 
 struct AboutView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showPrivacy = false
 
     private let versionString: String = {
         let bundle = Bundle.main
@@ -138,7 +137,7 @@ struct AboutView: View {
         HStack(spacing: 8) {
             aboutLink("Website", url: "https://jtfnews.org")
             aboutLink("How It Works", url: "https://jtfnews.org/whitepaper.html")
-            privacyPill
+            aboutLink("Privacy", url: "https://jtfnews.org/privacy.html")
             aboutLink("Support", url: "https://jtfnews.org/support.html")
         }
     }
@@ -154,32 +153,6 @@ struct AboutView: View {
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)
-    }
-
-    private var privacyPill: some View {
-        Button {
-            showPrivacy = true
-        } label: {
-            Text("Privacy")
-                .font(.caption)
-                .fontWeight(.medium)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(Color(white: 0.18))
-                .clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
-        .sheet(isPresented: $showPrivacy) {
-            NavigationStack {
-                PrivacyPolicyView()
-                    .toolbar {
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Done") { showPrivacy = false }
-                        }
-                    }
-            }
-            .frame(minWidth: 520, minHeight: 600)
-        }
     }
 
     // MARK: - Footer

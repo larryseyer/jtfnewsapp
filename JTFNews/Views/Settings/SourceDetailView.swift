@@ -37,7 +37,7 @@ struct SourceDetailView: View {
                 .frame(width: 100)
                 .tint(ratingColor(value))
             Text(String(format: "%.1f", value))
-                .font(.body)
+                .font(.jtfBody)
                 .fontWeight(.bold)
                 .foregroundStyle(ratingColor(value))
                 .frame(width: 40, alignment: .trailing)

@@ -115,7 +115,7 @@ struct WatchedView: View {
                 .font(.title3)
                 .fontWeight(.medium)
             Text("Set up watched terms to track stories that matter to you")
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
             Button("Add Watched Terms") {
@@ -137,7 +137,7 @@ struct WatchedView: View {
                 .font(.title3)
                 .fontWeight(.medium)
             Text("No stories match your watched terms right now")
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }

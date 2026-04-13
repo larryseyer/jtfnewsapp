@@ -39,7 +39,7 @@ struct PrivacyPolicyView: View {
                 )
 
                 Text("Last updated: April 2026")
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.tertiary)
                     .padding(.top, 8)
             }
@@ -54,9 +54,9 @@ struct PrivacyPolicyView: View {
     private func policySection(title: String, body: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.headline)
+                .font(.jtfHeadline)
             Text(body)
-                .font(.body)
+                .font(.jtfBody)
                 .foregroundStyle(.secondary)
         }
     }

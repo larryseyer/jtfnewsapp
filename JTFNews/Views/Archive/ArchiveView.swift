@@ -76,10 +76,10 @@ struct ArchiveView: View {
         } else if let errorMessage {
             VStack(spacing: 8) {
                 Image(systemName: "exclamationmark.triangle")
-                    .font(.title)
+                    .font(.jtfTitle)
                     .foregroundStyle(.secondary)
                 Text(errorMessage)
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -99,7 +99,7 @@ struct ArchiveView: View {
                     .font(.system(size: 36))
                     .foregroundStyle(.secondary)
                 Text("Select a date to view archived stories")
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -112,7 +112,7 @@ struct ArchiveView: View {
         VStack(alignment: .leading, spacing: 10) {
             // Fact text
             Text(story.factText)
-                .font(.body)
+                .font(.jtfBody)
                 .fixedSize(horizontal: false, vertical: true)
 
             // Sources with ratings
@@ -121,7 +121,7 @@ struct ArchiveView: View {
                     ForEach(Array(zip(story.sources, story.ratings).enumerated()), id: \.offset) { _, pair in
                         HStack(spacing: 4) {
                             Text(pair.0)
-                                .font(.caption)
+                                .font(.jtfCaption)
                                 .foregroundStyle(.primary.opacity(0.8))
                             if let ratingValue = pair.1.components(separatedBy: " ").first {
                                 Text(ratingValue)

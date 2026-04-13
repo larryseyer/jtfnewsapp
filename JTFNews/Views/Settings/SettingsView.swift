@@ -173,10 +173,10 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Text(source.name)
-                            .font(.body)
+                            .font(.jtfBody)
                         Spacer()
                         Text(String(format: "%.1f", source.accuracy))
-                            .font(.caption)
+                            .font(.jtfCaption)
                             .fontWeight(.bold)
                             .foregroundStyle(.green.opacity(0.8))
                     }
@@ -188,10 +188,10 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Text(source.name)
-                            .font(.body)
+                            .font(.jtfBody)
                         Spacer()
                         Text(String(format: "%.1f", source.accuracy))
-                            .font(.caption)
+                            .font(.jtfCaption)
                             .fontWeight(.bold)
                             .foregroundStyle(.green.opacity(0.8))
                     }
@@ -287,7 +287,7 @@ private struct NotificationsDiagnosticsSection: View {
 
             if let lastTestResult {
                 Text(lastTestResult)
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.secondary)
             }
         }
@@ -299,7 +299,7 @@ private struct NotificationsDiagnosticsSection: View {
             Text(label)
             Spacer()
             Text(value)
-                .font(.caption)
+                .font(.jtfCaption)
                 .foregroundStyle(tint ?? .secondary)
         }
     }

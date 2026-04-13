@@ -13,7 +13,7 @@ struct AudioPlayerView: View {
     var body: some View {
         VStack(spacing: 16) {
             Text(title)
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .fontWeight(.medium)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)

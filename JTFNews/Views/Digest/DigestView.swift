@@ -91,7 +91,7 @@ struct DigestView: View {
             episodesSection
         } else if !isLoading {
             Text("No episodes available")
-                .font(.caption)
+                .font(.jtfCaption)
                 .foregroundStyle(.secondary)
                 .padding(.top, 48)
                 .frame(maxWidth: .infinity)
@@ -121,7 +121,7 @@ struct DigestView: View {
                         .font(.title2)
                         .foregroundStyle(.secondary)
                     Text("Video requires internet connection")
-                        .font(.subheadline)
+                        .font(.jtfSubheadline)
                         .foregroundStyle(.secondary)
                 }
                 .frame(height: 150)
@@ -140,7 +140,7 @@ struct DigestView: View {
                     .aspectRatio(16/9, contentMode: .fit)
             } else {
                 Text("No video available")
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .foregroundStyle(.secondary)
                     .frame(height: 100)
             }
@@ -167,7 +167,7 @@ struct DigestView: View {
                     .frame(height: 200)
             } else {
                 Text("No audio available today")
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .foregroundStyle(.secondary)
                     .frame(height: 100)
             }
@@ -179,7 +179,7 @@ struct DigestView: View {
     private var episodesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Episodes")
-                .font(.headline)
+                .font(.jtfHeadline)
                 .padding(.horizontal, 16)
 
             // Show every episode, including the one currently loaded in the
@@ -206,24 +206,24 @@ struct DigestView: View {
                 // row (via `.frame` + `.opacity`) so titles line up
                 // vertically whether or not the row is the active one.
                 Image(systemName: "speaker.wave.2.fill")
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.tint)
                     .frame(width: 16)
                     .opacity(isPlaying ? 1 : 0)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(episode.title)
-                        .font(.subheadline)
+                        .font(.jtfSubheadline)
                         .fontWeight(isPlaying ? .semibold : .regular)
                         .lineLimit(2)
                     Text(Self.episodeDateFormatter.string(from: episode.date))
-                        .font(.caption)
+                        .font(.jtfCaption)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
                 if !episode.duration.isEmpty {
                     Text(episode.duration)
-                        .font(.caption)
+                        .font(.jtfCaption)
                         .foregroundStyle(.tertiary)
                 }
             }

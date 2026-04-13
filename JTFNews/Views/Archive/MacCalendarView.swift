@@ -71,7 +71,7 @@ struct MacCalendarView: View {
         HStack(spacing: 0) {
             ForEach(orderedWeekdaySymbols, id: \.self) { symbol in
                 Text(symbol)
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)

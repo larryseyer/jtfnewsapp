@@ -100,7 +100,7 @@ struct StoryDetailView: View {
     private var sourceSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Sources")
-                .font(.headline)
+                .font(.jtfHeadline)
                 .foregroundStyle(.secondary)
 
             ForEach(parsedBadges, id: \.name) { badge in
@@ -117,7 +117,7 @@ struct StoryDetailView: View {
         if let correction {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Correction History")
-                    .font(.headline)
+                    .font(.jtfHeadline)
                     .foregroundStyle(.secondary)
 
                 VStack(alignment: .leading, spacing: 8) {
@@ -171,7 +171,7 @@ struct StoryDetailView: View {
     private var relatedSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("More from Today")
-                .font(.headline)
+                .font(.jtfHeadline)
                 .foregroundStyle(.secondary)
 
             ForEach(relatedStories, id: \.storyHash) { related in

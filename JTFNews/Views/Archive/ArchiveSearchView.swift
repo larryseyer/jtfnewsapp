@@ -40,7 +40,7 @@ struct ArchiveSearchView: View {
                 .font(.system(size: 36))
                 .foregroundStyle(.secondary)
             Text("Search across all archived stories")
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -92,10 +92,10 @@ private struct FilteredArchiveStoryList: View {
     private var noResultsView: some View {
         VStack(spacing: 12) {
             Image(systemName: "magnifyingglass")
-                .font(.title)
+                .font(.jtfTitle)
                 .foregroundStyle(.secondary)
             Text("No results for \"\(query)\"")
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -104,20 +104,20 @@ private struct FilteredArchiveStoryList: View {
     private func resultCard(_ story: ArchivedStory) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(story.factText)
-                .font(.body)
+                .font(.jtfBody)
                 .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
                 .multilineTextAlignment(.leading)
 
             HStack(spacing: 6) {
                 Text(story.dateString)
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.secondary)
                 if !story.sources.isEmpty {
                     Text("·")
                         .foregroundStyle(.tertiary)
                     Text(story.sources.joined(separator: ", "))
-                        .font(.caption)
+                        .font(.jtfCaption)
                         .foregroundStyle(.tertiary)
                         .lineLimit(1)
                 }
@@ -146,10 +146,10 @@ struct ArchiveDayDetailView: View {
             } else if let errorMessage {
                 VStack(spacing: 8) {
                     Image(systemName: "exclamationmark.triangle")
-                        .font(.title)
+                        .font(.jtfTitle)
                         .foregroundStyle(.secondary)
                     Text(errorMessage)
-                        .font(.subheadline)
+                        .font(.jtfSubheadline)
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -184,7 +184,7 @@ struct ArchiveDayDetailView: View {
     private func storyCard(_ story: ArchivedStory) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(story.factText)
-                .font(.body)
+                .font(.jtfBody)
                 .fixedSize(horizontal: false, vertical: true)
 
             if !story.sources.isEmpty {
@@ -192,7 +192,7 @@ struct ArchiveDayDetailView: View {
                     ForEach(Array(zip(story.sources, story.ratings).enumerated()), id: \.offset) { _, pair in
                         HStack(spacing: 4) {
                             Text(pair.0)
-                                .font(.caption)
+                                .font(.jtfCaption)
                                 .foregroundStyle(.primary.opacity(0.8))
                             if let ratingValue = pair.1.components(separatedBy: " ").first {
                                 Text(ratingValue)

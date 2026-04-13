@@ -77,7 +77,7 @@ struct SavedView: View {
                 .font(.title3)
                 .fontWeight(.medium)
             Text("Bookmark stories to save them here for later")
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }

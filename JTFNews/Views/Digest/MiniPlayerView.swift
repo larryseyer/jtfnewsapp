@@ -9,7 +9,7 @@ struct MiniPlayerView: View {
                 .foregroundStyle(.blue)
 
             Text(audioManager.currentTitle)
-                .font(.caption)
+                .font(.jtfCaption)
                 .fontWeight(.medium)
                 .lineLimit(1)
 
@@ -26,7 +26,7 @@ struct MiniPlayerView: View {
                 audioManager.togglePlayback()
             } label: {
                 Image(systemName: audioManager.isPlaying ? "pause.fill" : "play.fill")
-                    .font(.body)
+                    .font(.jtfBody)
             }
             .foregroundStyle(.primary)
             .accessibilityLabel(audioManager.isPlaying ? "Pause" : "Play")

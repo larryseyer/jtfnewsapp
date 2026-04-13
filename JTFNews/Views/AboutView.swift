@@ -47,7 +47,7 @@ struct AboutView: View {
                 .font(.system(size: 30, weight: .semibold, design: .rounded))
                 .foregroundStyle(.primary)
             Text(versionString)
-                .font(.callout)
+                .font(.jtfCallout)
                 .foregroundStyle(.secondary)
         }
         .padding(.top, 12)
@@ -75,7 +75,7 @@ struct AboutView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
             Text("No opinions. No adjectives. No interpretation.")
-                .font(.subheadline)
+                .font(.jtfSubheadline)
                 .italic()
                 .foregroundStyle(.primary.opacity(0.75))
                 .multilineTextAlignment(.center)
@@ -86,7 +86,7 @@ struct AboutView: View {
 
     private var missionCard: some View {
         Text("Every fact confirmed by 2+ independent sources. Every source rated for bias and reliability. Ownership disclosed on every story.")
-            .font(.callout)
+            .font(.jtfCallout)
             .foregroundStyle(.primary.opacity(0.9))
             .multilineTextAlignment(.center)
             .fixedSize(horizontal: false, vertical: true)
@@ -117,10 +117,10 @@ struct AboutView: View {
                 .frame(width: 28)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.subheadline)
+                    .font(.jtfSubheadline)
                     .fontWeight(.semibold)
                 Text(body)
-                    .font(.caption)
+                    .font(.jtfCaption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -145,7 +145,7 @@ struct AboutView: View {
     private func aboutLink(_ title: String, url: String) -> some View {
         Link(destination: URL(string: url)!) {
             Text(title)
-                .font(.caption)
+                .font(.jtfCaption)
                 .fontWeight(.medium)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
@@ -160,7 +160,7 @@ struct AboutView: View {
     private var footer: some View {
         VStack(spacing: 6) {
             Text("“The methodology belongs to no one. It serves everyone.”")
-                .font(.caption)
+                .font(.jtfCaption)
                 .italic()
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)

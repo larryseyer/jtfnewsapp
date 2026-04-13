@@ -45,4 +45,20 @@ extension Font {
         .caption2
         #endif
     }
+
+    static var jtfHeadline: Font {
+        #if os(macOS)
+        .system(size: 16, weight: .semibold)
+        #else
+        .headline
+        #endif
+    }
+
+    static var jtfTitle: Font {
+        #if os(macOS)
+        .system(size: 22, weight: .semibold)
+        #else
+        .title
+        #endif
+    }
 }

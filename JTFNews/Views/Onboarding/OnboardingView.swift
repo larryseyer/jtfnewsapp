@@ -117,13 +117,13 @@ private struct OnboardingPage: View {
                 .foregroundStyle(Color(red: 0.83, green: 0.69, blue: 0.22)) // #d4af37
 
             Text(title)
-                .font(.title)
+                .font(.jtfTitle)
                 .fontWeight(.bold)
                 .foregroundStyle(Color(red: 0.83, green: 0.69, blue: 0.22))
                 .multilineTextAlignment(.center)
 
             Text(description)
-                .font(.body)
+                .font(.jtfBody)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
@@ -133,7 +133,7 @@ private struct OnboardingPage: View {
                     onGetStarted?()
                 } label: {
                     Text("Get Started")
-                        .font(.headline)
+                        .font(.jtfHeadline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                 }

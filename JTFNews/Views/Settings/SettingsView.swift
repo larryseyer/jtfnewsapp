@@ -26,9 +26,11 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 notificationsSection
+                #if DEBUG
                 if anyNotifyToggleOn {
                     NotificationsDiagnosticsSection()
                 }
+                #endif
                 digestSection
                 archiveSection
                 sourceDetailsSection

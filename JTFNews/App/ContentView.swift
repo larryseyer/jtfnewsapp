@@ -7,6 +7,9 @@ struct ContentView: View {
     @State private var connectivity = ConnectivityManager()
     @State private var selectedTab = 0
     @State private var showSettings = false
+    #if os(macOS)
+    @State private var showAbout = false
+    #endif
     @AppStorage("watchedTabBadge") private var watchedBadge = 0
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
@@ -32,10 +35,15 @@ struct ContentView: View {
             .modifier(OnboardingPresenter(hasSeenOnboarding: $hasSeenOnboarding))
             .sheet(isPresented: $showSettings) {
                 SettingsView()
-                    #if os(macOS)
-                    .frame(minWidth: 560, idealWidth: 580, minHeight: 680, idealHeight: 720)
-                    #endif
             }
+            #if os(macOS)
+            .onReceive(NotificationCenter.default.publisher(for: .openAboutRequested)) { _ in
+                showAbout = true
+            }
+            .sheet(isPresented: $showAbout) {
+                AboutView()
+            }
+            #endif
             .onChange(of: hasSeenOnboarding) { _, newValue in
                 // Guarantee a fresh stories fetch once onboarding dismisses —
                 // the underlying StoriesView's `.task` can be deferred by

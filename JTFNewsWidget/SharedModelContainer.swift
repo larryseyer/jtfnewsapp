@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 enum SharedModelContainer {
-    static let appGroupIdentifier = "group.org.jtfnews.app"
+    static let appGroupIdentifier = "group.com.larryseyer.jtfnews"
 
     static var containerURL: URL {
         FileManager.default

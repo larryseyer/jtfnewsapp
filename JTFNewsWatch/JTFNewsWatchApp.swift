@@ -13,7 +13,7 @@ struct JTFNewsWatchApp: App {
             Bookmark.self
         ])
         let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.org.jtfnews.app")!
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.larryseyer.jtfnews")!
             .appending(path: "JTFNews.sqlite")
         let config = ModelConfiguration(
             schema: schema,

@@ -10,7 +10,6 @@ struct StoriesView: View {
     @Query private var bookmarks: [Bookmark]
     @State private var isLoading = false
     @State private var hasLoadedOnce = false
-    @State private var showSettings = false
     @State private var showOfflineToast = false
     @State private var watchTermMatchCount = 0
 
@@ -35,14 +34,11 @@ struct StoriesView: View {
             .toolbar {
                 ToolbarItem(placement: .automatic) {
                     Button {
-                        showSettings = true
+                        NotificationCenter.default.post(name: .openSettingsRequested, object: nil)
                     } label: {
                         Image(systemName: "gearshape")
                     }
                 }
-            }
-            .sheet(isPresented: $showSettings) {
-                SettingsView()
             }
         }
         .task {

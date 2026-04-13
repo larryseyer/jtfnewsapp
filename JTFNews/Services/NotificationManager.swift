@@ -10,6 +10,9 @@ extension Notification.Name {
     /// the in-app Settings sheet. The legacy SwiftUI `Settings` scene was
     /// removed so macOS uses the same modal Settings flow as iOS.
     static let openSettingsRequested = Notification.Name("openSettingsRequested")
+    /// Posted by the macOS "About JTF News" menu command to open the custom
+    /// About sheet, replacing AppKit's default minimal panel.
+    static let openAboutRequested = Notification.Name("openAboutRequested")
 }
 
 /// Presents notifications as banners even when the app is in the foreground.

@@ -15,7 +15,7 @@ struct JTFNewsApp: App {
             Bookmark.self
         ])
         let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.org.jtfnews.app")!
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.larryseyer.jtfnews")!
             .appending(path: "JTFNews.sqlite")
         let config = ModelConfiguration(
             schema: schema,
@@ -69,6 +69,14 @@ struct JTFNewsApp: App {
         .defaultSize(width: 500, height: 900)
         .windowResizability(.contentMinSize)
         .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About JTF News") {
+                    NotificationCenter.default.post(
+                        name: .openAboutRequested,
+                        object: nil
+                    )
+                }
+            }
             CommandGroup(replacing: .appSettings) {
                 Button("Settings…") {
                     NotificationCenter.default.post(

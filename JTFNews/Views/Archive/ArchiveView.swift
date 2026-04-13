@@ -19,6 +19,12 @@ struct ArchiveView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                #if os(macOS)
+                MacCalendarView(selection: $selectedDate)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
+                #else
                 DatePicker(
                     "Select Date",
                     selection: $selectedDate,
@@ -26,6 +32,7 @@ struct ArchiveView: View {
                 )
                 .datePickerStyle(.graphical)
                 .padding(.horizontal, 16)
+                #endif
 
                 Divider()
 

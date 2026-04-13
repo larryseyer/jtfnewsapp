@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.org.jtfnews.app</string>
+		<string>group.com.larryseyer.jtfnews</string>
 	</array>
 </dict>
 </plist>

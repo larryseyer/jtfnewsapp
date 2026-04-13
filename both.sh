@@ -6,7 +6,7 @@ SCHEME="JTFNews"
 IPAD_SIM="iPad Air 11-inch (M2)"
 IPHONE_DEST="platform=iOS,id=00008030-0004299C1410802E"
 IPAD_DEST="platform=iOS Simulator,name=${IPAD_SIM}"
-APP_BUNDLE="org.jtfnews.app"
+APP_BUNDLE="com.larryseyer.jtfnews"
 BUILD_DIR="$(pwd)/build"
 
 echo "═══════════════════════════════════════════════"

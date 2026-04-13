@@ -5,7 +5,7 @@ import Foundation
 import SwiftData
 
 enum BackgroundRefreshManager {
-    static let taskIdentifier = "org.jtfnews.app.refresh"
+    static let taskIdentifier = "com.larryseyer.jtfnews.refresh"
 
     /// Minimum gap between foreground catch-up runs. `BGAppRefreshTask` is
     /// opportunistic on iOS — on older devices it may never fire — so the

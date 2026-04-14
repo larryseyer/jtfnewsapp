@@ -48,6 +48,7 @@ enum FetchCooldownKey {
     static let stories = "lastStoriesFetch"
     static let corrections = "lastCorrectionsFetch"
     static let sources = "lastSourcesFetch"
+    static let digest = "lastDigestFetch"
 }
 
 // MARK: - Intervals
@@ -64,4 +65,9 @@ enum FetchCooldownInterval {
     /// weeks. A 24-hour in-session cooldown effectively means "fetch once per
     /// session" (cold start and pull-to-refresh always force a fresh fetch).
     static let nearStatic: TimeInterval = 24 * 60 * 60
+
+    /// Daily digest: publishes once per day, but we want responsive refetch
+    /// on scenePhase/tab-reentry without thrashing. 60 s is well below the
+    /// feed's max-age=600.
+    static let digestShort: TimeInterval = 60
 }

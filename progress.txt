@@ -163,3 +163,14 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 
 **Patterns/learnings:**
 - Using `.reloadRevalidatingCacheData` consistently across force-refresh paths ensures the freshness guarantee matches `fetchEpisodes(force: true)`.
+
+### APP-006 — Add FetchCooldownKey.digest (60 s)
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Services/FetchCooldown.swift`
+
+**What was done:**
+- Added `FetchCooldownKey.digest = "lastDigestFetch"`.
+- Added `FetchCooldownInterval.digestShort = 60` (60 seconds).
+- No DigestView wiring — APP-007 will consume.

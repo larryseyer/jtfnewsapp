@@ -106,7 +106,7 @@
     {
       "id": "APP-006",
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "title": "Add FetchCooldownKey.digest (60 s)",
       "why": "DigestView needs a cooldown key so scenePhase / onAppear / reconnect refetches don't thrash the network. 60 s matches the BackgroundRefreshManager debounce and is well below the feed's max-age=600.",
       "type": "code",

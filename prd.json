@@ -361,7 +361,7 @@
     {
       "id": "APP-020",
       "priority": 20,
-      "passes": false,
+      "passes": true,
       "title": "Server patch doc: Archive.org reachability gate before publishing <item>",
       "why": "Today, `upload_to_archive_org` returns a constructed URL the instant `ia.upload()` acks — but Archive.org takes seconds to minutes to make the file publicly retrievable. During that window, podcast.xml can legitimately claim an enclosure URL that 404s. Poll HEAD with backoff; only emit the <item> once HEAD=200.",
       "type": "server-patch-document",

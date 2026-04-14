@@ -377,3 +377,17 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Included a worked before/after diff for one call site (stories.json).
 - Provided application instructions (grep → edit → bu.sh → restart), verification steps (curl + JSON validation), and scope notes (Ralph cannot edit main.py; Larry applies via bu.sh).
 - Cross-linked APP-021 as the complementary remote-publish atomicity layer.
+
+---
+
+### Iteration 20 — APP-020: Server patch doc: Archive.org reachability gate
+
+**Files created:**
+- `docs/server_patches/APP-020-archive-reachability-gate.md`
+
+**What was done:**
+- Documented the race condition: `ia.upload()` acks before Archive.org makes the file publicly retrievable.
+- Proposed `wait_for_archive_reachability` with exponential backoff (2s→64s, ~2 min cap).
+- Showed before/after diffs for `upload_to_archive_org` and `update_podcast_feeds`.
+- Specified `monitor.json.daily_digest.upload_status` field ("success" | "pending").
+- Provided application and verification instructions.

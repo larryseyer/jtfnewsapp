@@ -3,9 +3,9 @@
 set -e
 
 SCHEME="JTFNews"
-IPAD_SIM="iPad Air 11-inch (M2)"
+IPAD_SIM="iPad (10th generation)"
 IPHONE_DEST="platform=iOS,id=00008030-0004299C1410802E"
-IPAD_DEST="platform=iOS Simulator,name=${IPAD_SIM}"
+IPAD_DEST="platform=iOS Simulator,name=${IPAD_SIM},OS=18.1"
 APP_BUNDLE="com.larryseyer.jtfnews"
 BUILD_DIR="$(pwd)/build"
 

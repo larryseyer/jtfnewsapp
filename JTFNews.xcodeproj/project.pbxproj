@@ -96,6 +96,7 @@
 		AA000001091 /* fixture_monitor_minimal.json in Resources */ = {isa = PBXBuildFile; fileRef = AA000002078 /* fixture_monitor_minimal.json */; };
 		AA000001092 /* CachedPodcastEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002079 /* CachedPodcastEpisode.swift */; };
 		AA000001093 /* CachedPodcastEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002079 /* CachedPodcastEpisode.swift */; };
+		AA000001094 /* CachedPodcastEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002079 /* CachedPodcastEpisode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -746,6 +747,7 @@
 				AA000001074 /* Bookmark.swift in Sources */,
 				AA000001075 /* SharedModelContainer.swift in Sources */,
 				AA000001078 /* WatchDataService.swift in Sources */,
+				AA000001094 /* CachedPodcastEpisode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

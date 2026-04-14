@@ -54,6 +54,10 @@ run_ralph.sh
 # Crash logs
 crash.txt
 
+# Code coverage artifacts
+*.profraw
+*.profdata
+
 # internal docs (allow server_patches for Ralph patch documents)
 docs/*
 !docs/server_patches/

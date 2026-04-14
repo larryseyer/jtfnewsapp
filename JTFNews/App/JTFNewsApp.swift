@@ -54,7 +54,9 @@ struct JTFNewsApp: App {
                 }
                 .onChange(of: scenePhase) { _, newPhase in
                     if newPhase == .active {
+                        #if os(iOS)
                         BackgroundRefreshManager.performForegroundCheck()
+                        #endif
                     }
                 }
         }

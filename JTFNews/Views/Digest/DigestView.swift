@@ -402,8 +402,9 @@ struct DigestView: View {
         let now = Date.now
 
         for ep in fetched {
+            let epID = ep.id
             let descriptor = FetchDescriptor<CachedPodcastEpisode>(
-                predicate: #Predicate { $0.id == ep.id }
+                predicate: #Predicate { $0.id == epID }
             )
             if let existing = try? modelContext.fetch(descriptor).first {
                 existing.title = ep.title

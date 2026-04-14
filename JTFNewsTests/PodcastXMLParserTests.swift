@@ -51,8 +51,11 @@ struct PodcastXMLParserTests {
         let data = try fixtureData("fixture_conflictMarkers")
         let parser = PodcastXMLParser(data: data)
 
-        #expect(throws: PodcastFeedError.self) {
+        do {
             _ = try parser.parseThrowing()
+            Issue.record("Expected PodcastFeedError but parseThrowing() succeeded")
+        } catch is PodcastFeedError {
+            // expected
         }
     }
 

@@ -127,7 +127,7 @@ struct DigestView: View {
     // MARK: - Video
 
     private var currentVideoURL: String? {
-        if let episode = currentEpisode {
+        if let episode = currentVideoEpisode {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
             formatter.timeZone = TimeZone(identifier: "UTC")
@@ -175,16 +175,18 @@ struct DigestView: View {
 
     // MARK: - Audio
 
-    private var currentEpisode: PodcastEpisode? {
-        if let selectedId = selectedEpisodeId {
-            return episodes.first { $0.id == selectedId }
-        }
-        return episodes.first
+    private var currentAudioEpisode: PodcastEpisode? {
+        episodes.first { $0.hasAudio && ($0.id == selectedEpisodeId || selectedEpisodeId == nil) }
+            ?? episodes.first(where: \.hasAudio)
+    }
+
+    private var currentVideoEpisode: PodcastEpisode? {
+        episodes.first
     }
 
     private var audioSection: some View {
         Group {
-            if let episode = currentEpisode {
+            if let episode = currentAudioEpisode {
                 AudioPlayerView(audioURL: episode.audioURL, title: episode.title)
                     .id(episode.id)
                     .padding(.horizontal, 16)
@@ -222,44 +224,69 @@ struct DigestView: View {
         }
     }
 
+    @ViewBuilder
     private func episodeRow(_ episode: PodcastEpisode) -> some View {
-        let isPlaying = episode.id == currentEpisode?.id
-        return Button {
-            selectedEpisodeId = episode.id
-        } label: {
+        if episode.hasAudio {
+            let isPlaying = episode.id == currentAudioEpisode?.id
+            Button {
+                selectedEpisodeId = episode.id
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "speaker.wave.2.fill")
+                        .font(.jtfCaption)
+                        .foregroundStyle(.tint)
+                        .frame(width: 16)
+                        .opacity(isPlaying ? 1 : 0)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(episode.title)
+                            .font(.jtfSubheadline)
+                            .fontWeight(isPlaying ? .semibold : .regular)
+                            .lineLimit(2)
+                        Text(Self.episodeDateFormatter.string(from: episode.date))
+                            .font(.jtfCaption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    if !episode.duration.isEmpty {
+                        Text(episode.duration)
+                            .font(.jtfCaption)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(isPlaying ? Color(white: 0.17).opacity(0.5) : Color.clear)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(isPlaying ? "\(episode.title), now playing" : episode.title)
+        } else {
             HStack(spacing: 12) {
-                // Leading indicator. We keep the 16pt slot reserved on every
-                // row (via `.frame` + `.opacity`) so titles line up
-                // vertically whether or not the row is the active one.
-                Image(systemName: "speaker.wave.2.fill")
+                Image(systemName: "clock")
                     .font(.jtfCaption)
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(.tertiary)
                     .frame(width: 16)
-                    .opacity(isPlaying ? 1 : 0)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(episode.title)
                         .font(.jtfSubheadline)
-                        .fontWeight(isPlaying ? .semibold : .regular)
                         .lineLimit(2)
                     Text(Self.episodeDateFormatter.string(from: episode.date))
                         .font(.jtfCaption)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                if !episode.duration.isEmpty {
-                    Text(episode.duration)
-                        .font(.jtfCaption)
-                        .foregroundStyle(.tertiary)
-                }
+                Text("Audio pending")
+                    .font(.jtfCaption)
+                    .foregroundStyle(.tertiary)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(isPlaying ? Color(white: 0.17).opacity(0.5) : Color.clear)
+            .background(Color.clear)
             .clipShape(RoundedRectangle(cornerRadius: 8))
+            .accessibilityLabel("\(episode.title), audio pending")
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(isPlaying ? "\(episode.title), now playing" : episode.title)
     }
 
     // MARK: - Load

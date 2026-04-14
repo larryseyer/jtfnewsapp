@@ -191,7 +191,7 @@
     {
       "id": "APP-011",
       "priority": 11,
-      "passes": false,
+      "passes": true,
       "title": "DigestView: split currentEpisode; render audio-pending rows non-tappable with clock icon",
       "why": "The player can only play episodes with audio, but the LIST should reflect every published episode — otherwise audioless items (which exist per APP-003) silently disappear from the UI after the parser change. The row must visually distinguish 'audio pending' so the user knows why it doesn't play, rather than suspecting a broken button.",
       "type": "code",

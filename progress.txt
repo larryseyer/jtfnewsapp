@@ -225,3 +225,16 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 
 **Patterns/learnings:**
 - `@State` used as task-group-to-post-group communication channel since Swift concurrency closures can't capture mutable locals. After `withTaskGroup` returns, all tasks have completed and @State is current on MainActor.
+
+### APP-011 — DigestView: split currentEpisode; render audio-pending rows non-tappable with clock icon
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Views/Digest/DigestView.swift`
+
+**What was done:**
+- Replaced `currentEpisode` with `currentAudioEpisode` (first with audio matching selection) and `currentVideoEpisode` (always first episode).
+- `audioSection` uses `currentAudioEpisode`; `currentVideoURL` uses `currentVideoEpisode`.
+- `episodeRow` branches on `hasAudio`: audioful rows render as Button with speaker icon; audioless rows render as plain HStack with clock icon and "Audio pending" trailing text.
+- Audioless rows match padding/clipShape for visual consistency.
+- Accessibility labels: "now playing" for active audio rows, "audio pending" for audioless rows.

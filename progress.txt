@@ -418,3 +418,33 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Provided complete `test_publish_gate.py`: 5 test cases covering immediate success, retry-then-success, timeout→pending, 206 partial content, and network error resilience.
 - Both test files include inline function copies for self-contained execution before APP-019/020 are applied.
 - Provided run instructions for Intel Mac via `./venv/bin/python -m pytest`.
+
+---
+
+### Iteration 23 — APP-023: Server doc: publish_invariants.md
+
+**Files created:**
+- `docs/server_patches/APP-023-publish-invariants.md`
+
+**What was done:**
+- Wrote the publish invariants document with three invariants: (1) atomic file replacement, (2) enclosure reachability, (3) atomic publish cycle.
+- Each invariant includes: statement, implementation summary, scope, and cross-reference to its APP story.
+- Included a "Before You Change Publish Code" checklist with 5 items.
+- Added incident reference section explaining the April 2026 root causes.
+- Document is formatted for Larry to drop at `/Volumes/MacLive/Users/larryseyer/JTFNews/docs/publish_invariants.md` via bu.sh.
+
+---
+
+## Summary
+
+**All 23 stories now pass.** The sweep covered:
+- APP-001: Emergency server patch document for conflict markers
+- APP-002–005: Parser error surfacing, no-silent-drop, date guard, monitor cross-check
+- APP-006–009: FetchCooldown key, scenePhase/onAppear/connectivity refetch hooks
+- APP-010–012: Canonical date cross-check, episode split + audio-pending rows, shared freshness helpers
+- APP-013: macOS scenePhase un-guard
+- APP-014–015: Unit test target + XML parser/monitor fixtures
+- APP-016: SwiftData CachedPodcastEpisode model
+- APP-017: Offline banner for cached digest data
+- APP-018: watchOS audit (fixed ?? Date() + silent catch)
+- APP-019–023: Server patch documents (atomic writes, reachability gate, single-commit push, tests, invariants)

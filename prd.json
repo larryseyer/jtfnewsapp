@@ -412,7 +412,7 @@
     {
       "id": "APP-023",
       "priority": 23,
-      "passes": false,
+      "passes": true,
       "title": "Server doc: publish_invariants.md",
       "why": "Once APP-019/020/021 ship, the publish path has enforceable invariants worth documenting. This doc lives in the production repo (/Volumes/MacLive/.../docs/) and is the canonical reference for why future edits to the publish code must not regress these guarantees.",
       "type": "server-patch-document",

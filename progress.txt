@@ -300,3 +300,27 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Added source/resource entries to test target's build phases.
 - Used pbxproj IDs AA000001089-AA000001091 / AA000002076-AA000002078.
 - Updated `reference_pbxproj_ids.md` memory. Next free: AA000001092 / AA000002079.
+
+### APP-016 — CachedPodcastEpisode SwiftData model + DigestView @Query migration
+**Status:** DONE
+**Type:** Code (new model + migration)
+**Files created:**
+- `JTFNews/Models/CachedPodcastEpisode.swift`
+**Files modified:**
+- `JTFNews/App/JTFNewsApp.swift` (schema)
+- `JTFNewsWidget/SharedModelContainer.swift` (schema)
+- `JTFNews/Views/Digest/DigestView.swift` (full @Query migration)
+- `JTFNews.xcodeproj/project.pbxproj`
+
+**What was done:**
+- Created `@Model CachedPodcastEpisode` with unique `id`, all episode fields, plus `hasAudio` and `lastSeenAt`.
+- Added to both app and widget schema arrays.
+- DigestView: replaced `@State episodes` with `@Query(sort: \.date, order: .reverse)` on CachedPodcastEpisode.
+- Added `@Environment(\.modelContext)` for persistence.
+- Added `persistEpisodes(_:)` method: upserts fetched episodes keyed on `id`, purges items with `lastSeenAt` older than 7 days.
+- Updated all references: `episodes` → `cachedEpisodes`, type refs from `PodcastEpisode` → `CachedPodcastEpisode`.
+- Used pbxproj IDs AA000001092-AA000001093 / AA000002079.
+
+**Patterns/learnings:**
+- Per `feedback_swiftdata_contexts.md`: persist MUST use the SwiftUI-injected modelContext so @Query sees writes.
+- Widget target also compiles CachedPodcastEpisode.swift so the shared schema stays in sync.

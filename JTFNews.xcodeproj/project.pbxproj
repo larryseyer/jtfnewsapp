@@ -94,6 +94,8 @@
 		AA000001089 /* MonitorResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002076 /* MonitorResponseTests.swift */; };
 		AA000001090 /* fixture_monitor_full.json in Resources */ = {isa = PBXBuildFile; fileRef = AA000002077 /* fixture_monitor_full.json */; };
 		AA000001091 /* fixture_monitor_minimal.json in Resources */ = {isa = PBXBuildFile; fileRef = AA000002078 /* fixture_monitor_minimal.json */; };
+		AA000001092 /* CachedPodcastEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002079 /* CachedPodcastEpisode.swift */; };
+		AA000001093 /* CachedPodcastEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002079 /* CachedPodcastEpisode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,6 +205,7 @@
 		AA000002076 /* MonitorResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorResponseTests.swift; sourceTree = "<group>"; };
 		AA000002077 /* fixture_monitor_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fixture_monitor_full.json; sourceTree = "<group>"; };
 		AA000002078 /* fixture_monitor_minimal.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fixture_monitor_minimal.json; sourceTree = "<group>"; };
+		AA000002079 /* CachedPodcastEpisode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedPodcastEpisode.swift; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000003003 /* JTFNewsWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JTFNewsWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -287,6 +290,7 @@
 				AA000002032 /* ArchivedStory.swift */,
 				AA000002035 /* Bookmark.swift */,
 				AA000002054 /* JTFNewsActivityAttributes.swift */,
+				AA000002079 /* CachedPodcastEpisode.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -699,6 +703,7 @@
 				AA000001060 /* LiveActivityManager.swift in Sources */,
 				AA000001063 /* GetTodaysFactsIntent.swift in Sources */,
 				AA000001064 /* JTFNewsShortcuts.swift in Sources */,
+				AA000001092 /* CachedPodcastEpisode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,6 +726,7 @@
 				AA000001056 /* Bookmark.swift in Sources */,
 				AA000001061 /* JTFNewsLiveActivity.swift in Sources */,
 				AA000001062 /* JTFNewsActivityAttributes.swift in Sources */,
+				AA000001093 /* CachedPodcastEpisode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

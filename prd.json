@@ -287,7 +287,7 @@
     {
       "id": "APP-016",
       "priority": 16,
-      "passes": false,
+      "passes": true,
       "title": "CachedPodcastEpisode SwiftData model + DigestView @Query migration",
       "why": "Right now the Digest tab's episode list lives in @State, meaning: (1) a cold launch with no network shows empty, (2) a transient server regression wipes the UI until recovery, (3) no widget / watch companion can reuse the list. A SwiftData-backed cache fixes all three. Per widget-architecture memory, the shared schema must include every model, so the widget extension inherits it automatically.",
       "type": "code",

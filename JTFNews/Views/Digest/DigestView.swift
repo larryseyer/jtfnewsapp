@@ -1,10 +1,12 @@
 import SwiftUI
+import SwiftData
 
 struct DigestView: View {
     @Environment(ConnectivityManager.self) private var connectivity
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.modelContext) private var modelContext
     @AppStorage("preferVideoMode") private var preferVideoMode = true
-    @State private var episodes: [PodcastEpisode] = []
+    @Query(sort: \CachedPodcastEpisode.date, order: .reverse) private var cachedEpisodes: [CachedPodcastEpisode]
     @State private var selectedEpisodeId: String?
     @State private var youtubeURL: String?
     @State private var youtubePlaylist: [String: String] = [:]
@@ -120,7 +122,7 @@ struct DigestView: View {
 
     @ViewBuilder
     private var episodesContent: some View {
-        if !episodes.isEmpty {
+        if !cachedEpisodes.isEmpty {
             episodesSection
         } else if !isLoading {
             Text("No episodes available")
@@ -182,13 +184,13 @@ struct DigestView: View {
 
     // MARK: - Audio
 
-    private var currentAudioEpisode: PodcastEpisode? {
-        episodes.first { $0.hasAudio && ($0.id == selectedEpisodeId || selectedEpisodeId == nil) }
-            ?? episodes.first(where: \.hasAudio)
+    private var currentAudioEpisode: CachedPodcastEpisode? {
+        cachedEpisodes.first { $0.hasAudio && ($0.id == selectedEpisodeId || selectedEpisodeId == nil) }
+            ?? cachedEpisodes.first(where: \.hasAudio)
     }
 
-    private var currentVideoEpisode: PodcastEpisode? {
-        episodes.first
+    private var currentVideoEpisode: CachedPodcastEpisode? {
+        cachedEpisodes.first
     }
 
     private var audioSection: some View {
@@ -225,14 +227,14 @@ struct DigestView: View {
             // reasonably expected a complete episode index and read the top
             // row as the newest. Keeping every episode in the list, with the
             // currently-loaded one marked, removes the ambiguity.
-            ForEach(episodes) { episode in
+            ForEach(cachedEpisodes) { episode in
                 episodeRow(episode)
             }
         }
     }
 
     @ViewBuilder
-    private func episodeRow(_ episode: PodcastEpisode) -> some View {
+    private func episodeRow(_ episode: CachedPodcastEpisode) -> some View {
         if episode.hasAudio {
             let isPlaying = episode.id == currentAudioEpisode?.id
             Button {
@@ -317,7 +319,7 @@ struct DigestView: View {
                 do {
                     let eps = try await service.fetchEpisodes(force: force)
                     await MainActor.run {
-                        episodes = eps
+                        persistEpisodes(eps)
                         feedMismatchBanner = nil
                         FetchCooldown.markFetched(key: FetchCooldownKey.digest)
                     }
@@ -357,7 +359,7 @@ struct DigestView: View {
         }
 
         // Cross-check: is the parsed feed behind what monitor.json claims?
-        if let canonical = canonicalLastDate, let newestEpisode = episodes.first?.date {
+        if let canonical = canonicalLastDate, let newestEpisode = cachedEpisodes.first?.date {
             var gmtCalendar = Calendar(identifier: .gregorian)
             gmtCalendar.timeZone = .gmt
             let canonicalDay = gmtCalendar.startOfDay(for: canonical)
@@ -371,6 +373,50 @@ struct DigestView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Persist
+
+    @MainActor
+    private func persistEpisodes(_ fetched: [PodcastEpisode]) {
+        let fetchedIDs = Set(fetched.map(\.id))
+        let now = Date.now
+
+        for ep in fetched {
+            let descriptor = FetchDescriptor<CachedPodcastEpisode>(
+                predicate: #Predicate { $0.id == ep.id }
+            )
+            if let existing = try? modelContext.fetch(descriptor).first {
+                existing.title = ep.title
+                existing.date = ep.date
+                existing.audioURL = ep.audioURL
+                existing.duration = ep.duration
+                existing.hasAudio = ep.hasAudio
+                existing.lastSeenAt = now
+            } else {
+                modelContext.insert(CachedPodcastEpisode(
+                    id: ep.id,
+                    title: ep.title,
+                    date: ep.date,
+                    audioURL: ep.audioURL,
+                    duration: ep.duration,
+                    hasAudio: ep.hasAudio,
+                    lastSeenAt: now
+                ))
+            }
+        }
+
+        let sevenDaysAgo = now.addingTimeInterval(-7 * 24 * 60 * 60)
+        let staleDescriptor = FetchDescriptor<CachedPodcastEpisode>(
+            predicate: #Predicate { $0.lastSeenAt < sevenDaysAgo }
+        )
+        if let stale = try? modelContext.fetch(staleDescriptor) {
+            for item in stale where !fetchedIDs.contains(item.id) {
+                modelContext.delete(item)
+            }
+        }
+
+        try? modelContext.save()
     }
 }
 

@@ -12,7 +12,8 @@ struct JTFNewsApp: App {
             Correction.self,
             Channel.self,
             ArchivedStory.self,
-            Bookmark.self
+            Bookmark.self,
+            CachedPodcastEpisode.self
         ])
         let containerURL = FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: "group.com.larryseyer.jtfnews")!

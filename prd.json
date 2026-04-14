@@ -139,7 +139,7 @@
     {
       "id": "APP-008",
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "title": "DigestView: tab-reentry refetch via onAppear",
       "why": "SwiftUI keeps TabView children alive, so `.task` doesn't re-fire when the user returns to the Digest tab. onAppear does. Combined with the 60 s cooldown from APP-006 this prevents thrash while still catching the server-just-published case.",
       "type": "code",

@@ -49,6 +49,13 @@ struct DigestView: View {
                     await loadContent(force: true)
                 }
             }
+            .onAppear {
+                guard hasLoadedOnce,
+                      connectivity.isConnected,
+                      FetchCooldown.shouldFetch(key: FetchCooldownKey.digest, interval: FetchCooldownInterval.digestShort)
+                else { return }
+                Task { await loadContent(force: true) }
+            }
             .navigationTitle("Daily Digest")
             .task {
                 if !hasLoadedOnce {

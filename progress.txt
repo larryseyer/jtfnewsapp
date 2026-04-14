@@ -284,3 +284,19 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 **Patterns/learnings:**
 - Updated `reference_pbxproj_ids.md` memory with new max IDs. Next free: AA000001089 / AA000002076.
 - Test bundle uses `Bundle(for: BundleToken.self)` to find fixtures in the test bundle's Resources.
+
+### APP-015 — MonitorResponse decode tests
+**Status:** DONE
+**Type:** Code (tests + fixtures)
+**Files created:**
+- `JTFNewsTests/MonitorResponseTests.swift`
+- `JTFNewsTests/Fixtures/fixture_monitor_full.json`
+- `JTFNewsTests/Fixtures/fixture_monitor_minimal.json`
+**Files modified:**
+- `JTFNews.xcodeproj/project.pbxproj`
+
+**What was done:**
+- 3 tests: full decode (all fields surface), minimal decode (optional fields nil, no crash), date parsing verification (2026-04-13 parses correctly in GMT).
+- Added source/resource entries to test target's build phases.
+- Used pbxproj IDs AA000001089-AA000001091 / AA000002076-AA000002078.
+- Updated `reference_pbxproj_ids.md` memory. Next free: AA000001092 / AA000002079.

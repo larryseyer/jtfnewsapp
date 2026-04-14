@@ -269,7 +269,7 @@
     {
       "id": "APP-015",
       "priority": 15,
-      "passes": false,
+      "passes": true,
       "title": "MonitorResponse decode tests",
       "why": "The monitor.json decode path is load-bearing for APP-005/APP-010. A schema drift on the server (new required field, renamed key) would silently break cross-check. Tests pin the expected shape.",
       "type": "code",

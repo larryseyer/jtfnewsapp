@@ -91,6 +91,9 @@
 		AA000001086 /* fixture_partialFeed.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA000002073 /* fixture_partialFeed.xml */; };
 		AA000001087 /* fixture_malformedPubDate.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA000002074 /* fixture_malformedPubDate.xml */; };
 		AA000001088 /* fixture_conflictMarkers.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA000002075 /* fixture_conflictMarkers.xml */; };
+		AA000001089 /* MonitorResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002076 /* MonitorResponseTests.swift */; };
+		AA000001090 /* fixture_monitor_full.json in Resources */ = {isa = PBXBuildFile; fileRef = AA000002077 /* fixture_monitor_full.json */; };
+		AA000001091 /* fixture_monitor_minimal.json in Resources */ = {isa = PBXBuildFile; fileRef = AA000002078 /* fixture_monitor_minimal.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +200,9 @@
 		AA000002073 /* fixture_partialFeed.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fixture_partialFeed.xml; sourceTree = "<group>"; };
 		AA000002074 /* fixture_malformedPubDate.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fixture_malformedPubDate.xml; sourceTree = "<group>"; };
 		AA000002075 /* fixture_conflictMarkers.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fixture_conflictMarkers.xml; sourceTree = "<group>"; };
+		AA000002076 /* MonitorResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorResponseTests.swift; sourceTree = "<group>"; };
+		AA000002077 /* fixture_monitor_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fixture_monitor_full.json; sourceTree = "<group>"; };
+		AA000002078 /* fixture_monitor_minimal.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fixture_monitor_minimal.json; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000003003 /* JTFNewsWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JTFNewsWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -461,6 +467,7 @@
 			isa = PBXGroup;
 			children = (
 				AA000002071 /* PodcastXMLParserTests.swift */,
+				AA000002076 /* MonitorResponseTests.swift */,
 				AA000005021 /* Fixtures */,
 			);
 			path = JTFNewsTests;
@@ -473,6 +480,8 @@
 				AA000002073 /* fixture_partialFeed.xml */,
 				AA000002074 /* fixture_malformedPubDate.xml */,
 				AA000002075 /* fixture_conflictMarkers.xml */,
+				AA000002077 /* fixture_monitor_full.json */,
+				AA000002078 /* fixture_monitor_minimal.json */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -631,6 +640,8 @@
 				AA000001086 /* fixture_partialFeed.xml in Resources */,
 				AA000001087 /* fixture_malformedPubDate.xml in Resources */,
 				AA000001088 /* fixture_conflictMarkers.xml in Resources */,
+				AA000001090 /* fixture_monitor_full.json in Resources */,
+				AA000001091 /* fixture_monitor_minimal.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,6 +748,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA000001084 /* PodcastXMLParserTests.swift in Sources */,
+				AA000001089 /* MonitorResponseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

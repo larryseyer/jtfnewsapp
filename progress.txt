@@ -324,3 +324,18 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 **Patterns/learnings:**
 - Per `feedback_swiftdata_contexts.md`: persist MUST use the SwiftUI-injected modelContext so @Query sees writes.
 - Widget target also compiles CachedPodcastEpisode.swift so the shared schema stays in sync.
+
+---
+
+### Iteration 17 — APP-017: DigestView: offline banner when rendering cached data
+
+**Files changed:**
+- `JTFNews/Views/Digest/DigestView.swift`
+
+**What was done:**
+- Added offline banner in `episodesContent`: when `!connectivity.isConnected && !cachedEpisodes.isEmpty`, renders `HStack { wifi.slash icon + "Showing cached digest (offline)" }` styled `.jtfCaption` + `.secondary` above the episode list.
+- Added offline empty state: when `!connectivity.isConnected && cachedEpisodes.isEmpty && !isLoading`, renders "No internet connection — the digest will load when you're back online." instead of the generic "No episodes available" text.
+- Suppressed mismatch banner when offline: `pinnedHeader` now guards `feedMismatchBanner` display with `connectivity.isConnected` so the offline banner in `episodesContent` takes precedence — avoids stacking two status banners.
+
+**Patterns/learnings:**
+- When layering multiple status banners (mismatch, offline, freshness), establish a clear precedence: offline > mismatch > freshness. One banner at a time in each visual zone.

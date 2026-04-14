@@ -310,7 +310,7 @@
     {
       "id": "APP-017",
       "priority": 17,
-      "passes": false,
+      "passes": true,
       "title": "DigestView: offline banner when rendering cached data",
       "why": "After APP-016, a user with no connectivity sees the cached list without any indication it's not live. Truth demands disclosure.",
       "type": "code",

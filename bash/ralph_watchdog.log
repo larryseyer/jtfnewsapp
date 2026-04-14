@@ -28,3 +28,15 @@
 [2026-04-06 21:57:58] ==========================================
 [2026-04-06 21:57:58] Starting state: 0/6 stories complete
 [2026-04-06 21:57:58] Waiting: 0/6 | Working on: APP-020: Add macOS destination to Xcode project | 187s since last commit
+[2026-04-14 12:03:40] ==========================================
+[2026-04-14 12:03:40] Ralph Watchdog Started - JTF News App
+[2026-04-14 12:03:40] Check interval: 600s (10 min)
+[2026-04-14 12:03:40] Stall threshold: 1800s (30 min)
+[2026-04-14 12:03:40] ==========================================
+[2026-04-14 12:03:40] Starting state: 0/23 stories complete
+[2026-04-14 12:03:40] STALL DETECTED: No commits for 2141 minutes
+[2026-04-14 12:03:40]     Last story: APP-001: Emergency runbook: strip git conflict markers from production podcast.xml
+[2026-04-14 12:03:40]     Claude running: yes
+[2026-04-14 12:03:40]     Ralph running: yes
+[2026-04-14 12:13:40] Progress: 9/23 complete | Next: APP-010: DigestView: cross-check parsed feed against monitor.json.last_date and banner on mismatch | Commit: de3e1f4
+[2026-04-14 12:23:40] Progress: 14/23 complete | Next: APP-015: MonitorResponse decode tests | Commit: c2037ac

@@ -96,7 +96,7 @@ struct DigestView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal, 16)
 
-            if let banner = feedMismatchBanner {
+            if connectivity.isConnected, let banner = feedMismatchBanner {
                 Text(banner)
                     .font(.jtfCaption)
                     .foregroundStyle(.secondary)
@@ -122,8 +122,27 @@ struct DigestView: View {
 
     @ViewBuilder
     private var episodesContent: some View {
+        if !connectivity.isConnected && !cachedEpisodes.isEmpty {
+            HStack(spacing: 6) {
+                Image(systemName: "wifi.slash")
+                    .font(.jtfCaption)
+                Text("Showing cached digest (offline)")
+                    .font(.jtfCaption)
+            }
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 16)
+            .padding(.top, 8)
+        }
         if !cachedEpisodes.isEmpty {
             episodesSection
+        } else if !isLoading && !connectivity.isConnected {
+            Text("No internet connection — the digest will load when you're back online.")
+                .font(.jtfCaption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.top, 48)
+                .padding(.horizontal, 32)
+                .frame(maxWidth: .infinity)
         } else if !isLoading {
             Text("No episodes available")
                 .font(.jtfCaption)

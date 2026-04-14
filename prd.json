@@ -72,7 +72,7 @@
     {
       "id": "APP-004",
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "title": "Drop items with unparseable pubDate instead of falling back to `Date()`",
       "why": "PodcastService.swift:173 writes `date: date ?? Date()`. If pubDate is malformed, the item gets 'now' as its date and — because the list sorts newest first — it jumps to the top. A bad pubDate then masquerades as 'latest,' which is a direct Truth violation. A Truth-seeking app cannot fabricate dates. Better to skip the item and log it.",
       "type": "code",

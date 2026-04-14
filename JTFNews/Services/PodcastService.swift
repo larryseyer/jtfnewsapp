@@ -206,15 +206,20 @@ final class PodcastXMLParser: NSObject, XMLParserDelegate, @unchecked Sendable {
             inItem = false
             let trimmedTitle = currentTitle.trimmingCharacters(in: .whitespacesAndNewlines)
             let trimmedAudio = currentAudioURL.trimmingCharacters(in: .whitespacesAndNewlines)
-            let date = parseRFC2822Date(currentDate.trimmingCharacters(in: .whitespacesAndNewlines))
+            let trimmedDate = currentDate.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            guard let date = parseRFC2822Date(trimmedDate) else {
+                #if DEBUG
+                print("[PodcastXMLParser] dropped item with unparseable pubDate: \(trimmedDate) (title: \(trimmedTitle))")
+                #endif
+                return
+            }
 
             let stableID: String
             if trimmedAudio.isEmpty {
-                let dateKey = date.map { ISO8601DateFormatter().string(from: $0) }
-                    ?? currentDate.trimmingCharacters(in: .whitespacesAndNewlines)
-                stableID = "pending-\(trimmedTitle)-\(dateKey)"
+                stableID = "pending-\(trimmedTitle)-\(ISO8601DateFormatter().string(from: date))"
                 #if DEBUG
-                print("[PodcastXMLParser] kept audioless episode: \(trimmedTitle) / \(currentDate)")
+                print("[PodcastXMLParser] kept audioless episode: \(trimmedTitle) / \(trimmedDate)")
                 #endif
             } else {
                 stableID = trimmedAudio
@@ -223,7 +228,7 @@ final class PodcastXMLParser: NSObject, XMLParserDelegate, @unchecked Sendable {
             let episode = PodcastEpisode(
                 id: stableID,
                 title: trimmedTitle,
-                date: date ?? Date(),
+                date: date,
                 audioURL: trimmedAudio,
                 duration: currentDuration.trimmingCharacters(in: .whitespacesAndNewlines)
             )

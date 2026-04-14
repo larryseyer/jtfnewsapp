@@ -134,3 +134,18 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 
 **Patterns/learnings:**
 - `ISO8601DateFormatter` is used for the date key in pending IDs; falls back to raw pubDate text if date parsing failed (though APP-004 will drop those items entirely).
+
+### APP-004 — Drop items with unparseable pubDate instead of falling back to `Date()`
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Services/PodcastService.swift`
+
+**What was done:**
+- Replaced `date ?? Date()` with a `guard let date = parseRFC2822Date(...)` that returns early (drops the item) on failure.
+- DEBUG-only log prints the unparseable date and title for diagnosis.
+- `PodcastEpisode.date` remains non-optional `Date` — the drop happens before construction.
+- Simplified the audioless ID path since `date` is now guaranteed non-nil past the guard.
+
+**Patterns/learnings:**
+- Guard-return in `didEndElement` is clean because XMLParser won't skip the next `<item>` — the parser resets state at `didStartElement("item")`.

@@ -103,3 +103,19 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 **Patterns/learnings:**
 - Server patch documents are the correct delivery mechanism for production fixes — Ralph documents, Larry applies.
 - The conflict markers explain why Digest showed Apr 8: XMLParser aborts at the first invalid element, returning only pre-abort items.
+
+### APP-002 — PodcastXMLParser: surface parse errors instead of silently returning a partial list
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Services/PodcastService.swift`
+
+**What was done:**
+- Added `PodcastFeedError` enum with `.malformedXML(underlying:partialCount:)` case.
+- Added `parseError` property to `PodcastXMLParser`, set by new `parser(_:parseErrorOccurred:)` and `parser(_:validationErrorOccurred:)` delegate methods.
+- Renamed core method to `parseThrowing()`: throws `.malformedXML` when parseError is set AND fewer than 7 items parsed. When ≥7 items parsed (late-feed abort), returns what was parsed with a DEBUG-only log.
+- Kept `parse()` as a deprecated wrapper that swallows to empty with DEBUG print.
+- `fetchEpisodes` now calls `parseThrowing()` and propagates errors to the view layer.
+
+**Patterns/learnings:**
+- `minTrustedCount = 7` threshold: a full week's feed is the minimum for partial data to be trustworthy. Below that, the abort happened too early for the data to be reliable.

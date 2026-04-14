@@ -1,5 +1,9 @@
 import Foundation
 
+enum PodcastFeedError: Error {
+    case malformedXML(underlying: Error, partialCount: Int)
+}
+
 struct PodcastEpisode: Sendable, Identifiable {
     let id: String
     let title: String
@@ -31,7 +35,7 @@ actor PodcastService {
         )
         let (data, _) = try await URLSession.shared.data(for: request)
         let parser = PodcastXMLParser(data: data)
-        return parser.parse().sorted { $0.date > $1.date }
+        return try parser.parseThrowing().sorted { $0.date > $1.date }
     }
 
     func fetchYouTubeURL(baseURL: String = "https://jtfnews.org") async throws -> String? {
@@ -110,6 +114,7 @@ struct DailyDigestInfo: Codable, Sendable {
 final class PodcastXMLParser: NSObject, XMLParserDelegate, @unchecked Sendable {
     private let data: Data
     private var episodes: [PodcastEpisode] = []
+    private var parseError: Error?
     private var currentElement = ""
     private var currentTitle = ""
     private var currentDate = ""
@@ -117,15 +122,46 @@ final class PodcastXMLParser: NSObject, XMLParserDelegate, @unchecked Sendable {
     private var currentDuration = ""
     private var inItem = false
 
+    private static let minTrustedCount = 7
+
     init(data: Data) {
         self.data = data
     }
 
-    func parse() -> [PodcastEpisode] {
+    func parseThrowing() throws -> [PodcastEpisode] {
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()
+
+        if let error = parseError {
+            if episodes.count < Self.minTrustedCount {
+                throw PodcastFeedError.malformedXML(underlying: error, partialCount: episodes.count)
+            }
+            #if DEBUG
+            print("[PodcastXMLParser] late-feed XML error after \(episodes.count) items: \(error.localizedDescription)")
+            #endif
+        }
         return episodes
+    }
+
+    @available(*, deprecated, message: "Use parseThrowing() — this wrapper swallows errors")
+    func parse() -> [PodcastEpisode] {
+        do {
+            return try parseThrowing()
+        } catch {
+            #if DEBUG
+            print("[PodcastXMLParser] parse() swallowed error: \(error)")
+            #endif
+            return []
+        }
+    }
+
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        self.parseError = parseError
+    }
+
+    func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
+        self.parseError = validationError
     }
 
     func parser(

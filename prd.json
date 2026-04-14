@@ -36,7 +36,7 @@
     {
       "id": "APP-002",
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "title": "PodcastXMLParser: surface parse errors instead of silently returning a partial list",
       "why": "When Apple's XMLParser hits a malformed byte it calls `parser:didFailWithError:` and stops. Our parser currently has no error delegate, so `parse()` silently returns whatever `episodes` contains at the moment of abort. That is how line 1110's conflict markers translated into a Digest tab showing only items prior to the abort, with zero visible indication that parsing failed. A Truth-seeking app must treat silent partial data as a bug, not an acceptable state.",
       "type": "code",

@@ -10,6 +10,9 @@ struct DigestView: View {
     @State private var youtubePlaylist: [String: String] = [:]
     @State private var isLoading = true
     @State private var hasLoadedOnce = false
+    @State private var feedMismatchBanner: String?
+    @State private var didAutoRetryMismatch = false
+    @State private var canonicalLastDate: Date?
 
     /// Renders episode pubDates in the same GMT calendar day as the RSS
     /// `<title>`, not the device's local day. The Daily Digest is scheduled
@@ -90,6 +93,14 @@ struct DigestView: View {
             }
             .pickerStyle(.segmented)
             .padding(.horizontal, 16)
+
+            if let banner = feedMismatchBanner {
+                Text(banner)
+                    .font(.jtfCaption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 16)
+                    .onTapGesture { feedMismatchBanner = nil }
+            }
 
             if preferVideoMode {
                 videoSection
@@ -260,7 +271,10 @@ struct DigestView: View {
     /// the YouTube playlist scrape hitting a layout change on youtube.com —
     /// never hides successfully-fetched episodes or the video URL. This
     /// mirrors the resilience pattern we use in `StoriesView.refresh`.
-    private func loadContent(force: Bool = false) async {
+    private func loadContent(force: Bool = false, isRetry: Bool = false) async {
+        if !isRetry {
+            didAutoRetryMismatch = false
+        }
         defer { isLoading = false }
         let service = PodcastService()
 
@@ -270,8 +284,14 @@ struct DigestView: View {
                     let eps = try await service.fetchEpisodes(force: force)
                     await MainActor.run {
                         episodes = eps
+                        feedMismatchBanner = nil
                         FetchCooldown.markFetched(key: FetchCooldownKey.digest)
                     }
+                } catch let error as PodcastFeedError {
+                    await MainActor.run {
+                        feedMismatchBanner = "Feed is temporarily malformed — showing what we could parse"
+                    }
+                    print("[DigestView] fetchEpisodes malformed: \(String(reflecting: error))")
                 } catch {
                     print("[DigestView] fetchEpisodes failed: \(String(reflecting: error))")
                 }
@@ -290,6 +310,30 @@ struct DigestView: View {
                     await MainActor.run { youtubePlaylist = playlist }
                 } catch {
                     print("[DigestView] fetchYouTubePlaylist failed: \(String(reflecting: error))")
+                }
+            }
+            group.addTask {
+                do {
+                    let date = try await service.fetchCanonicalLastDate()
+                    await MainActor.run { canonicalLastDate = date }
+                } catch {
+                    print("[DigestView] fetchCanonicalLastDate failed: \(String(reflecting: error))")
+                }
+            }
+        }
+
+        // Cross-check: is the parsed feed behind what monitor.json claims?
+        if let canonical = canonicalLastDate, let newestEpisode = episodes.first?.date {
+            var gmtCalendar = Calendar(identifier: .gregorian)
+            gmtCalendar.timeZone = .gmt
+            let canonicalDay = gmtCalendar.startOfDay(for: canonical)
+            let newestDay = gmtCalendar.startOfDay(for: newestEpisode)
+            if canonicalDay > newestDay {
+                if !didAutoRetryMismatch {
+                    didAutoRetryMismatch = true
+                    await loadContent(force: true, isRetry: true)
+                } else {
+                    feedMismatchBanner = "Feed is catching up — latest digest is \(Self.episodeDateFormatter.string(from: canonical))"
                 }
             }
         }

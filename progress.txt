@@ -208,3 +208,20 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Added `.onChange(of: connectivity.isConnected)` on NavigationStack.
 - Triggers only on `false → true` transition, guards on `hasLoadedOnce` and 60s cooldown.
 - Launches `Task { await loadContent(force: true) }` on pass.
+
+### APP-010 — DigestView: cross-check parsed feed against monitor.json.last_date and banner on mismatch
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Views/Digest/DigestView.swift`
+
+**What was done:**
+- Added `@State feedMismatchBanner`, `didAutoRetryMismatch`, and `canonicalLastDate`.
+- Added fourth child task in `loadContent` calling `fetchCanonicalLastDate()`.
+- After task group: compares canonical date vs newest episode date at GMT day granularity. If canonical is newer, auto-retries once; on second mismatch sets user-visible banner.
+- `.malformedXML` errors from parseThrowing() now set banner "Feed is temporarily malformed — showing what we could parse".
+- Banner renders in `pinnedHeader` below segmented picker, `.jtfCaption` `.secondary`, tap to dismiss.
+- `didAutoRetryMismatch` resets at start of non-retry `loadContent` calls.
+
+**Patterns/learnings:**
+- `@State` used as task-group-to-post-group communication channel since Swift concurrency closures can't capture mutable locals. After `withTaskGroup` returns, all tasks have completed and @State is current on MainActor.

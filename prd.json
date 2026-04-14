@@ -172,7 +172,7 @@
     {
       "id": "APP-010",
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "title": "DigestView: cross-check parsed feed against monitor.json.last_date and banner on mismatch",
       "why": "Even with APP-002/003/004, the feed itself can be authoritative-but-wrong (that's what happened today). monitor.json.last_date is an independent witness. When the two disagree, we have a duty to tell the user rather than show a lie.",
       "type": "code",

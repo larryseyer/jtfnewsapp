@@ -379,7 +379,7 @@
     {
       "id": "APP-021",
       "priority": 21,
-      "passes": false,
+      "passes": true,
       "title": "Server patch doc: single-commit GitHub Pages push via Git Data API",
       "why": "`push_to_ghpages` (main.py:7322-7401) issues per-file HTTP PUTs. During a publish cycle Fastly sees multiple ref states, and consumers mid-publish can fetch a mixed set (old podcast.xml + new monitor.json, etc.). Using the Git Data API to build a tree and one commit means origin flips atomically; Fastly revalidates once; consumers see either fully-old or fully-new.",
       "type": "server-patch-document",

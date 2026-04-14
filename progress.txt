@@ -391,3 +391,17 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Showed before/after diffs for `upload_to_archive_org` and `update_podcast_feeds`.
 - Specified `monitor.json.daily_digest.upload_status` field ("success" | "pending").
 - Provided application and verification instructions.
+
+---
+
+### Iteration 21 — APP-021: Server patch doc: single-commit GitHub Pages push
+
+**Files created:**
+- `docs/server_patches/APP-021-single-commit-ghpages.md`
+
+**What was done:**
+- Documented the per-file PUT race where Fastly sees multiple ref states mid-cycle.
+- Proposed 4-step Git Data API recipe: create blobs → build tree → create commit → update ref.
+- Included complete Python pseudo-code for `atomic_push_to_ghpages`.
+- Explained failure handling: steps 1-3 failing leave old ref intact; step 4 race is retryable.
+- Cross-linked APP-019 as the complementary local-write atomicity layer.

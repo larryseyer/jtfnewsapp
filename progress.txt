@@ -1,0 +1,105 @@
+# Ralph Progress Log — JTF News Truth Bug Sweep
+Started: 2026-04-14
+Branch: ralph/truth-digest-fix-2026-04-14
+Mission: fix every Truth-affecting bug before the next App Store submission. Submission is PAUSED.
+---
+
+## Seed context (read before first iteration)
+
+Today is **2026-04-14**. The iPad Release build shows the Digest tab stuck at **April 8** while Stories/Archive correctly show Apr 13/14. Investigation produced three compounding root causes:
+
+1. **Production `podcast.xml` has unresolved git merge conflict markers** at lines 1110, 1204, 1205 (`<<<<<<< Updated upstream` / `=======` / `>>>>>>> Stashed changes`). Apple's `XMLParser` aborts at line 1110 col 2 with "StartTag: invalid element name." Everything after line 1110 is lost to the app. Apr 12 is also missing from the feed; Apr 13 has duplicate episode number 1 (content issue, flagged separately).
+
+2. **Swift `PodcastXMLParser` silently returns whatever it managed to parse** before any `didFailWithError`. No error delegate, no throw, no banner. Silent partial data is not acceptable for a Truth-seeking app.
+
+3. **`DigestView` fetches once per process** (`.task` guarded by `hasLoadedOnce`) with no scenePhase / onAppear / reconnect hook, and no cross-check against the canonical `monitor.json.last_date`. A partial first fetch is permanent until pull-to-refresh.
+
+There are also two smaller Truth hazards in the same parser worth fixing while we are in there:
+
+4. Items with empty `<enclosure url>` are silently dropped at PodcastService.swift:177.
+5. Items with unparseable `<pubDate>` fall back to `Date()` at line 173, which — because the list sorts newest first — would float a malformed item to the top.
+
+## Execution model (hard rules for every iteration)
+
+- Ralph runs on the **M4 Mac**. Working directory: `/Users/larryseyer/jtfnewsapp`.
+- Ralph can run bash, Swift/Xcode edits. Ralph **cannot** run Python. Ralph **cannot** run git commands targeting `/Volumes/MacLive/`.
+- Production JTF News lives on the **2012 Intel Mac**, mounted at `/Volumes/MacLive/Users/larryseyer/JTFNews`. Python there runs only under `./venv/bin/python` (system Python is 2.7 and cannot parse main.py).
+- Commits to production happen via **`./bu.sh "message"`** only, never raw git.
+- Server-affecting stories (APP-001, APP-019..APP-023) produce **patch documents** under `/Users/larryseyer/jtfnewsapp/docs/server_patches/`. Ralph never edits files on `/Volumes/MacLive/`. Larry applies the patches on Intel Mac via `Edit` + `bu.sh`.
+- Ralph never claims runtime verification for anything Python. That's Larry's, on Intel.
+- No `xcodebuild`, `swift test`, or any build during the story phase — they run once in Ralph's verification pass after all stories pass.
+- One story per iteration, lowest `priority` number with `passes: false` first.
+- Commit message format: `APP-XXX: <story title>`.
+
+## Memory context (already captured, do not re-derive)
+
+- `project_pre_appstore_freeze.md` — freeze is LIFTED as of 2026-04-14; Truth-first fixes before any submission.
+- `feedback_truth_accuracy.md` — every displayed date/fact must match source on every row.
+- `feedback_production_scope.md` — stay on iOS side without explicit invitation. Emergency bug is an invitation to **document** a fix, not to edit production.
+- `feedback_jtfnews_production_workflow.md` — bu.sh for commits; Python Intel-only via venv.
+- `reference_pbxproj_ids.md` — next free pbxproj IDs at story start: `AA000001084 / AA000002071`. Stories that add files (APP-014, APP-016) must consume sequentially and update the memory.
+- `project_widget_architecture.md` — shared SwiftData schema across app and widget; new models must be added to the shared container.
+- `feedback_swiftdata_contexts.md` — @Query only sees writes on the same ModelContext the view injected.
+- `feedback_elegance_standard.md` — prefer the clean refactor over the minimal patch.
+
+## Story dependency map (for iteration planning)
+
+```
+APP-001  (server runbook) ──── independent
+APP-002  (parser error surfacing) ─┐
+APP-003  (drop filter)             ├─ parser Truth fixes; independent of each other
+APP-004  (pubDate fallback)        ┘
+APP-005  (monitor.json decode) ──── enables APP-010
+
+APP-006  (cooldown key) ──── enables APP-007, APP-008, APP-009
+APP-007  (scenePhase refetch) ─┐
+APP-008  (onAppear refetch)    ├─ refetch gap fixes
+APP-009  (reconnect refetch)   ┘
+APP-010  (mismatch banner) ──── depends on APP-002 (malformedXML type) + APP-005 (fetchCanonicalLastDate)
+
+APP-011  (currentEpisode split + pending row UI) ─── depends on APP-003 (hasAudio)
+APP-012  (freshness label) ──── depends on APP-006 (digest cooldown key)
+APP-013  (macOS scenePhase un-guard) ──── independent
+
+APP-014  (test target + XML fixtures) ──── consumes hasAudio from APP-003 and malformedXML from APP-002
+APP-015  (monitor.json tests) ──── depends on APP-005
+
+APP-016  (CachedPodcastEpisode + @Query) ──── structural; keep after core Truth fixes
+APP-017  (offline banner) ──── depends on APP-016
+
+APP-018  (watchOS audit) ──── independent
+
+APP-019  (atomic writes patch doc)      ─┐
+APP-020  (Archive reachability patch)    ├─ server-side patch docs; Larry applies on Intel
+APP-021  (single-commit push patch)      │
+APP-022  (server tests patch)            │
+APP-023  (publish invariants doc)        ┘
+```
+
+## Notes for future iterations
+
+- When a story creates new pbxproj entries (APP-014 adds a test target, APP-016 adds a model file), after completion **update `reference_pbxproj_ids.md`** memory with the new max IDs so the next story reads correct values.
+- When a story modifies memory-relevant state (e.g., APP-023 ships the publish invariants doc to production), note it in progress.txt so the memory update happens.
+- Do not delete or rewrite these seed sections — append new iteration logs below the `--- Iteration Log ---` divider.
+
+---
+## --- Iteration Log ---
+(Ralph appends one block per completed story below.)
+
+### APP-001 — Emergency runbook: strip git conflict markers from production podcast.xml
+**Status:** DONE
+**Type:** Server patch document
+**Files created:**
+- `docs/server_patches/APP-001-podcast-xml-conflict-markers.md`
+
+**What was done:**
+Created a complete remediation runbook for Larry to apply on the Intel Mac. The document covers:
+- Exact observation: conflict markers at lines 1110, 1204, 1205 causing XMLParser abort
+- Root-cause hypothesis: `git stash pop` left markers, published via main.py API path bypassing bu.sh
+- Step-by-step safe recipe: pause main.py, inspect, sed preview+apply, verify episodes, bu.sh commit, restart
+- Flagged follow-up items: missing Apr 12 episode, duplicate episode number on Apr 13
+- Cross-referenced APP-019 (atomic writes) and APP-021 (single-commit push) as structural prevention
+
+**Patterns/learnings:**
+- Server patch documents are the correct delivery mechanism for production fixes — Ralph documents, Larry applies.
+- The conflict markers explain why Digest showed Apr 8: XMLParser aborts at the first invalid element, returning only pre-abort items.

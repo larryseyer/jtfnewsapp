@@ -1,0 +1,430 @@
+{
+  "branchName": "ralph/truth-digest-fix-2026-04-14",
+  "project": "JTF News iOS/macOS + production feed",
+  "mission": "Truth trumps Time. App Store submission is paused until every known Truth-affecting bug is fixed and verified. The Digest tab currently shows Apr 8 while the server has through Apr 13 because (1) production podcast.xml was published with unresolved git conflict markers at line 1110 that abort Apple's XMLParser, (2) the Swift parser silently returns a partial list on parseError, (3) the parser drops items with empty enclosure URLs without telling the user, (4) pubDate parse failures fall back to `Date()` which would sort a bad item to the top, (5) the Digest view fetches once per process with no scenePhase / tab-reentry / reconnect hooks and no cross-check against `monitor.json.last_date`. Each of these is a Truth hazard independent of the others.",
+  "executionModel": {
+    "ralphRunsOn": "M4 (this machine). Can read/write under /Users/larryseyer/jtfnewsapp. Can run bash. CANNOT run python. CANNOT run git commands targeting /Volumes/MacLive/ (use bu.sh on Intel only).",
+    "productionWorkspace": "/Volumes/MacLive/Users/larryseyer/JTFNews — the 2012 Intel Mac, mounted over the network. Python executes there only, via ./venv/bin/python. Commits there happen via ./bu.sh (never raw git).",
+    "serverStoryContract": "Server-affecting stories (APP-001, APP-019..APP-023) must NOT edit /Volumes/MacLive/. They produce a patch document under /Users/larryseyer/jtfnewsapp/docs/server_patches/ that Larry applies on the Intel Mac via Edit + ./bu.sh. The story is `passes: true` when the patch document exists and is complete enough for Larry to apply without guessing."
+  },
+  "rules": {
+    "onePerIteration": "Implement exactly one story per Ralph iteration, lowest priority number first that still has passes:false.",
+    "noBuilds": "Do NOT run xcodebuild, swift test, python, or any verification during the story phase. Ralph's verification pass (after every story passes) runs the build+test suite once.",
+    "commitFormat": "git add -A && git commit -m \"APP-XXX: <story title>\"",
+    "editPolicy": "No refactors beyond what the story requires. No feature additions. Cleanups are in scope only when they directly serve a Truth fix.",
+    "scopeFence": "Never edit /Volumes/MacLive/Users/larryseyer/JTFNews directly. Never commit via raw git to that path. Emit patch documents instead."
+  },
+  "stories": [
+    {
+      "id": "APP-001",
+      "priority": 1,
+      "passes": true,
+      "title": "Emergency runbook: strip git conflict markers from production podcast.xml",
+      "why": "Production feed at https://jtfnews.org/podcast.xml contains `<<<<<<< Updated upstream` at line 1110, `=======` at 1204, `>>>>>>> Stashed changes` at 1205. Apple's XMLParser aborts at line 1110 col 2 (StartTag: invalid element name). iOS Digest tab sees only items before the marker — April 8 and earlier. Apr 12 is also missing from the feed; Apr 13 has episode number 1 (duplicate). This is the single biggest cause of the user-visible bug.",
+      "type": "server-patch-document",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/docs/server_patches/APP-001-podcast-xml-conflict-markers.md (create)"
+      ],
+      "acceptanceCriteria": [
+        "Document exists at docs/server_patches/APP-001-podcast-xml-conflict-markers.md.",
+        "Document explains what was observed (exact line numbers 1110, 1204, 1205; exact text of markers; root-cause hypothesis: a `git stash pop` left markers in the file which was then published via the main.py GitHub API push path rather than via bu.sh).",
+        "Document includes a safe recipe Larry can run on the Intel Mac: (a) stop main.py or pause its publish loop, (b) cd /Users/larryseyer/JTFNews, (c) inspect the file on-disk to see if markers are local or only on the published copy, (d) if local, `sed -i '' -e '/^<<<<<<< /d' -e '/^=======$/d' -e '/^>>>>>>> /d' jtfnews.org/podcast.xml` — reviewing diff first, (e) verify the Apr 9/10/11 items kept and Apr 12 is investigated separately, (f) ./bu.sh \"APP-001: remove unresolved merge markers from published podcast.xml\", (g) restart main.py.",
+        "Document also calls out the missing Apr 12 episode and the duplicate episode-number-1 on Apr 13; flags them for follow-up investigation but does not prescribe a fix (that is a data/content issue, not a code issue).",
+        "Document calls out that APP-019 (atomic writes) and APP-021 (single-commit push) are the structural fixes that prevent this class of accident in the future; APP-001 is the one-time cleanup."
+      ]
+    },
+    {
+      "id": "APP-002",
+      "priority": 2,
+      "passes": false,
+      "title": "PodcastXMLParser: surface parse errors instead of silently returning a partial list",
+      "why": "When Apple's XMLParser hits a malformed byte it calls `parser:didFailWithError:` and stops. Our parser currently has no error delegate, so `parse()` silently returns whatever `episodes` contains at the moment of abort. That is how line 1110's conflict markers translated into a Digest tab showing only items prior to the abort, with zero visible indication that parsing failed. A Truth-seeking app must treat silent partial data as a bug, not an acceptable state.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Services/PodcastService.swift"
+      ],
+      "acceptanceCriteria": [
+        "Add `enum PodcastFeedError: Error { case malformedXML(underlying: Error, partialCount: Int) }` to the file.",
+        "`PodcastXMLParser` gains a `parseError: Error?` property set in `parser(_:parseErrorOccurred:)` and `parser(_:validationErrorOccurred:)`.",
+        "`PodcastXMLParser.parse()` becomes `parseThrowing() throws -> [PodcastEpisode]` which throws `.malformedXML(underlying:, partialCount: episodes.count)` when `parseError != nil` AND fewer than 7 items parsed (7-day window = every known-good publish). If ≥7 items parsed (a late-feed abort), return what was parsed but still log the underlying error in a `#if DEBUG` print. A legacy `parse() -> [PodcastEpisode]` is kept as a thin non-throwing wrapper that swallows to empty with a DEBUG print, documented as `@available(*, deprecated)` so new callers migrate.",
+        "`PodcastService.fetchEpisodes` calls `parseThrowing()` and propagates the error to the view layer.",
+        "No silent empty-array path remains for the malformed-XML case. DigestView will surface a user-visible banner via APP-010."
+      ]
+    },
+    {
+      "id": "APP-003",
+      "priority": 3,
+      "passes": false,
+      "title": "Stop silently dropping episodes with empty enclosure URL",
+      "why": "PodcastService.swift:177 currently filters out any item with `audioURL.isEmpty`. During an Archive.org propagation window the newest `<item>` can legitimately have an empty or pending enclosure, and silently hiding it means the top of the list lies about 'latest.' The fix is to keep the item and mark it as audio-pending, so the user sees a truthful 'published but audio still propagating' state.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Services/PodcastService.swift"
+      ],
+      "acceptanceCriteria": [
+        "Remove the `if !episode.audioURL.isEmpty { episodes.append(episode) }` guard. Always append the episode.",
+        "Add `var hasAudio: Bool { !audioURL.isEmpty }` to `PodcastEpisode`.",
+        "Change `PodcastEpisode.id` so it is stable even when `audioURL` is empty: `id = audioURL.isEmpty ? \"pending-\\(title)-\\(pubDateISO)\" : audioURL` where `pubDateISO` is the parsed date's ISO-8601 string (falls back to the raw pubDate text only if parsing succeeded — see APP-004). Never let two audioless items collide in `Identifiable`.",
+        "In DEBUG builds, print `[PodcastXMLParser] kept audioless episode: \\(title) / \\(pubDate)` for every such item so the diagnostic is visible during local testing.",
+        "UI handling of the `!hasAudio` state comes in APP-011; this story only fixes the parser truthfulness."
+      ]
+    },
+    {
+      "id": "APP-004",
+      "priority": 4,
+      "passes": false,
+      "title": "Drop items with unparseable pubDate instead of falling back to `Date()`",
+      "why": "PodcastService.swift:173 writes `date: date ?? Date()`. If pubDate is malformed, the item gets 'now' as its date and — because the list sorts newest first — it jumps to the top. A bad pubDate then masquerades as 'latest,' which is a direct Truth violation. A Truth-seeking app cannot fabricate dates. Better to skip the item and log it.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Services/PodcastService.swift"
+      ],
+      "acceptanceCriteria": [
+        "Remove the `?? Date()` fallback. If `parseRFC2822Date` returns nil, the `didEndElement` path for `item` logs `[PodcastXMLParser] dropped item with unparseable pubDate: \\(currentDate) (title: \\(currentTitle))` in `#if DEBUG` and does NOT append to `episodes`.",
+        "The non-DEBUG path silently drops. Diagnostic does not ship in Release.",
+        "Update the `PodcastEpisode.date` type to remain `Date` (non-optional); the drop happens before construction.",
+        "No test fixture should rely on the fallback behavior — if APP-014 ships before/after, adjust fixtures accordingly."
+      ]
+    },
+    {
+      "id": "APP-005",
+      "priority": 5,
+      "passes": false,
+      "title": "Decode monitor.json.daily_digest.last_date + podcast_updated; add fetchCanonicalLastDate()",
+      "why": "`monitor.json` is the canonical publish ledger. `daily_digest.last_date` is the ground truth for what the newest digest should be. Without it we cannot detect that the parsed feed is behind the server's own claim. Cross-checking against it gives us a second, independent Truth signal.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Services/PodcastService.swift"
+      ],
+      "acceptanceCriteria": [
+        "Extend `DailyDigestInfo` with `let lastDate: String?` (CodingKey `last_date`) and `let podcastUpdated: Bool?` (CodingKey `podcast_updated`). Keep existing `youtubeURL` field.",
+        "Add `func fetchCanonicalLastDate(baseURL: String = \"https://jtfnews.org\") async throws -> Date?` to `PodcastService` that reads `monitor.json` once and parses `last_date` (format `yyyy-MM-dd`, timeZone `.gmt`). Returns nil if absent or malformed.",
+        "Uses `.reloadRevalidatingCacheData` so the freshness guarantee matches `fetchEpisodes(force: true)`.",
+        "No caller wiring yet — APP-010 integrates it into DigestView."
+      ]
+    },
+    {
+      "id": "APP-006",
+      "priority": 6,
+      "passes": false,
+      "title": "Add FetchCooldownKey.digest (60 s)",
+      "why": "DigestView needs a cooldown key so scenePhase / onAppear / reconnect refetches don't thrash the network. 60 s matches the BackgroundRefreshManager debounce and is well below the feed's max-age=600.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Services/FetchCooldown.swift"
+      ],
+      "acceptanceCriteria": [
+        "Add `static let digest = \"lastDigestFetch\"` to `FetchCooldownKey`.",
+        "Add `static let digestShort: TimeInterval = 60` to `FetchCooldownInterval` (keep existing `live` and `nearStatic`).",
+        "No DigestView wiring in this story — APP-007 will consume."
+      ]
+    },
+    {
+      "id": "APP-007",
+      "priority": 7,
+      "passes": false,
+      "title": "DigestView: foreground refetch via scenePhase",
+      "why": "The view's `.task` with `hasLoadedOnce` fires exactly once per process lifetime. If the user backgrounds the app while a partial feed was served, then brings it forward after the server catches up, the stale data persists until pull-to-refresh. scenePhase .active transition is the industry-standard foreground hook.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift"
+      ],
+      "acceptanceCriteria": [
+        "Add `@Environment(\\.scenePhase) private var scenePhase` to `DigestView`.",
+        "Add `.onChange(of: scenePhase) { _, newPhase in ... }` on the `NavigationStack`. On `.active`: if `connectivity.isConnected` and `FetchCooldown.shouldFetch(FetchCooldownKey.digest, interval: FetchCooldownInterval.digestShort)`, launch `Task { await loadContent(force: true) }`.",
+        "Inside `loadContent`, on successful episodes fetch (in the existing `group.addTask` branch that sets `episodes`), call `FetchCooldown.markFetched(FetchCooldownKey.digest)` via a `@MainActor` hop.",
+        "No behavior change on cold launch — the existing `hasLoadedOnce` path still runs."
+      ]
+    },
+    {
+      "id": "APP-008",
+      "priority": 8,
+      "passes": false,
+      "title": "DigestView: tab-reentry refetch via onAppear",
+      "why": "SwiftUI keeps TabView children alive, so `.task` doesn't re-fire when the user returns to the Digest tab. onAppear does. Combined with the 60 s cooldown from APP-006 this prevents thrash while still catching the server-just-published case.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift"
+      ],
+      "acceptanceCriteria": [
+        "Add `.onAppear { ... }` to the inner `VStack(spacing: 0)` inside `NavigationStack` (not the ScrollView — onAppear on the outer container fires on tab selection too).",
+        "Handler guards on `hasLoadedOnce` (so first-ever appearance is handled by `.task`), `connectivity.isConnected`, and `FetchCooldown.shouldFetch(FetchCooldownKey.digest, interval: FetchCooldownInterval.digestShort)`.",
+        "On pass: `Task { await loadContent(force: true) }`."
+      ]
+    },
+    {
+      "id": "APP-009",
+      "priority": 9,
+      "passes": false,
+      "title": "DigestView: reconnect refetch when connectivity flips false → true",
+      "why": "A user bringing the phone back onto Wi-Fi after a tunnel/flight/dropout should see the latest digest without manually pulling. ConnectivityManager already publishes `isConnected` via @Observable; the view just needs to listen.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift"
+      ],
+      "acceptanceCriteria": [
+        "Add `.onChange(of: connectivity.isConnected) { oldValue, newValue in ... }` on the `NavigationStack`.",
+        "Trigger only on `oldValue == false && newValue == true` (guard against startup-state false→true if `hasLoadedOnce` isn't true yet — in that case the `.task` path handles it).",
+        "Respects the FetchCooldown gate from APP-006.",
+        "On pass: `Task { await loadContent(force: true) }`."
+      ]
+    },
+    {
+      "id": "APP-010",
+      "priority": 10,
+      "passes": false,
+      "title": "DigestView: cross-check parsed feed against monitor.json.last_date and banner on mismatch",
+      "why": "Even with APP-002/003/004, the feed itself can be authoritative-but-wrong (that's what happened today). monitor.json.last_date is an independent witness. When the two disagree, we have a duty to tell the user rather than show a lie.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift"
+      ],
+      "acceptanceCriteria": [
+        "Add `@State private var feedMismatchBanner: String?` and `@State private var didAutoRetryMismatch = false` to DigestView.",
+        "Inside `loadContent`, add a fourth child task that calls `service.fetchCanonicalLastDate()` and stores in a local `canonicalLastDate: Date?`.",
+        "After all child tasks finish (outside the group, still inside loadContent), compare the earliest-day-granularity (GMT calendar day) of `canonicalLastDate` vs `episodes.first?.date`. If canonical is newer: if `!didAutoRetryMismatch`, set `didAutoRetryMismatch = true` and recursively call `loadContent(force: true)` once. Otherwise set `feedMismatchBanner = \"Feed is catching up — latest digest is <date>\"` using the existing `episodeDateFormatter`.",
+        "Also surface a banner if `parseThrowing()` (from APP-002) threw `.malformedXML`: `feedMismatchBanner = \"Feed is temporarily malformed — showing what we could parse\"`.",
+        "Render the banner as a `.jtfCaption` secondary-foreground row inside `pinnedHeader` below the segmented picker, only when non-nil. Tap to dismiss (sets to nil).",
+        "Reset `didAutoRetryMismatch = false` at the start of every non-recursive `loadContent(force: true)` call."
+      ]
+    },
+    {
+      "id": "APP-011",
+      "priority": 11,
+      "passes": false,
+      "title": "DigestView: split currentEpisode; render audio-pending rows non-tappable with clock icon",
+      "why": "The player can only play episodes with audio, but the LIST should reflect every published episode — otherwise audioless items (which exist per APP-003) silently disappear from the UI after the parser change. The row must visually distinguish 'audio pending' so the user knows why it doesn't play, rather than suspecting a broken button.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift"
+      ],
+      "acceptanceCriteria": [
+        "Replace `currentEpisode` with two computeds: `currentAudioEpisode: PodcastEpisode?` = `episodes.first { $0.hasAudio && ($0.id == selectedEpisodeId || selectedEpisodeId == nil) } ?? episodes.first(where: \\.hasAudio)` and `currentVideoEpisode: PodcastEpisode?` = `episodes.first`.",
+        "`audioSection` uses `currentAudioEpisode`. `currentVideoURL` uses `currentVideoEpisode`.",
+        "`selectedEpisodeId` is only set from `episodeRow` when the row is tappable — so it always points to a `hasAudio` episode.",
+        "`episodeRow(_:)` branches on `episode.hasAudio`: audioful rows render as today (Button, speaker icon, selectable). Audioless rows render as a plain `HStack` (not a Button), with SF Symbol `clock` in the leading 16 pt slot (tint `.tertiary`), title in regular weight, and the trailing duration slot replaced by `Text(\"Audio pending\")` `.font(.jtfCaption)` `.foregroundStyle(.tertiary)`.",
+        "Audioless rows still respect row padding and background styles for visual consistency — same horizontal/vertical padding, same clipShape.",
+        "Accessibility label on audioless rows: `\"\\(episode.title), audio pending\"`."
+      ]
+    },
+    {
+      "id": "APP-012",
+      "priority": 12,
+      "passes": false,
+      "title": "Shared FetchCooldown.relativeLastUpdated helper + DigestView 'Updated Nm ago' label",
+      "why": "StoriesView already has a lastUpdatedText implementation (StoriesView.swift:275-282). Duplicating it in DigestView invites drift. Extracting once + reusing keeps freshness display consistent and makes the 20-minute stale threshold live in one place.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Services/FetchCooldown.swift",
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Stories/StoriesView.swift",
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift"
+      ],
+      "acceptanceCriteria": [
+        "Add `static func relativeLastUpdated(for key: String) -> String?` and `static func isStale(for key: String, threshold: TimeInterval = 20 * 60) -> Bool` to `FetchCooldown`. Parameterize the 20-minute threshold with a default.",
+        "StoriesView's local `lastUpdatedText` and `isStale` computeds now delegate to the shared helpers. Behavior identical.",
+        "DigestView's `pinnedHeader` renders `Text(\"Updated \\(FetchCooldown.relativeLastUpdated(for: FetchCooldownKey.digest) ?? \"just now\")\")` `.font(.jtfCaption)` `.foregroundStyle(.secondary)` under the video/audio section, only when `FetchCooldown.isStale(for: FetchCooldownKey.digest)` OR `!connectivity.isConnected`.",
+        "Do not show both the freshness label and the mismatch banner simultaneously — if `feedMismatchBanner != nil`, hide the freshness label to avoid visual clutter."
+      ]
+    },
+    {
+      "id": "APP-013",
+      "priority": 13,
+      "passes": false,
+      "title": "Un-guard macOS scenePhase in JTFNewsApp.swift",
+      "why": "The `.onChange(of: scenePhase)` block at JTFNewsApp.swift:55-63 is wrapped in `#if os(iOS)`. scenePhase works identically on macOS and Mac Catalyst. The guard was overcautious and means the macOS app never runs BackgroundRefreshManager.performForegroundCheck() on window activation — a macOS-only Truth gap.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/App/JTFNewsApp.swift"
+      ],
+      "acceptanceCriteria": [
+        "Remove `#if os(iOS)` / `#endif` around the `.onChange(of: scenePhase)` block at lines 55-63 (verify exact lines against current file).",
+        "If any macOS-only branch existed inside, keep the logic platform-parity-clean (iOS and macOS both call `BackgroundRefreshManager.performForegroundCheck()` on `.active`).",
+        "Build survives on both platforms (deferred to Ralph's verification pass, not this story)."
+      ]
+    },
+    {
+      "id": "APP-014",
+      "priority": 14,
+      "passes": false,
+      "title": "Add JTFNewsTests target + XML parser fixtures",
+      "why": "This repo ships no unit tests. The silent-drop + date-fallback + conflict-marker scenarios are exactly the bugs that tests would have caught in CI. Adding Swift Testing (iOS 17+) is the minimum bar. Fixtures are pinned copies of feed states we want to never regress against.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/PodcastXMLParserTests.swift (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/Fixtures/fixture_fullFeed.xml (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/Fixtures/fixture_partialFeed.xml (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/Fixtures/fixture_malformedPubDate.xml (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/Fixtures/fixture_conflictMarkers.xml (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj/project.pbxproj"
+      ],
+      "acceptanceCriteria": [
+        "New XCTest/Swift Testing target `JTFNewsTests` wired in project.pbxproj. Use sequential pbxproj IDs starting at AA000001084 / AA000002071 per memory `reference_pbxproj_ids.md`. Update that memory afterward with the new max IDs.",
+        "`fixture_fullFeed.xml`: a minimal-but-valid RSS 2.0 feed with 3 items, each with pubDate + enclosure. Test: all 3 parse, `hasAudio == true`, sorted newest first.",
+        "`fixture_partialFeed.xml`: 3 items, middle item has NO enclosure. Test: all 3 present, middle has `hasAudio == false`, no silent drops.",
+        "`fixture_malformedPubDate.xml`: 3 items, 2nd has pubDate `NOT A DATE`. Test: only 2 items returned (the malformed one dropped), no `Date()` fallback.",
+        "`fixture_conflictMarkers.xml`: mirrors the production bug exactly — 2 items, then `<<<<<<< Updated upstream`, more items, `=======`, `>>>>>>> Stashed changes`, more items. Test: `parseThrowing()` throws `.malformedXML`. `parse()` (legacy wrapper) returns empty or partial without crashing.",
+        "Do not run the tests in this story (Ralph's verification pass handles that); but the target must build."
+      ]
+    },
+    {
+      "id": "APP-015",
+      "priority": 15,
+      "passes": false,
+      "title": "MonitorResponse decode tests",
+      "why": "The monitor.json decode path is load-bearing for APP-005/APP-010. A schema drift on the server (new required field, renamed key) would silently break cross-check. Tests pin the expected shape.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/MonitorResponseTests.swift (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/Fixtures/fixture_monitor_full.json (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNewsTests/Fixtures/fixture_monitor_minimal.json (create)"
+      ],
+      "acceptanceCriteria": [
+        "`fixture_monitor_full.json`: has `daily_digest.last_date`, `daily_digest.podcast_updated`, `daily_digest.youtube_url`. Test: decodes, all three fields surface on `DailyDigestInfo`.",
+        "`fixture_monitor_minimal.json`: has only `daily_digest.youtube_url` (mimics old schema). Test: decodes, `lastDate` and `podcastUpdated` are nil, no crash.",
+        "Test that `fetchCanonicalLastDate` would parse `2026-04-13` as a `Date` in GMT — use a pure function seam; do NOT hit the network in tests."
+      ]
+    },
+    {
+      "id": "APP-016",
+      "priority": 16,
+      "passes": false,
+      "title": "CachedPodcastEpisode SwiftData model + DigestView @Query migration",
+      "why": "Right now the Digest tab's episode list lives in @State, meaning: (1) a cold launch with no network shows empty, (2) a transient server regression wipes the UI until recovery, (3) no widget / watch companion can reuse the list. A SwiftData-backed cache fixes all three. Per widget-architecture memory, the shared schema must include every model, so the widget extension inherits it automatically.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Models/CachedPodcastEpisode.swift (create)",
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Storage/SharedModelContainer.swift",
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift",
+        "/Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj/project.pbxproj"
+      ],
+      "acceptanceCriteria": [
+        "`@Model final class CachedPodcastEpisode` with fields: `id: String` (unique attribute), `title: String`, `date: Date`, `audioURL: String`, `duration: String`, `hasAudio: Bool`, `lastSeenAt: Date`.",
+        "Add to `SharedModelContainer`'s schema array. Widget target must continue to compile (schema is shared across app and widget per memory `project_widget_architecture.md`).",
+        "Use next sequential pbxproj IDs (post-APP-014) and update `reference_pbxproj_ids.md` memory with the new max.",
+        "DigestView: replace `@State private var episodes: [PodcastEpisode]` with `@Query(sort: \\CachedPodcastEpisode.date, order: .reverse, limit: 60) private var cachedEpisodes: [CachedPodcastEpisode]`. Render the list from `cachedEpisodes`.",
+        "`loadContent` gets a `@MainActor` persist step that upserts each fetched `PodcastEpisode` into `modelContext` (keyed on `id`). Items already in the cache but not in the latest fetch are left alone (server-regression protection) UNLESS `lastSeenAt` is older than 7 days, in which case they are purged.",
+        "Per memory `feedback_swiftdata_contexts.md`: the persist MUST use the SwiftUI-injected `modelContext`, not a sibling context, so `@Query` sees the writes.",
+        "No API-shape change to `PodcastService.fetchEpisodes`: it still returns `[PodcastEpisode]`; DigestView is responsible for translating to `CachedPodcastEpisode` before insert."
+      ]
+    },
+    {
+      "id": "APP-017",
+      "priority": 17,
+      "passes": false,
+      "title": "DigestView: offline banner when rendering cached data",
+      "why": "After APP-016, a user with no connectivity sees the cached list without any indication it's not live. Truth demands disclosure.",
+      "type": "code",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift"
+      ],
+      "acceptanceCriteria": [
+        "When `!connectivity.isConnected && !cachedEpisodes.isEmpty`, render a compact banner above the episode list: `HStack { Image(systemName: \"wifi.slash\"); Text(\"Showing cached digest (offline)\") }` styled `.jtfCaption` + `.secondary`.",
+        "When `!connectivity.isConnected && cachedEpisodes.isEmpty`, render the existing empty state but substitute text to 'No internet connection — the digest will load when you're back online.'",
+        "Does not stack with the APP-010 mismatch banner — offline takes precedence (if offline, hide the mismatch banner)."
+      ]
+    },
+    {
+      "id": "APP-018",
+      "priority": 18,
+      "passes": false,
+      "title": "Audit watchOS WatchDataService for silent-drop patterns",
+      "why": "Per the approved plan, watchOS Stories-only flow must get the same Truth treatment as iOS. This story is a discovery + fix-if-found pass, not a rewrite. Scope is: grep for 'continue on parse failure' / 'try? ... ?? []' / silent-filter patterns in the watch service; document findings; fix any real Truth hazard found.",
+      "type": "code-audit",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/JTFNewsWatch/**/*.swift"
+      ],
+      "acceptanceCriteria": [
+        "Grep results documented in progress.txt: which files / line numbers were scanned; what was found.",
+        "For any silent-drop / silent-fallback found: fix in the same commit, same story. Truth hazards get the same no-silent-drop treatment as APP-003/004.",
+        "If nothing found: the story still passes — write a clear progress.txt note stating the audit ran and watch is clean as of HEAD.",
+        "No UI changes in this story unless a Truth hazard requires them."
+      ]
+    },
+    {
+      "id": "APP-019",
+      "priority": 19,
+      "passes": false,
+      "title": "Server patch doc: atomic_write_text helper + every publish call site",
+      "why": "Production main.py currently writes podcast.xml / stories.json / corrections.json / monitor.json / archive/index.json in place with `.write_text(...)` or `open(..., 'w')`. A reader (Fastly revalidating, browser fetch, iOS URLSession) can observe a half-written file. Atomic replace is one `os.replace()` call.",
+      "type": "server-patch-document",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/docs/server_patches/APP-019-atomic-writes.md (create)"
+      ],
+      "acceptanceCriteria": [
+        "Document proposes `def atomic_write_text(path, text, *, encoding=\"utf-8\"): tmp = path.with_suffix(path.suffix + \".tmp\"); tmp.write_text(text, encoding=encoding); os.replace(tmp, path)` — include rationale (`os.replace` is atomic on POSIX).",
+        "Document lists every in-place write call site in main.py to convert: podcast.xml (approx line 6945), stories.json (3226), corrections.json (4566), monitor.json (7241), archive/index.json (7599). If line numbers have drifted, note that Larry should grep for `write_text(` and `open(..., 'w')` first.",
+        "Document includes the exact before/after diff snippet for one call site as a worked example.",
+        "Document instructs Larry: edit with bu.sh workflow, then restart main.py on Intel Mac. Verification: `tail -f jtf.log` + `curl -s https://jtfnews.org/podcast.xml | head -2` during next publish cycle; reader should never see a mid-write state.",
+        "Document explicitly notes: Ralph cannot edit main.py directly; Larry applies via Edit + ./bu.sh \"APP-019: atomic feed writes\" on the Intel Mac."
+      ]
+    },
+    {
+      "id": "APP-020",
+      "priority": 20,
+      "passes": false,
+      "title": "Server patch doc: Archive.org reachability gate before publishing <item>",
+      "why": "Today, `upload_to_archive_org` returns a constructed URL the instant `ia.upload()` acks — but Archive.org takes seconds to minutes to make the file publicly retrievable. During that window, podcast.xml can legitimately claim an enclosure URL that 404s. Poll HEAD with backoff; only emit the <item> once HEAD=200.",
+      "type": "server-patch-document",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/docs/server_patches/APP-020-archive-reachability-gate.md (create)"
+      ],
+      "acceptanceCriteria": [
+        "Document describes the race. Proposes HEAD poll with exponential backoff: 2s, 4s, 8s, 16s, 32s (cap 2 minutes). Return `success` only when HEAD returns 200 (or 206 for ranged).",
+        "On timeout: return `pending` result. `update_podcast_feeds` receives `pending` → MUST NOT insert the `<item>` this cycle. Next `check_midnight_archive` tick re-attempts.",
+        "`monitor.json.daily_digest.upload_status` field added with `\"pending\" | \"success\"` semantics.",
+        "Document includes worked-example diff for `upload_to_archive_org` (around line 6776-6782).",
+        "Document instructs Larry to apply via Edit + ./bu.sh \"APP-020: gate podcast.xml items on Archive.org HEAD reachability\" on Intel, then restart main.py."
+      ]
+    },
+    {
+      "id": "APP-021",
+      "priority": 21,
+      "passes": false,
+      "title": "Server patch doc: single-commit GitHub Pages push via Git Data API",
+      "why": "`push_to_ghpages` (main.py:7322-7401) issues per-file HTTP PUTs. During a publish cycle Fastly sees multiple ref states, and consumers mid-publish can fetch a mixed set (old podcast.xml + new monitor.json, etc.). Using the Git Data API to build a tree and one commit means origin flips atomically; Fastly revalidates once; consumers see either fully-old or fully-new.",
+      "type": "server-patch-document",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/docs/server_patches/APP-021-single-commit-ghpages.md (create)"
+      ],
+      "acceptanceCriteria": [
+        "Document outlines the 4-API-call recipe: (1) POST /repos/:o/:r/git/blobs per changed file, (2) GET current tree SHA + POST /git/trees referencing new blobs, (3) POST /git/commits with parent = current main, (4) PATCH /git/refs/heads/main to the new commit SHA.",
+        "Document explains failure handling: if any step fails, the old ref is still intact — consumer is never left in a half-published state.",
+        "Document includes Python pseudo-code for the replacement `push_to_ghpages`.",
+        "Document instructs Larry to apply via Edit + ./bu.sh \"APP-021: atomic single-commit GitHub Pages publish\" on Intel."
+      ]
+    },
+    {
+      "id": "APP-022",
+      "priority": 22,
+      "passes": false,
+      "title": "Server patch doc: tests for atomic_write + publish gate",
+      "why": "The server side currently has minimal/no tests for these two invariants. Adding them makes regression permanent.",
+      "type": "server-patch-document",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/docs/server_patches/APP-022-server-tests.md (create)"
+      ],
+      "acceptanceCriteria": [
+        "Document proposes `tests/test_atomic_writes.py`: concurrent reader tails a 1 MB file while writer runs atomic_write_text in a loop; reader must always see either pre-write or post-write content, never partial. Include a reference implementation.",
+        "Document proposes `tests/test_publish_gate.py`: mock `ia.upload()` + HTTP HEAD stub (first 3 calls return 404, 4th returns 200); assert `<item>` is only added when HEAD returns 200.",
+        "Document instructs Larry to run via `cd /Users/larryseyer/JTFNews && ./venv/bin/python -m pytest tests/test_atomic_writes.py tests/test_publish_gate.py -v` on Intel Mac, because M4 cannot run this Python."
+      ]
+    },
+    {
+      "id": "APP-023",
+      "priority": 23,
+      "passes": false,
+      "title": "Server doc: publish_invariants.md",
+      "why": "Once APP-019/020/021 ship, the publish path has enforceable invariants worth documenting. This doc lives in the production repo (/Volumes/MacLive/.../docs/) and is the canonical reference for why future edits to the publish code must not regress these guarantees.",
+      "type": "server-patch-document",
+      "files": [
+        "/Users/larryseyer/jtfnewsapp/docs/server_patches/APP-023-publish-invariants.md (create)"
+      ],
+      "acceptanceCriteria": [
+        "Document is written as the text Larry can drop at `/Volumes/MacLive/Users/larryseyer/JTFNews/docs/publish_invariants.md` via bu.sh.",
+        "States three invariants: (1) every published file is atomically replaced (no observable partial content), (2) podcast.xml never contains an <item> whose enclosure is not HEAD-200 reachable, (3) a publish cycle flips the origin ref atomically via a single commit.",
+        "Cross-links APP-019/020/021 as the implementations of each invariant.",
+        "Closes with a 'before you change publish code' checklist."
+      ]
+    }
+  ]
+}

@@ -54,9 +54,12 @@ run_ralph.sh
 # Crash logs
 crash.txt
 
-# internal docs
-docs/
+# internal docs (allow server_patches for Ralph patch documents)
+docs/*
+!docs/server_patches/
 
 # App Store submission instructions
 JTFNews/metadata/
 
+# Ignored Folder
+untracked/

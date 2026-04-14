@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>JTF News Daily Digest</title>
+    <item>
+      <title>JTF News Daily Digest - 2026-04-08</title>
+      <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
+      <enclosure url="https://archive.org/download/jtfnews-2026-04-08/digest.mp3" type="audio/mpeg" length="4500000"/>
+      <itunes:duration>04:45</itunes:duration>
+    </item>
+    <item>
+      <title>JTF News Daily Digest - 2026-04-07</title>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+      <enclosure url="https://archive.org/download/jtfnews-2026-04-07/digest.mp3" type="audio/mpeg" length="4400000"/>
+      <itunes:duration>04:30</itunes:duration>
+    </item>
+<<<<<<< Updated upstream
+    <item>
+      <title>JTF News Daily Digest - 2026-04-09</title>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <enclosure url="https://archive.org/download/jtfnews-2026-04-09/digest.mp3" type="audio/mpeg" length="4700000"/>
+      <itunes:duration>05:00</itunes:duration>
+    </item>
+=======
+    <item>
+      <title>JTF News Daily Digest - 2026-04-10</title>
+      <pubDate>Fri, 10 Apr 2026 00:00:00 +0000</pubDate>
+      <enclosure url="https://archive.org/download/jtfnews-2026-04-10/digest.mp3" type="audio/mpeg" length="4900000"/>
+      <itunes:duration>05:10</itunes:duration>
+    </item>
+>>>>>>> Stashed changes
+  </channel>
+</rss>

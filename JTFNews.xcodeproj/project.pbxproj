@@ -86,6 +86,11 @@
 		AA000001081 /* PlatformTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002068 /* PlatformTypography.swift */; };
 		AA000001082 /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002069 /* MacCalendarView.swift */; };
 		AA000001083 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002070 /* AboutView.swift */; };
+		AA000001084 /* PodcastXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002071 /* PodcastXMLParserTests.swift */; };
+		AA000001085 /* fixture_fullFeed.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA000002072 /* fixture_fullFeed.xml */; };
+		AA000001086 /* fixture_partialFeed.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA000002073 /* fixture_partialFeed.xml */; };
+		AA000001087 /* fixture_malformedPubDate.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA000002074 /* fixture_malformedPubDate.xml */; };
+		AA000001088 /* fixture_conflictMarkers.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA000002075 /* fixture_conflictMarkers.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +100,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = AA000006002;
 			remoteInfo = JTFNewsWidgetExtension;
+		};
+		AA00000C002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA000009001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA000006001;
+			remoteInfo = JTFNews;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -180,9 +192,15 @@
 		AA000002068 /* PlatformTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformTypography.swift; sourceTree = "<group>"; };
 		AA000002069 /* MacCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCalendarView.swift; sourceTree = "<group>"; };
 		AA000002070 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		AA000002071 /* PodcastXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastXMLParserTests.swift; sourceTree = "<group>"; };
+		AA000002072 /* fixture_fullFeed.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fixture_fullFeed.xml; sourceTree = "<group>"; };
+		AA000002073 /* fixture_partialFeed.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fixture_partialFeed.xml; sourceTree = "<group>"; };
+		AA000002074 /* fixture_malformedPubDate.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fixture_malformedPubDate.xml; sourceTree = "<group>"; };
+		AA000002075 /* fixture_conflictMarkers.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fixture_conflictMarkers.xml; sourceTree = "<group>"; };
 		AA000003001 /* JTFNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000003002 /* JTFNewsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JTFNewsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000003003 /* JTFNewsWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JTFNewsWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA000003004 /* JTFNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JTFNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +225,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000004004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -216,6 +241,7 @@
 				AA000005002 /* JTFNews */,
 				AA000005015 /* JTFNewsWidget */,
 				AA000005018 /* JTFNewsWatch */,
+				AA000005020 /* JTFNewsTests */,
 				AA000005009 /* Products */,
 				AA000002049 /* JTFNews.entitlements */,
 			);
@@ -321,6 +347,7 @@
 				AA000003001 /* JTFNews.app */,
 				AA000003002 /* JTFNewsWidgetExtension.appex */,
 				AA000003003 /* JTFNewsWatch Watch App.app */,
+				AA000003004 /* JTFNewsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -430,6 +457,26 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		AA000005020 /* JTFNewsTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002071 /* PodcastXMLParserTests.swift */,
+				AA000005021 /* Fixtures */,
+			);
+			path = JTFNewsTests;
+			sourceTree = "<group>";
+		};
+		AA000005021 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				AA000002072 /* fixture_fullFeed.xml */,
+				AA000002073 /* fixture_partialFeed.xml */,
+				AA000002074 /* fixture_malformedPubDate.xml */,
+				AA000002075 /* fixture_conflictMarkers.xml */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -486,6 +533,24 @@
 			productReference = AA000003003 /* JTFNewsWatch Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AA000006004 /* JTFNewsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000008006 /* Build configuration list for PBXNativeTarget "JTFNewsTests" */;
+			buildPhases = (
+				AA000007007 /* Sources */,
+				AA000004004 /* Frameworks */,
+				AA000007008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA00000B002 /* PBXTargetDependency */,
+			);
+			name = JTFNewsTests;
+			productName = JTFNewsTests;
+			productReference = AA000003004 /* JTFNewsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -505,6 +570,10 @@
 					AA000006003 = {
 						CreatedOnToolsVersion = 16.0;
 					};
+					AA000006004 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = AA000006001;
+					};
 				};
 			};
 			buildConfigurationList = AA000008001 /* Build configuration list for PBXProject "JTFNews" */;
@@ -523,6 +592,7 @@
 				AA000006001 /* JTFNews */,
 				AA000006002 /* JTFNewsWidgetExtension */,
 				AA000006003 /* JTFNewsWatch Watch App */,
+				AA000006004 /* JTFNewsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -550,6 +620,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA000001076 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000007008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000001085 /* fixture_fullFeed.xml in Resources */,
+				AA000001086 /* fixture_partialFeed.xml in Resources */,
+				AA000001087 /* fixture_malformedPubDate.xml in Resources */,
+				AA000001088 /* fixture_conflictMarkers.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +732,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000007007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000001084 /* PodcastXMLParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -658,6 +747,11 @@
 			isa = PBXTargetDependency;
 			target = AA000006002 /* JTFNewsWidgetExtension */;
 			targetProxy = AA00000C001 /* PBXContainerItemProxy */;
+		};
+		AA00000B002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA000006001 /* JTFNews */;
+			targetProxy = AA00000C002 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1005,6 +1099,54 @@
 			};
 			name = Release;
 		};
+		AA00000A009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = RR5DY39W4Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.larryseyer.jtfnews.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JTFNews.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JTFNews";
+			};
+			name = Debug;
+		};
+		AA00000A010 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = RR5DY39W4Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.larryseyer.jtfnews.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JTFNews.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JTFNews";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1040,6 +1182,15 @@
 			buildConfigurations = (
 				AA00000A007 /* Debug */,
 				AA00000A008 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA000008006 /* Build configuration list for PBXNativeTarget "JTFNewsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000A009 /* Debug */,
+				AA00000A010 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

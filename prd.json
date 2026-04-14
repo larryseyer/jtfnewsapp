@@ -245,7 +245,7 @@
     {
       "id": "APP-014",
       "priority": 14,
-      "passes": false,
+      "passes": true,
       "title": "Add JTFNewsTests target + XML parser fixtures",
       "why": "This repo ships no unit tests. The silent-drop + date-fallback + conflict-marker scenarios are exactly the bugs that tests would have caught in CI. Adding Swift Testing (iOS 17+) is the minimum bar. Fixtures are pinned copies of feed states we want to never regress against.",
       "type": "code",

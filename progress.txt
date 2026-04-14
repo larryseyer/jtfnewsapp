@@ -262,3 +262,25 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Removed `#if os(iOS)` / `#endif` wrapping the `.onChange(of: scenePhase)` block.
 - Both iOS and macOS now call `BackgroundRefreshManager.performForegroundCheck()` on `.active` transition.
 - Also removed the long comment that was iOS-specific — the behavior is now platform-parity.
+
+### APP-014 — Add JTFNewsTests target + XML parser fixtures
+**Status:** DONE
+**Type:** Code (test target + fixtures)
+**Files created:**
+- `JTFNewsTests/PodcastXMLParserTests.swift`
+- `JTFNewsTests/Fixtures/fixture_fullFeed.xml`
+- `JTFNewsTests/Fixtures/fixture_partialFeed.xml`
+- `JTFNewsTests/Fixtures/fixture_malformedPubDate.xml`
+- `JTFNewsTests/Fixtures/fixture_conflictMarkers.xml`
+**Files modified:**
+- `JTFNews.xcodeproj/project.pbxproj`
+
+**What was done:**
+- Created `JTFNewsTests` target (Swift Testing, `com.apple.product-type.bundle.unit-test`) wired in pbxproj.
+- 4 fixture XML files: full feed (3 items), partial (no enclosure on middle), malformed pubDate, conflict markers.
+- 5 tests: full feed parse, partial hasAudio check, malformed date drop, conflict marker throws, legacy parse() crash safety.
+- Used pbxproj IDs AA000001084-AA000001088 / AA000002071-AA000002075 / AA000003004 / AA000005020-AA000005021.
+
+**Patterns/learnings:**
+- Updated `reference_pbxproj_ids.md` memory with new max IDs. Next free: AA000001089 / AA000002076.
+- Test bundle uses `Bundle(for: BundleToken.self)` to find fixtures in the test bundle's Resources.

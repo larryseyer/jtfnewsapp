@@ -363,3 +363,17 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 
 **Patterns/learnings:**
 - The `?? Date()` anti-pattern for date parsing is now confirmed present in both iOS (PodcastService, fixed in APP-004) and watchOS (WatchDataService, fixed here). Any future date parsing should use guard-let + skip/log.
+
+---
+
+### Iteration 19 — APP-019: Server patch doc: atomic_write_text helper + every publish call site
+
+**Files created:**
+- `docs/server_patches/APP-019-atomic-writes.md`
+
+**What was done:**
+- Documented the `atomic_write_text` helper using `os.replace()` (atomic POSIX rename).
+- Listed all 5 in-place write call sites in main.py (podcast.xml, stories.json, corrections.json, monitor.json, archive/index.json) with approximate line numbers.
+- Included a worked before/after diff for one call site (stories.json).
+- Provided application instructions (grep → edit → bu.sh → restart), verification steps (curl + JSON validation), and scope notes (Ralph cannot edit main.py; Larry applies via bu.sh).
+- Cross-linked APP-021 as the complementary remote-publish atomicity layer.

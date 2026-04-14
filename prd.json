@@ -343,7 +343,7 @@
     {
       "id": "APP-019",
       "priority": 19,
-      "passes": false,
+      "passes": true,
       "title": "Server patch doc: atomic_write_text helper + every publish call site",
       "why": "Production main.py currently writes podcast.xml / stories.json / corrections.json / monitor.json / archive/index.json in place with `.write_text(...)` or `open(..., 'w')`. A reader (Fastly revalidating, browser fetch, iOS URLSession) can observe a half-written file. Atomic replace is one `os.replace()` call.",
       "type": "server-patch-document",

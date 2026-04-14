@@ -54,7 +54,7 @@
     {
       "id": "APP-003",
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "title": "Stop silently dropping episodes with empty enclosure URL",
       "why": "PodcastService.swift:177 currently filters out any item with `audioURL.isEmpty`. During an Archive.org propagation window the newest `<item>` can legitimately have an empty or pending enclosure, and silently hiding it means the top of the list lies about 'latest.' The fix is to keep the item and mark it as audio-pending, so the user sees a truthful 'published but audio still propagating' state.",
       "type": "code",

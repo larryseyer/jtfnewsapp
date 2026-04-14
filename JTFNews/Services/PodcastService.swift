@@ -10,6 +10,8 @@ struct PodcastEpisode: Sendable, Identifiable {
     let date: Date
     let audioURL: String
     let duration: String
+
+    var hasAudio: Bool { !audioURL.isEmpty }
 }
 
 actor PodcastService {
@@ -202,17 +204,30 @@ final class PodcastXMLParser: NSObject, XMLParserDelegate, @unchecked Sendable {
     ) {
         if elementName == "item" {
             inItem = false
+            let trimmedTitle = currentTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+            let trimmedAudio = currentAudioURL.trimmingCharacters(in: .whitespacesAndNewlines)
             let date = parseRFC2822Date(currentDate.trimmingCharacters(in: .whitespacesAndNewlines))
+
+            let stableID: String
+            if trimmedAudio.isEmpty {
+                let dateKey = date.map { ISO8601DateFormatter().string(from: $0) }
+                    ?? currentDate.trimmingCharacters(in: .whitespacesAndNewlines)
+                stableID = "pending-\(trimmedTitle)-\(dateKey)"
+                #if DEBUG
+                print("[PodcastXMLParser] kept audioless episode: \(trimmedTitle) / \(currentDate)")
+                #endif
+            } else {
+                stableID = trimmedAudio
+            }
+
             let episode = PodcastEpisode(
-                id: currentAudioURL,
-                title: currentTitle.trimmingCharacters(in: .whitespacesAndNewlines),
+                id: stableID,
+                title: trimmedTitle,
                 date: date ?? Date(),
-                audioURL: currentAudioURL.trimmingCharacters(in: .whitespacesAndNewlines),
+                audioURL: trimmedAudio,
                 duration: currentDuration.trimmingCharacters(in: .whitespacesAndNewlines)
             )
-            if !episode.audioURL.isEmpty {
-                episodes.append(episode)
-            }
+            episodes.append(episode)
         }
         currentElement = ""
     }

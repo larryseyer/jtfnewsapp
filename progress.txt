@@ -119,3 +119,18 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 
 **Patterns/learnings:**
 - `minTrustedCount = 7` threshold: a full week's feed is the minimum for partial data to be trustworthy. Below that, the abort happened too early for the data to be reliable.
+
+### APP-003 — Stop silently dropping episodes with empty enclosure URL
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Services/PodcastService.swift`
+
+**What was done:**
+- Removed the `if !episode.audioURL.isEmpty` guard — all episodes are now appended regardless of audio state.
+- Added `var hasAudio: Bool` computed property to `PodcastEpisode`.
+- Changed ID generation: audioless episodes use `"pending-\(title)-\(isoDate)"` for a stable, collision-free Identifiable ID. Episodes with audio keep using the audio URL as ID.
+- Added DEBUG-only print for audioless episodes to aid local testing.
+
+**Patterns/learnings:**
+- `ISO8601DateFormatter` is used for the date key in pending IDs; falls back to raw pubDate text if date parsing failed (though APP-004 will drop those items entirely).

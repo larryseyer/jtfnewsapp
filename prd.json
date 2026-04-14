@@ -155,7 +155,7 @@
     {
       "id": "APP-009",
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "title": "DigestView: reconnect refetch when connectivity flips false → true",
       "why": "A user bringing the phone back onto Wi-Fi after a tunnel/flight/dropout should see the latest digest without manually pulling. ConnectivityManager already publishes `isConnected` via @Observable; the view just needs to listen.",
       "type": "code",

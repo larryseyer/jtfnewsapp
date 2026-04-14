@@ -197,3 +197,14 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Added `.onAppear` to the inner `VStack(spacing: 0)` inside NavigationStack.
 - Guards on `hasLoadedOnce` (skip first appearance — `.task` handles that), `connectivity.isConnected`, and 60s cooldown.
 - On pass, launches `Task { await loadContent(force: true) }`.
+
+### APP-009 — DigestView: reconnect refetch when connectivity flips false → true
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Views/Digest/DigestView.swift`
+
+**What was done:**
+- Added `.onChange(of: connectivity.isConnected)` on NavigationStack.
+- Triggers only on `false → true` transition, guards on `hasLoadedOnce` and 60s cooldown.
+- Launches `Task { await loadContent(force: true) }` on pass.

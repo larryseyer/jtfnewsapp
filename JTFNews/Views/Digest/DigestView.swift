@@ -70,6 +70,13 @@ struct DigestView: View {
                 else { return }
                 Task { await loadContent(force: true) }
             }
+            .onChange(of: connectivity.isConnected) { oldValue, newValue in
+                guard oldValue == false, newValue == true,
+                      hasLoadedOnce,
+                      FetchCooldown.shouldFetch(key: FetchCooldownKey.digest, interval: FetchCooldownInterval.digestShort)
+                else { return }
+                Task { await loadContent(force: true) }
+            }
         }
     }
 

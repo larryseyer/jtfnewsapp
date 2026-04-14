@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DigestView: View {
     @Environment(ConnectivityManager.self) private var connectivity
+    @Environment(\.scenePhase) private var scenePhase
     @AppStorage("preferVideoMode") private var preferVideoMode = true
     @State private var episodes: [PodcastEpisode] = []
     @State private var selectedEpisodeId: String?
@@ -50,17 +51,17 @@ struct DigestView: View {
             }
             .navigationTitle("Daily Digest")
             .task {
-                // First view construction per process lifetime: force a fresh
-                // fetch so a cold launch always surfaces the latest episode,
-                // bypassing any `max-age=600` response still sitting in
-                // `URLCache` from a previous session. Subsequent re-entries
-                // into the Digest tab do not re-run this `.task` because
-                // SwiftUI keeps TabView children alive, so the only way to
-                // refetch after this point is pull-to-refresh.
                 if !hasLoadedOnce {
                     await loadContent(force: true)
                     hasLoadedOnce = true
                 }
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                guard newPhase == .active,
+                      connectivity.isConnected,
+                      FetchCooldown.shouldFetch(key: FetchCooldownKey.digest, interval: FetchCooldownInterval.digestShort)
+                else { return }
+                Task { await loadContent(force: true) }
             }
         }
     }
@@ -253,7 +254,10 @@ struct DigestView: View {
             group.addTask {
                 do {
                     let eps = try await service.fetchEpisodes(force: force)
-                    await MainActor.run { episodes = eps }
+                    await MainActor.run {
+                        episodes = eps
+                        FetchCooldown.markFetched(key: FetchCooldownKey.digest)
+                    }
                 } catch {
                     print("[DigestView] fetchEpisodes failed: \(String(reflecting: error))")
                 }

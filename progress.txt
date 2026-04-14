@@ -174,3 +174,15 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Added `FetchCooldownKey.digest = "lastDigestFetch"`.
 - Added `FetchCooldownInterval.digestShort = 60` (60 seconds).
 - No DigestView wiring — APP-007 will consume.
+
+### APP-007 — DigestView: foreground refetch via scenePhase
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Views/Digest/DigestView.swift`
+
+**What was done:**
+- Added `@Environment(\.scenePhase)` to DigestView.
+- Added `.onChange(of: scenePhase)` on NavigationStack: on `.active`, checks connectivity and 60s cooldown before launching `loadContent(force: true)`.
+- Added `FetchCooldown.markFetched(key: .digest)` in the episodes fetch success path (inside `@MainActor` block).
+- Cold launch behavior unchanged — `hasLoadedOnce` path still runs first.

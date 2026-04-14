@@ -122,7 +122,7 @@
     {
       "id": "APP-007",
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "title": "DigestView: foreground refetch via scenePhase",
       "why": "The view's `.task` with `hasLoadedOnce` fires exactly once per process lifetime. If the user backgrounds the app while a partial feed was served, then brings it forward after the server catches up, the stale data persists until pull-to-refresh. scenePhase .active transition is the industry-standard foreground hook.",
       "type": "code",

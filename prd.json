@@ -396,7 +396,7 @@
     {
       "id": "APP-022",
       "priority": 22,
-      "passes": false,
+      "passes": true,
       "title": "Server patch doc: tests for atomic_write + publish gate",
       "why": "The server side currently has minimal/no tests for these two invariants. Adding them makes regression permanent.",
       "type": "server-patch-document",

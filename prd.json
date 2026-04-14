@@ -229,7 +229,7 @@
     {
       "id": "APP-013",
       "priority": 13,
-      "passes": false,
+      "passes": true,
       "title": "Un-guard macOS scenePhase in JTFNewsApp.swift",
       "why": "The `.onChange(of: scenePhase)` block at JTFNewsApp.swift:55-63 is wrapped in `#if os(iOS)`. scenePhase works identically on macOS and Mac Catalyst. The guard was overcautious and means the macOS app never runs BackgroundRefreshManager.performForegroundCheck() on window activation — a macOS-only Truth gap.",
       "type": "code",

@@ -251,3 +251,14 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - Added `relativeLastUpdated(for:)` and `isStale(for:threshold:)` to `FetchCooldown` with 20-minute default threshold.
 - StoriesView's `lastUpdatedText` and `isStale` now delegate to shared helpers. Behavior identical.
 - DigestView renders "Updated Xm ago" in `pinnedHeader` below video/audio section when stale or offline. Hidden when mismatch banner is showing to avoid clutter.
+
+### APP-013 — Un-guard macOS scenePhase in JTFNewsApp.swift
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/App/JTFNewsApp.swift`
+
+**What was done:**
+- Removed `#if os(iOS)` / `#endif` wrapping the `.onChange(of: scenePhase)` block.
+- Both iOS and macOS now call `BackgroundRefreshManager.performForegroundCheck()` on `.active` transition.
+- Also removed the long comment that was iOS-specific — the behavior is now platform-parity.

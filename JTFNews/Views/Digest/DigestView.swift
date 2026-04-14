@@ -107,6 +107,13 @@ struct DigestView: View {
             } else {
                 audioSection
             }
+
+            if feedMismatchBanner == nil,
+               FetchCooldown.isStale(for: FetchCooldownKey.digest) || !connectivity.isConnected {
+                Text("Updated \(FetchCooldown.relativeLastUpdated(for: FetchCooldownKey.digest) ?? "just now")")
+                    .font(.jtfCaption)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.vertical, 8)
     }

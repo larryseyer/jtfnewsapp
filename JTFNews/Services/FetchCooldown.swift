@@ -38,6 +38,21 @@ enum FetchCooldown {
     static func reset(_ keys: String...) {
         keys.forEach { UserDefaults.standard.removeObject(forKey: $0) }
     }
+
+    static func relativeLastUpdated(for key: String) -> String? {
+        let timestamp = UserDefaults.standard.double(forKey: key)
+        guard timestamp > 0 else { return nil }
+        let date = Date(timeIntervalSince1970: timestamp)
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter.localizedString(for: date, relativeTo: Date())
+    }
+
+    static func isStale(for key: String, threshold: TimeInterval = 20 * 60) -> Bool {
+        let timestamp = UserDefaults.standard.double(forKey: key)
+        guard timestamp > 0 else { return true }
+        return Date().timeIntervalSince1970 - timestamp > threshold
+    }
 }
 
 // MARK: - Keys

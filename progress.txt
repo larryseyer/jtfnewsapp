@@ -238,3 +238,16 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 - `episodeRow` branches on `hasAudio`: audioful rows render as Button with speaker icon; audioless rows render as plain HStack with clock icon and "Audio pending" trailing text.
 - Audioless rows match padding/clipShape for visual consistency.
 - Accessibility labels: "now playing" for active audio rows, "audio pending" for audioless rows.
+
+### APP-012 — Shared FetchCooldown.relativeLastUpdated helper + DigestView 'Updated Nm ago' label
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Services/FetchCooldown.swift`
+- `JTFNews/Views/Stories/StoriesView.swift`
+- `JTFNews/Views/Digest/DigestView.swift`
+
+**What was done:**
+- Added `relativeLastUpdated(for:)` and `isStale(for:threshold:)` to `FetchCooldown` with 20-minute default threshold.
+- StoriesView's `lastUpdatedText` and `isStale` now delegate to shared helpers. Behavior identical.
+- DigestView renders "Updated Xm ago" in `pinnedHeader` below video/audio section when stale or offline. Hidden when mismatch banner is showing to avoid clutter.

@@ -210,7 +210,7 @@
     {
       "id": "APP-012",
       "priority": 12,
-      "passes": false,
+      "passes": true,
       "title": "Shared FetchCooldown.relativeLastUpdated helper + DigestView 'Updated Nm ago' label",
       "why": "StoriesView already has a lastUpdatedText implementation (StoriesView.swift:275-282). Duplicating it in DigestView invites drift. Extracting once + reusing keeps freshness display consistent and makes the 20-minute stale threshold live in one place.",
       "type": "code",

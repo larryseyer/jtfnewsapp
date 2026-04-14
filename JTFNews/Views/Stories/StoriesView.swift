@@ -273,22 +273,11 @@ struct StoriesView: View {
     // MARK: - Helpers
 
     private var lastUpdatedText: String? {
-        let timestamp = UserDefaults.standard.double(forKey: FetchCooldownKey.stories)
-        guard timestamp > 0 else { return nil }
-        let date = Date(timeIntervalSince1970: timestamp)
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .abbreviated
-        return formatter.localizedString(for: date, relativeTo: Date())
+        FetchCooldown.relativeLastUpdated(for: FetchCooldownKey.stories)
     }
 
-    /// Stories are considered stale ~2× the server's 30-minute publish cadence.
-    /// With a 15-minute in-session cooldown, anything older than ~20 minutes
-    /// in the UI genuinely is stale — show the "Last updated …" header to
-    /// signal that the user is looking at cached content.
     private var isStale: Bool {
-        let timestamp = UserDefaults.standard.double(forKey: FetchCooldownKey.stories)
-        guard timestamp > 0 else { return true }
-        return Date().timeIntervalSince1970 - timestamp > 20 * 60
+        FetchCooldown.isStale(for: FetchCooldownKey.stories)
     }
 
     // MARK: - Bookmark Toggle

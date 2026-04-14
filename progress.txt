@@ -149,3 +149,17 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 
 **Patterns/learnings:**
 - Guard-return in `didEndElement` is clean because XMLParser won't skip the next `<item>` — the parser resets state at `didStartElement("item")`.
+
+### APP-005 — Decode monitor.json.daily_digest.last_date + podcast_updated; add fetchCanonicalLastDate()
+**Status:** DONE
+**Type:** Code
+**Files modified:**
+- `JTFNews/Services/PodcastService.swift`
+
+**What was done:**
+- Extended `DailyDigestInfo` with `lastDate: String?` (CodingKey `last_date`) and `podcastUpdated: Bool?` (CodingKey `podcast_updated`).
+- Added `fetchCanonicalLastDate(baseURL:)` to `PodcastService` — reads `monitor.json` with `.reloadRevalidatingCacheData`, parses `last_date` as `yyyy-MM-dd` in GMT, returns nil if absent or malformed.
+- No caller wiring yet — APP-010 will integrate into DigestView.
+
+**Patterns/learnings:**
+- Using `.reloadRevalidatingCacheData` consistently across force-refresh paths ensures the freshness guarantee matches `fetchEpisodes(force: true)`.

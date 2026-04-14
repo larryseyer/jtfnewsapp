@@ -47,6 +47,19 @@ actor PodcastService {
         return monitor.dailyDigest?.youtubeURL
     }
 
+    func fetchCanonicalLastDate(baseURL: String = "https://jtfnews.org") async throws -> Date? {
+        let url = URL(string: "\(baseURL)/monitor.json")!
+        let request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let monitor = try JSONDecoder().decode(MonitorResponse.self, from: data)
+        guard let dateString = monitor.dailyDigest?.lastDate else { return nil }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = .gmt
+        return formatter.date(from: dateString)
+    }
+
     private static let playlistID = "PLm8mlmJgzmMfqH8YkhdRVFET200vZGRWN"
 
     func fetchYouTubePlaylist() async throws -> [String: String] {
@@ -105,9 +118,13 @@ struct MonitorResponse: Codable, Sendable {
 
 struct DailyDigestInfo: Codable, Sendable {
     let youtubeURL: String?
+    let lastDate: String?
+    let podcastUpdated: Bool?
 
     enum CodingKeys: String, CodingKey {
         case youtubeURL = "youtube_url"
+        case lastDate = "last_date"
+        case podcastUpdated = "podcast_updated"
     }
 }
 

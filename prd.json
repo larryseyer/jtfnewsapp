@@ -89,7 +89,7 @@
     {
       "id": "APP-005",
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "title": "Decode monitor.json.daily_digest.last_date + podcast_updated; add fetchCanonicalLastDate()",
       "why": "`monitor.json` is the canonical publish ledger. `daily_digest.last_date` is the ground truth for what the newest digest should be. Without it we cannot detect that the parsed feed is behind the server's own claim. Cross-checking against it gives us a second, independent Truth signal.",
       "type": "code",

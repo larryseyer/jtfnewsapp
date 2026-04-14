@@ -29,6 +29,10 @@ actor WatchDataService {
                 story.audioURL = dto.audio
                 story.status = dto.status ?? ""
             } else {
+                guard let publishedDate = parseDate(dto.publishedAt) else {
+                    print("[WatchDataService] skipping story \(dto.id): unparseable publishedAt '\(dto.publishedAt ?? "nil")'")
+                    continue
+                }
                 let story = Story()
                 story.id = dto.id
                 story.storyHash = dto.hash
@@ -36,7 +40,7 @@ actor WatchDataService {
                 story.sourceDisplay = dto.source
                 story.sourceURLs = dto.sourceURLs ?? [:]
                 story.audioURL = dto.audio
-                story.publishedAt = parseDate(dto.publishedAt) ?? Date()
+                story.publishedAt = publishedDate
                 story.status = dto.status ?? ""
                 context.insert(story)
             }

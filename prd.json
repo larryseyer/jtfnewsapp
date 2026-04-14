@@ -326,7 +326,7 @@
     {
       "id": "APP-018",
       "priority": 18,
-      "passes": false,
+      "passes": true,
       "title": "Audit watchOS WatchDataService for silent-drop patterns",
       "why": "Per the approved plan, watchOS Stories-only flow must get the same Truth treatment as iOS. This story is a discovery + fix-if-found pass, not a rewrite. Scope is: grep for 'continue on parse failure' / 'try? ... ?? []' / silent-filter patterns in the watch service; document findings; fix any real Truth hazard found.",
       "type": "code-audit",

@@ -46,7 +46,7 @@ struct WatchContentView: View {
         do {
             try await dataService.fetchStories()
         } catch {
-            // Silently fail — the empty state is informative enough
+            print("[WatchContentView] fetchStories failed: \(String(reflecting: error))")
         }
     }
 }

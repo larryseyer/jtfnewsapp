@@ -339,3 +339,27 @@ Created a complete remediation runbook for Larry to apply on the Intel Mac. The 
 
 **Patterns/learnings:**
 - When layering multiple status banners (mismatch, offline, freshness), establish a clear precedence: offline > mismatch > freshness. One banner at a time in each visual zone.
+
+---
+
+### Iteration 18 — APP-018: Audit watchOS WatchDataService for silent-drop patterns
+
+**Files scanned:**
+- `JTFNewsWatch/WatchDataService.swift` — full read
+- `JTFNewsWatch/WatchContentView.swift` — full read
+- `JTFNewsWatch/JTFNewsWatchApp.swift` — full read (schema only, no data logic)
+- `JTFNewsWatch/WatchStoryRow.swift` — full read (display only, no data logic)
+- `JTFNewsWatch/JTFNewsWatchWidget.swift` — full read (widget timeline provider)
+
+**Findings:**
+1. **Truth hazard (fixed):** `WatchDataService.swift:39` — `parseDate(dto.publishedAt) ?? Date()` — same silent date fallback as APP-004. Unparseable publishedAt becomes `Date()`, sorting a bad story to the top. Fixed: guard-let with continue + print, matching APP-004 pattern.
+2. **Silent error swallow (fixed):** `WatchContentView.swift:48-50` — empty catch block with comment "Silently fail". Replaced with `print()` for debuggability. The empty-state UI is honest ("No Stories Yet" + pull-to-refresh) so no UI change needed.
+3. **Clean:** `sourceURLs ?? [:]` and `status ?? ""` on existing-story updates — normal optional handling, not Truth hazards (empty values are semantically correct for missing optional fields).
+4. **Clean:** Widget `fetchEntry()` catch returns "Unable to load" fallback — appropriate for a widget with no interactive error recovery.
+
+**Files changed:**
+- `JTFNewsWatch/WatchDataService.swift` (guard-let instead of ?? Date())
+- `JTFNewsWatch/WatchContentView.swift` (print error instead of silent swallow)
+
+**Patterns/learnings:**
+- The `?? Date()` anti-pattern for date parsing is now confirmed present in both iOS (PodcastService, fixed in APP-004) and watchOS (WatchDataService, fixed here). Any future date parsing should use guard-let + skip/log.

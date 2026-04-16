@@ -60,27 +60,32 @@ enum BackgroundRefreshManager {
     /// Digest tab. Spending scarce `BGAppRefreshTask` budget on polling
     /// `podcast.xml` would steal runway from the breaking-news, corrections,
     /// and watched-term checks that actually warrant interrupting the user.
+    ///
+    /// Per-cycle consolidation: each sub-check returns its detected count
+    /// and the consolidator fires ONE notification (one chime) covering all
+    /// non-zero categories. The server publishes ~every 30 min and we check
+    /// every 15, so successive cycles space themselves out naturally — the
+    /// only noise we have to suppress is multiple categories detected in the
+    /// same cycle.
     private static func performBackgroundCheck() async {
-        let notifyCorrections = UserDefaults.standard.bool(forKey: "notifyCorrections")
-        let notifyBreaking = UserDefaults.standard.bool(forKey: "notifyBreakingFacts")
-        let notifyWatchedTerms = UserDefaults.standard.bool(forKey: "notifyWatchedTerms")
+        let notifyBreaking      = UserDefaults.standard.bool(forKey: "notifyBreakingFacts")
+        let notifyCorrections   = UserDefaults.standard.bool(forKey: "notifyCorrections")
+        let notifyWatchedTerms  = UserDefaults.standard.bool(forKey: "notifyWatchedTerms")
 
-        guard notifyCorrections || notifyBreaking || notifyWatchedTerms else { return }
+        guard notifyBreaking || notifyCorrections || notifyWatchedTerms else { return }
 
-        if notifyBreaking {
-            await checkForBreakingFacts()
-        }
+        let facts        = notifyBreaking      ? await checkForBreakingFacts() : 0
+        let corrections  = notifyCorrections   ? await checkForCorrections()   : 0
+        let watched      = notifyWatchedTerms  ? await checkForWatchedTerms()  : 0
 
-        if notifyCorrections {
-            await checkForCorrections()
-        }
-
-        if notifyWatchedTerms {
-            await checkForWatchedTerms()
-        }
+        await NotificationManager.shared.notify(
+            facts: facts,
+            corrections: corrections,
+            watchedTerms: watched
+        )
     }
 
-    private static func checkForBreakingFacts() async {
+    private static func checkForBreakingFacts() async -> Int {
         do {
             let url = URL(string: "https://jtfnews.org/stories.json")!
             let (data, _) = try await URLSession.shared.data(from: url)
@@ -102,31 +107,32 @@ enum BackgroundRefreshManager {
                 return date > lastCheckDate
             }
 
-            // First ever run: seed the baseline silently so we don't spam the
-            // user with "N new facts" on fresh install. Subsequent runs fire
-            // for anything newer than the previous check — no artificial 1hr
-            // window, which previously dropped valid stories whenever BGTask
-            // happened to wake more than an hour after publication.
-            if hasRunBefore, !newBreaking.isEmpty {
-                await NotificationManager.shared.sendNotification(
-                    title: "Breaking Facts",
-                    body: "\(newBreaking.count) new verified fact\(newBreaking.count == 1 ? "" : "s") published",
-                    identifier: "breaking-\(Date().timeIntervalSince1970)"
-                )
-                LiveActivityManager.startOrUpdate(
-                    storyCount: newBreaking.count,
-                    latestFact: newBreaking.first?.fact ?? "",
-                    publishedDate: Date()
-                )
-            }
-
+            // Always seed the baseline so the next cycle's delta is correct.
             UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: lastCheckKey)
+
+            // First ever run: return 0 so the consolidator stays silent for
+            // breaking facts — we don't want to spam "N new facts" on fresh
+            // install. Subsequent runs report anything newer than the
+            // previous check — no artificial 1hr window, which previously
+            // dropped valid stories whenever BGTask happened to wake more
+            // than an hour after publication.
+            guard hasRunBefore, !newBreaking.isEmpty else { return 0 }
+
+            // Live Activities are a separate surface from chime delivery, so
+            // they update per-cycle regardless of notification batching.
+            LiveActivityManager.startOrUpdate(
+                storyCount: newBreaking.count,
+                latestFact: newBreaking.first?.fact ?? "",
+                publishedDate: Date()
+            )
+            return newBreaking.count
         } catch {
             print("[BackgroundRefresh] checkForBreakingFacts failed: \(String(reflecting: error))")
+            return 0
         }
     }
 
-    private static func checkForCorrections() async {
+    private static func checkForCorrections() async -> Int {
         do {
             let url = URL(string: "https://jtfnews.org/corrections.json")!
             let (data, _) = try await URLSession.shared.data(from: url)
@@ -141,23 +147,18 @@ enum BackgroundRefreshManager {
             let hasRunBefore = UserDefaults.standard.object(forKey: lastCountKey) != nil
             let lastCount = UserDefaults.standard.integer(forKey: lastCountKey)
 
-            if hasRunBefore, corrections.count > lastCount {
-                let newCount = corrections.count - lastCount
-                await NotificationManager.shared.sendNotification(
-                    title: "Corrections Posted",
-                    body: "\(newCount) new correction\(newCount == 1 ? "" : "s") published",
-                    identifier: "corrections-\(Date().timeIntervalSince1970)"
-                )
-            }
-
             UserDefaults.standard.set(corrections.count, forKey: lastCountKey)
+
+            guard hasRunBefore, corrections.count > lastCount else { return 0 }
+            return corrections.count - lastCount
         } catch {
             print("[BackgroundRefresh] checkForCorrections failed: \(String(reflecting: error))")
+            return 0
         }
     }
 
-    private static func checkForWatchedTerms() async {
-        guard !WatchedTermsStorage.terms.isEmpty else { return }
+    private static func checkForWatchedTerms() async -> Int {
+        guard !WatchedTermsStorage.terms.isEmpty else { return 0 }
 
         do {
             let url = URL(string: "https://jtfnews.org/stories.json")!
@@ -167,17 +168,13 @@ enum BackgroundRefreshManager {
             let matches = WatchedTermMatcher.findNewMatches(in: response.stories)
             if !matches.isEmpty {
                 UserDefaults.standard.set(matches.count, forKey: "watchedTabBadge")
-                await NotificationManager.shared.sendNotification(
-                    title: "Watched Terms",
-                    body: "\(matches.count) new stor\(matches.count == 1 ? "y matches" : "ies match") your watched terms",
-                    identifier: "watched-terms-\(Date().timeIntervalSince1970)",
-                    userInfo: ["type": "watchedTerms"]
-                )
             }
 
             WatchedTermMatcher.markAllNotified(hashes: Set(response.stories.map(\.hash)))
+            return matches.count
         } catch {
             print("[BackgroundRefresh] checkForWatchedTerms failed: \(String(reflecting: error))")
+            return 0
         }
     }
 

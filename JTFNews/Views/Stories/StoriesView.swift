@@ -356,18 +356,16 @@ struct StoriesView: View {
 
         let fetchedDTOs = storyDTOs ?? []
 
-        // Foreground watch term check
+        // Foreground watch term check. Routed through the consolidated
+        // notify(...) entry point so a future fourth notification type
+        // inherits per-cycle batching for free; single-category wording
+        // matches today's exact phrasing.
         if UserDefaults.standard.bool(forKey: "notifyWatchedTerms"), !fetchedDTOs.isEmpty {
             let matches = WatchedTermMatcher.findNewMatches(in: fetchedDTOs)
             if !matches.isEmpty {
                 withAnimation { watchTermMatchCount = matches.count }
                 UserDefaults.standard.set(matches.count, forKey: "watchedTabBadge")
-                await NotificationManager.shared.sendNotification(
-                    title: "Watched Terms",
-                    body: "\(matches.count) stor\(matches.count == 1 ? "y matches" : "ies match") your watched terms",
-                    identifier: "watched-terms-\(Date().timeIntervalSince1970)",
-                    userInfo: ["type": "watchedTerms"]
-                )
+                await NotificationManager.shared.notify(watchedTerms: matches.count)
                 WatchedTermMatcher.markAllNotified(hashes: Set(fetchedDTOs.map(\.hash)))
             }
         }

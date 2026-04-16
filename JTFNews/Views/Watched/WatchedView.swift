@@ -13,9 +13,10 @@ struct WatchedView: View {
     @Query private var sources: [Source]
     @AppStorage("watchedTabBadge") private var badgeCount = 0
     @State private var showSettings = false
+    private let storage = WatchedTermsStorage.shared
 
     private var matchingStories: [StoryMatch] {
-        let terms = WatchedTermsStorage.terms
+        let terms = storage.terms
         guard !terms.isEmpty else { return [] }
         let lowercasedTerms = terms.map { $0.lowercased() }
 
@@ -30,7 +31,7 @@ struct WatchedView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if WatchedTermsStorage.terms.isEmpty {
+                if storage.terms.isEmpty {
                     noTermsView
                 } else if matchingStories.isEmpty {
                     noMatchesView

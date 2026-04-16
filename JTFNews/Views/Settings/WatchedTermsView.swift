@@ -2,32 +2,63 @@ import SwiftUI
 
 // MARK: - Storage
 
-enum WatchedTermsStorage {
+private enum WatchedTermsKeys {
+    static let terms = "watchedTerms"
+    static let notifiedHashes = "watchedTermsNotifiedHashes"
+}
+
+@Observable
+@MainActor
+final class WatchedTermsStorage {
+    static let shared = WatchedTermsStorage()
     static let maxTerms = 10
 
-    static var terms: [String] {
-        get {
-            guard let data = UserDefaults.standard.data(forKey: "watchedTerms"),
-                  let decoded = try? JSONDecoder().decode([String].self, from: data)
-            else { return [] }
-            return decoded
-        }
-        set {
-            let data = try? JSONEncoder().encode(newValue)
-            UserDefaults.standard.set(data, forKey: "watchedTerms")
+    var terms: [String] {
+        didSet {
+            let data = try? JSONEncoder().encode(terms)
+            UserDefaults.standard.set(data, forKey: WatchedTermsKeys.terms)
         }
     }
 
-    static var notifiedHashes: Set<String> {
+    var notifiedHashes: Set<String> {
+        didSet {
+            let data = try? JSONEncoder().encode(notifiedHashes)
+            UserDefaults.standard.set(data, forKey: WatchedTermsKeys.notifiedHashes)
+        }
+    }
+
+    private init() {
+        self.terms = (UserDefaults.standard.data(forKey: WatchedTermsKeys.terms)
+            .flatMap { try? JSONDecoder().decode([String].self, from: $0) }) ?? []
+        self.notifiedHashes = (UserDefaults.standard.data(forKey: WatchedTermsKeys.notifiedHashes)
+            .flatMap { try? JSONDecoder().decode(Set<String>.self, from: $0) }) ?? []
+    }
+}
+
+// Non-isolated static facade. Reads/writes UserDefaults directly so
+// background services (BackgroundRefreshManager, WatchedTermMatcher) can
+// touch the store from any actor. SwiftUI views should use `.shared` so
+// reads register as observable dependencies.
+extension WatchedTermsStorage {
+    nonisolated static var terms: [String] {
         get {
-            guard let data = UserDefaults.standard.data(forKey: "watchedTermsNotifiedHashes"),
-                  let decoded = try? JSONDecoder().decode(Set<String>.self, from: data)
-            else { return [] }
-            return decoded
+            (UserDefaults.standard.data(forKey: WatchedTermsKeys.terms)
+                .flatMap { try? JSONDecoder().decode([String].self, from: $0) }) ?? []
         }
         set {
             let data = try? JSONEncoder().encode(newValue)
-            UserDefaults.standard.set(data, forKey: "watchedTermsNotifiedHashes")
+            UserDefaults.standard.set(data, forKey: WatchedTermsKeys.terms)
+        }
+    }
+
+    nonisolated static var notifiedHashes: Set<String> {
+        get {
+            (UserDefaults.standard.data(forKey: WatchedTermsKeys.notifiedHashes)
+                .flatMap { try? JSONDecoder().decode(Set<String>.self, from: $0) }) ?? []
+        }
+        set {
+            let data = try? JSONEncoder().encode(newValue)
+            UserDefaults.standard.set(data, forKey: WatchedTermsKeys.notifiedHashes)
         }
     }
 }
@@ -35,30 +66,30 @@ enum WatchedTermsStorage {
 // MARK: - View
 
 struct WatchedTermsView: View {
-    @State private var terms: [String] = WatchedTermsStorage.terms
+    private let storage = WatchedTermsStorage.shared
     @State private var newTerm = ""
 
     var body: some View {
         Form {
             Section {
-                if terms.isEmpty {
+                if storage.terms.isEmpty {
                     Text("No watched terms yet. Add one below to get notified when matching facts are published.")
                         .font(.jtfCallout)
                         .foregroundStyle(.secondary)
                 } else {
-                    ForEach(terms, id: \.self) { term in
+                    ForEach(storage.terms, id: \.self) { term in
                         termRow(term)
                     }
                     .onDelete(perform: deleteTerm)
                 }
             } header: {
-                Text("Terms (\(terms.count)/\(WatchedTermsStorage.maxTerms))")
+                Text("Terms (\(storage.terms.count)/\(WatchedTermsStorage.maxTerms))")
             } footer: {
                 Text("Case-insensitive match against story text. All matching is done on-device.")
                     .font(.jtfCaption)
             }
 
-            if terms.count < WatchedTermsStorage.maxTerms {
+            if storage.terms.count < WatchedTermsStorage.maxTerms {
                 Section("Add Term") {
                     HStack {
                         TextField("New term", text: $newTerm)
@@ -109,24 +140,25 @@ struct WatchedTermsView: View {
     private func addTerm() {
         let trimmed = newTerm.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
-        guard !terms.contains(where: { $0.lowercased() == trimmed.lowercased() }) else { return }
-        terms.append(trimmed)
+        guard !storage.terms.contains(where: { $0.lowercased() == trimmed.lowercased() }) else { return }
+        var updated = storage.terms
+        updated.append(trimmed)
+        storage.terms = updated
+        storage.notifiedHashes = []
         newTerm = ""
-        save()
     }
 
     private func deleteTerm(at offsets: IndexSet) {
-        terms.remove(atOffsets: offsets)
-        save()
+        var updated = storage.terms
+        updated.remove(atOffsets: offsets)
+        storage.terms = updated
+        storage.notifiedHashes = []
     }
 
     private func delete(_ term: String) {
-        terms.removeAll { $0 == term }
-        save()
-    }
-
-    private func save() {
-        WatchedTermsStorage.terms = terms
-        WatchedTermsStorage.notifiedHashes = []
+        var updated = storage.terms
+        updated.removeAll { $0 == term }
+        storage.terms = updated
+        storage.notifiedHashes = []
     }
 }

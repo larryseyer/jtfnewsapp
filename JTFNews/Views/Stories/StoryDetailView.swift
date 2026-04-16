@@ -286,14 +286,14 @@ struct StoryDetailView: View {
 struct WatchTermsPickerView: View {
     let fact: String
 
-    @State private var watchedTerms: [String] = WatchedTermsStorage.terms
+    private let storage = WatchedTermsStorage.shared
 
     private var candidates: [String] {
         TermExtractor.candidates(from: fact)
     }
 
     private var atLimit: Bool {
-        watchedTerms.count >= WatchedTermsStorage.maxTerms
+        storage.terms.count >= WatchedTermsStorage.maxTerms
     }
 
     var body: some View {
@@ -315,7 +315,7 @@ struct WatchTermsPickerView: View {
 
             FlowLayout(spacing: 8) {
                 ForEach(candidates, id: \.self) { term in
-                    let isWatched = watchedTerms.contains { $0.lowercased() == term.lowercased() }
+                    let isWatched = storage.terms.contains { $0.lowercased() == term.lowercased() }
                     Button {
                         addTerm(term)
                     } label: {
@@ -344,9 +344,10 @@ struct WatchTermsPickerView: View {
 
     private func addTerm(_ term: String) {
         guard !atLimit else { return }
-        guard !watchedTerms.contains(where: { $0.lowercased() == term.lowercased() }) else { return }
-        watchedTerms.append(term)
-        WatchedTermsStorage.terms = watchedTerms
-        WatchedTermsStorage.notifiedHashes = []
+        guard !storage.terms.contains(where: { $0.lowercased() == term.lowercased() }) else { return }
+        var updated = storage.terms
+        updated.append(term)
+        storage.terms = updated
+        storage.notifiedHashes = []
     }
 }

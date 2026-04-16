@@ -1,0 +1,800 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -scheme JTFNews -destination platform=iOS,id=00008030-0004299C1410802E -configuration Release -derivedDataPath /Users/larryseyer/jtfnewsapp/build clean build
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (2 targets)
+    Target 'JTFNews' in project 'JTFNews'
+        ➜ Explicit dependency on target 'JTFNewsWidgetExtension' in project 'JTFNews'
+    Target 'JTFNewsWidgetExtension' in project 'JTFNews' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/larryseyer/jtfnewsapp/JTFNews/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: a44adde2827963347474b9ff1f6bb173
+Build description path: /Users/larryseyer/jtfnewsapp/build/XCBuildData/a44adde2827963347474b9ff1f6bb173.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache
+    cd /Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -o /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache
+
+CreateBuildDirectory /Users/larryseyer/jtfnewsapp/build
+    cd /Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj
+    builtin-create-build-directory /Users/larryseyer/jtfnewsapp/build
+
+CreateBuildDirectory /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules
+    cd /Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj
+    builtin-create-build-directory /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/larryseyer/jtfnewsapp/build/Release-iphoneos
+    cd /Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj
+    builtin-create-build-directory /Users/larryseyer/jtfnewsapp/build/Release-iphoneos
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews-6ef6b9f07aa3c1f27fb4e232b0fcbbf2-VFS-iphoneos/all-product-headers.yaml
+    cd /Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews-6ef6b9f07aa3c1f27fb4e232b0fcbbf2-VFS-iphoneos/all-product-headers.yaml
+
+CreateBuildDirectory /Users/larryseyer/jtfnewsapp/build/ExplicitPrecompiledModules
+    cd /Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj
+    builtin-create-build-directory /Users/larryseyer/jtfnewsapp/build/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/larryseyer/jtfnewsapp/build/EagerLinkingTBDs/Release-iphoneos
+    cd /Users/larryseyer/jtfnewsapp/JTFNews.xcodeproj
+    builtin-create-build-directory /Users/larryseyer/jtfnewsapp/build/EagerLinkingTBDs/Release-iphoneos
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_const_extract_protocols.json (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftFileList (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.LinkFileList (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.LinkFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-OutputFileMap.json (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.hmap (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.DependencyStaticMetadataFileList (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-project-headers.hmap (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-project-headers.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-own-target-headers.hmap (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-generated-files.hmap (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-generated-files.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftConstValuesFileList (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.DependencyMetadataFileList (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-all-target-headers.hmap (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-all-non-framework-target-headers.hmap (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/Entitlements.plist (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/Entitlements.plist
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_const_extract_protocols.json (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftConstValuesFileList (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftFileList (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.LinkFileList (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.LinkFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.hmap (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-OutputFileMap.json (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.DependencyMetadataFileList (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.DependencyStaticMetadataFileList (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-project-headers.hmap (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-project-headers.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-generated-files.hmap (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-generated-files.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-own-target-headers.hmap (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-all-target-headers.hmap (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-all-non-framework-target-headers.hmap (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-all-non-framework-target-headers.hmap
+
+MkDir /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /bin/mkdir -p /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex
+
+WriteAuxiliaryFile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/Entitlements.plist (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    write-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/Entitlements.plist
+
+MkDir /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /bin/mkdir -p /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app
+
+MkDir /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /bin/mkdir -p /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns
+
+ProcessProductPackaging /Users/larryseyer/jtfnewsapp/JTFNewsWidget/JTFNewsWidget.entitlements /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.appex.xcent (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "RR5DY39W4Q.com.larryseyer.jtfnews.widget";
+    "com.apple.developer.team-identifier" = RR5DY39W4Q;
+    "com.apple.security.application-groups" =     (
+        "group.com.larryseyer.jtfnews"
+    );
+    "get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility /Users/larryseyer/jtfnewsapp/JTFNewsWidget/JTFNewsWidget.entitlements -entitlements -format xml -o /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.appex.xcent
+
+ProcessProductPackaging /Users/larryseyer/Library/Developer/Xcode/UserData/Provisioning\ Profiles/5188adac-08bd-4983-9889-79829da3f7c4.mobileprovision /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/embedded.mobileprovision (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-productPackagingUtility /Users/larryseyer/Library/Developer/Xcode/UserData/Provisioning\ Profiles/5188adac-08bd-4983-9889-79829da3f7c4.mobileprovision -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/embedded.mobileprovision
+
+ProcessProductPackagingDER /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.appex.xcent /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.appex.xcent.der (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /usr/bin/derq query -f xml -i /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.appex.xcent -o /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.appex.xcent.der --raw
+
+MkDir /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/unthinned (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /bin/mkdir -p /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/unthinned
+
+GenerateAssetSymbols /Users/larryseyer/jtfnewsapp/JTFNewsWidget/Assets.xcassets (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/larryseyer/jtfnewsapp/JTFNewsWidget/Assets.xcassets --compile /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex --output-format human-readable-text --notices --warnings --export-dependency-info /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_dependencies --output-partial-info-plist /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_generated_info.plist --accent-color AccentColor --widget-background-color WidgetBackground --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos --bundle-identifier com.larryseyer.jtfnews.widget --generate-swift-asset-symbols /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+MkDir /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/thinned (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /bin/mkdir -p /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/thinned
+
+CompileAssetCatalogVariant thinned /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex /Users/larryseyer/jtfnewsapp/JTFNewsWidget/Assets.xcassets (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/larryseyer/jtfnewsapp/JTFNewsWidget/Assets.xcassets --compile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_generated_info.plist_thinned --accent-color AccentColor --widget-background-color WidgetBackground --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --filter-for-thinning-device-configuration iPhone12,5 --filter-for-device-os-version 26.3.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos
+/* com.apple.actool.compilation-results */
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_generated_info.plist_thinned
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriver JTFNewsWidgetExtension normal arm64 com.apple.xcode.tools.swift.compiler (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name JTFNewsWidgetExtension -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -profile-coverage-mapping -profile-generate -swift-version 6 -I /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -emit-localized-strings -emit-localized-strings-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64 -c -num-threads 16 -Xcc -ivfsstatcache -Xcc /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache -output-file-map /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -sdk-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_const_extract_protocols.json -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-generated-files.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-own-target-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-project-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/include -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-Swift.h -working-directory /Users/larryseyer/jtfnewsapp -no-emit-module-separately-wmo
+
+SwiftDriver\ Compilation JTFNewsWidgetExtension normal arm64 com.apple.xcode.tools.swift.compiler (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name JTFNewsWidgetExtension -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -profile-coverage-mapping -profile-generate -swift-version 6 -I /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -emit-localized-strings -emit-localized-strings-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64 -c -num-threads 16 -Xcc -ivfsstatcache -Xcc /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache -output-file-map /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -sdk-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_const_extract_protocols.json -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-generated-files.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-own-target-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-project-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/include -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-Swift.h -working-directory /Users/larryseyer/jtfnewsapp -no-emit-module-separately-wmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_float-5XRBSDKZZEYWBZ6KSHZGECX8V.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DeveloperToolsSupport-6LLP42TUHDUVDPSVKXG9HAGTJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdbool-95BHUWYKC2BB2EHMEGXG3MIBX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftShims-RO1PTHDTAE47Q2J5RSMPYR9D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrcheck-4CL1KLL0A97JEZI000C37H5DQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrauth-4TNGRE2LIQLSUZVE3BNDHE712.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stddef-24E9XEYXW1YCV6JMJFKUXEP2A.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_SwiftConcurrencyShims-6TM1PDHKOQBE81T6AE5R40IQQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdarg-3I7UNOJATBPKFAYKYM15T1N66.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ActivityKit-ANWSARU20ME8O46ZE51JZAUOH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_AvailabilityInternal-B8I8SDTFNVSZW7WS6NNN0FH5M.pcm
+
+LinkAssetCatalog /Users/larryseyer/jtfnewsapp/JTFNewsWidget/Assets.xcassets (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-linkAssetCatalog --thinned /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/thinned --thinned-dependencies /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_generated_info.plist_unthinned --output /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex --plist-output /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/Assets.car (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+
+ProcessInfoPlistFile /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/Info.plist /Users/larryseyer/jtfnewsapp/JTFNewsWidget/Info.plist (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-infoPlistUtility /Users/larryseyer/jtfnewsapp/JTFNewsWidget/Info.plist -producttype com.apple.product-type.app-extension -expandbuildsettings -format binary -platform iphoneos -additionalcontentfile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/Info.plist
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation1-8ATRNYCAROV3H12YER4CHVO6J.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ExtensionFoundation-DT9WUKNNEP9YPM82H68BKK5HG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation2-5SRY1Q4T15GPFZ0TP3Y5VJSLM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_limits-4TNHZZUWC9AVTBFUG6NFC5OYL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/sys_types-3ZL84IU99YJEMN4JBUPOG5HK2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdint-CBAJI89ASK3DLX243GXIAZ1S7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_tgmath-Y016YDLFG1BCMNB9E9RIICV7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation3-2FQ7GDYVYADV1C9BLIJU2GGDO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_intrinsics-4FXRY8NNOIS4F4S3VU29K4D8P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdatomic-BFPMFVVLZROJX39NDHM2VJ97F.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_inttypes-3E4KIDHSJ9UDLQQGGCGHT9PB3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Darwin-1Y58U4MTBTHROB55A7PJJZZU0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/simd-578ZDCTE1Y6PA2VJJT43BKCMT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MachO-58LLXRT3UAL1F13AUCCZ6VYLV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ObjectiveC-3UF0MLS8FL8JQH4NO2B35A370.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_object-2FT4Z7HWZRFQNMRW6RYQ103WM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_workgroup-1LYL7EP9NYP77E6V527Z10PBT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Dispatch-3YGOVY2ONYD81BOX91HB8QACL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Spatial-2V2T5YV3FY73CEU9QZWEUC16U.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/XPC-8W8SPOQ8CVR5QUHMNSAHYB2TD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreFoundation-3P42U5NY9N5VQ27DJ3KCJHRSC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/dnssd-LD2LH6BBUIA7DOVD6AD5DIHI.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os-1I7QC8EXP5E8D8Z04MAWVYXVZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CFNetwork-F4VXKKSUXOADCWV61JHYTW85I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreGraphics-2Z0YLEUQKLLETEC7WDRMEXIUT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Security-EWA2ET65MABMKETGC1QFT46SA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Foundation-4XYF68S6P6Q7PEZS814R50YZE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreText-5PTEVK8QJKRFFHAI89H6RFPYR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ImageIO-44ZZ6QB9U6LUQG7P1QWMSG1AE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Network-Y5PB24WDMWV5WZMKUQO0STEO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/RelevanceKit-DZ9VTAYFN31B2QWFB2UNW2SWP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_LocationEssentials-3AOT32OF7E79T9KFM3P10JYDL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AppIntents-9VR3NW4FN2ZMPDSXXSWK2K2J0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UserNotifications-DFHPIG05A7776Y2SK5W5JRPHC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Accessibility-3D6HIJWC8E4ME7AJA21885JD6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreData-8QNA95G6ER57VPRYMRZXFF373.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UniformTypeIdentifiers-319MTRDDLF8IP3JYEDE0SQP3W.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/IOSurface-F2DEP0SPENX1ZMLK4UWBL8IN1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OSLog-CMANUHREGWXSDUXDQW56803I0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreTransferable-DXKS8BB6FN984VQ0DBLVWEY2B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIUtilities-DIH5U71V4H4MBYR3BBYY7XU48.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Symbols-3YKF54UARRGZ4KEKRNO3L4N14.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/WidgetKit-8MQMPRAO39D8EI1T4GS5OR1LO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/FileProvider-E1AFZ57XDFL8ZKP8IG3U7E5F7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DataDetection-1HC0N80KYEHCT0H3ROCXYXXYF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreLocation-EO4F99PPQQJ0XF4XKGU4ERP85.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OpenGLES-8MU940QU1XSHIVRD4OFUY8I3O.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Metal-75SO86EXBJMJRACC8ON4ZSUKO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreSpotlight-3JO1MY91PPPN6PUHSKHCKSTLF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Intents-6FU58CL2YRPHWQJACMXA1PI90.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreVideo-C0JD80NCJP2WVRABI7AX15SRA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/QuartzCore-509JS16DF9PVWRYBCFA3UHW67.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreImage-7R47G74S96IJQNK6S73E7GF6W.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUICore-3IUWL053SOIZRZ8HTWO73VTCB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIKit-A1X7UT2LRPZBFO7R3L1DYTTWN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUI-1I5TAD1J96W4NVDPDFNF661NV.pcm
+
+SwiftCompile normal arm64 Compiling\ JTFNewsWidget.swift,\ JTFNewsTimelineProvider.swift,\ WidgetStoryEntry.swift,\ SmallWidgetView.swift,\ MediumWidgetView.swift,\ LargeWidgetView.swift,\ SharedModelContainer.swift,\ Story.swift,\ Source.swift,\ Correction.swift,\ Channel.swift,\ ArchivedStory.swift,\ Bookmark.swift,\ JTFNewsLiveActivity.swift,\ JTFNewsActivityAttributes.swift,\ CachedPodcastEpisode.swift,\ GeneratedAssetSymbols.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/JTFNewsWidget.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/JTFNewsTimelineProvider.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/WidgetStoryEntry.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/SmallWidgetView.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/MediumWidgetView.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/LargeWidgetView.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/SharedModelContainer.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Story.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Source.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Correction.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Channel.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/ArchivedStory.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Bookmark.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/JTFNewsLiveActivity.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/JTFNewsActivityAttributes.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/CachedPodcastEpisode.swift /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/SwiftUI.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreImage.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/ObjectiveC.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/AppIntents.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_AppIntents_SwiftUI.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/FileProvider.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/WidgetKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Symbols.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/simd.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_StringProcessing.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Distributed.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreSpotlight.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_Builtin_float.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Network.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Darwin.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Accessibility.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/SwiftUICore.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/OSLog.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/System.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreFoundation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_Concurrency.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/DeveloperToolsSupport.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/SwiftData.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Spatial.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/DataDetection.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Intents.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/ExtensionFoundation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreGraphics.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreText.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreData.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/RelevanceKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreVideo.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/XPC.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/os.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/UniformTypeIdentifiers.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_DarwinFoundation3.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/ActivityKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_DarwinFoundation1.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Combine.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Dispatch.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_DarwinFoundation2.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/UIKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Metal.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreTransferable.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreLocation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Foundation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/QuartzCore.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Observation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Swift.swiftmodule/arm64e-apple-ios.swiftmodule /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUI-1I5TAD1J96W4NVDPDFNF661NV.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreImage-7R47G74S96IJQNK6S73E7GF6W.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdbool-95BHUWYKC2BB2EHMEGXG3MIBX.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_float-5XRBSDKZZEYWBZ6KSHZGECX8V.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_intrinsics-4FXRY8NNOIS4F4S3VU29K4D8P.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdint-CBAJI89ASK3DLX243GXIAZ1S7.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreGraphics-2Z0YLEUQKLLETEC7WDRMEXIUT.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UserNotifications-DFHPIG05A7776Y2SK5W5JRPHC.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreTransferable-DXKS8BB6FN984VQ0DBLVWEY2B.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrauth-4TNGRE2LIQLSUZVE3BNDHE712.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ObjectiveC-3UF0MLS8FL8JQH4NO2B35A370.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Dispatch-3YGOVY2ONYD81BOX91HB8QACL.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DataDetection-1HC0N80KYEHCT0H3ROCXYXXYF.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIKit-A1X7UT2LRPZBFO7R3L1DYTTWN.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/IOSurface-F2DEP0SPENX1ZMLK4UWBL8IN1.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_object-2FT4Z7HWZRFQNMRW6RYQ103WM.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ExtensionFoundation-DT9WUKNNEP9YPM82H68BKK5HG.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os-1I7QC8EXP5E8D8Z04MAWVYXVZ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdarg-3I7UNOJATBPKFAYKYM15T1N66.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation3-2FQ7GDYVYADV1C9BLIJU2GGDO.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrcheck-4CL1KLL0A97JEZI000C37H5DQ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ActivityKit-ANWSARU20ME8O46ZE51JZAUOH.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/FileProvider-E1AFZ57XDFL8ZKP8IG3U7E5F7.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/RelevanceKit-DZ9VTAYFN31B2QWFB2UNW2SWP.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIUtilities-DIH5U71V4H4MBYR3BBYY7XU48.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Foundation-4XYF68S6P6Q7PEZS814R50YZE.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_SwiftConcurrencyShims-6TM1PDHKOQBE81T6AE5R40IQQ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Metal-75SO86EXBJMJRACC8ON4ZSUKO.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Network-Y5PB24WDMWV5WZMKUQO0STEO.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdatomic-BFPMFVVLZROJX39NDHM2VJ97F.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreFoundation-3P42U5NY9N5VQ27DJ3KCJHRSC.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CFNetwork-F4VXKKSUXOADCWV61JHYTW85I.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_inttypes-3E4KIDHSJ9UDLQQGGCGHT9PB3.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/QuartzCore-509JS16DF9PVWRYBCFA3UHW67.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Security-EWA2ET65MABMKETGC1QFT46SA.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OpenGLES-8MU940QU1XSHIVRD4OFUY8I3O.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MachO-58LLXRT3UAL1F13AUCCZ6VYLV.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation1-8ATRNYCAROV3H12YER4CHVO6J.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/simd-578ZDCTE1Y6PA2VJJT43BKCMT.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_LocationEssentials-3AOT32OF7E79T9KFM3P10JYDL.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/dnssd-LD2LH6BBUIA7DOVD6AD5DIHI.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreData-8QNA95G6ER57VPRYMRZXFF373.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_AvailabilityInternal-B8I8SDTFNVSZW7WS6NNN0FH5M.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUICore-3IUWL053SOIZRZ8HTWO73VTCB.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_tgmath-Y016YDLFG1BCMNB9E9RIICV7.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_workgroup-1LYL7EP9NYP77E6V527Z10PBT.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreLocation-EO4F99PPQQJ0XF4XKGU4ERP85.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreSpotlight-3JO1MY91PPPN6PUHSKHCKSTLF.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftShims-RO1PTHDTAE47Q2J5RSMPYR9D.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/sys_types-3ZL84IU99YJEMN4JBUPOG5HK2.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AppIntents-9VR3NW4FN2ZMPDSXXSWK2K2J0.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Spatial-2V2T5YV3FY73CEU9QZWEUC16U.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stddef-24E9XEYXW1YCV6JMJFKUXEP2A.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UniformTypeIdentifiers-319MTRDDLF8IP3JYEDE0SQP3W.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Intents-6FU58CL2YRPHWQJACMXA1PI90.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation2-5SRY1Q4T15GPFZ0TP3Y5VJSLM.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreVideo-C0JD80NCJP2WVRABI7AX15SRA.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/XPC-8W8SPOQ8CVR5QUHMNSAHYB2TD.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DeveloperToolsSupport-6LLP42TUHDUVDPSVKXG9HAGTJ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_limits-4TNHZZUWC9AVTBFUG6NFC5OYL.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Darwin-1Y58U4MTBTHROB55A7PJJZZU0.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OSLog-CMANUHREGWXSDUXDQW56803I0.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreText-5PTEVK8QJKRFFHAI89H6RFPYR.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Accessibility-3D6HIJWC8E4ME7AJA21885JD6.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/WidgetKit-8MQMPRAO39D8EI1T4GS5OR1LO.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Symbols-3YKF54UARRGZ4KEKRNO3L4N14.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ImageIO-44ZZ6QB9U6LUQG7P1QWMSG1AE.pcm /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-dependencies-1.json (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+
+CompileSwift normal arm64 (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling JTFNewsWidget.swift, JTFNewsTimelineProvider.swift, WidgetStoryEntry.swift, SmallWidgetView.swift, MediumWidgetView.swift, LargeWidgetView.swift, SharedModelContainer.swift, Story.swift, Source.swift, Correction.swift, Channel.swift, ArchivedStory.swift, Bookmark.swift, JTFNewsLiveActivity.swift, JTFNewsActivityAttributes.swift, CachedPodcastEpisode.swift, GeneratedAssetSymbols.swift (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+
+SwiftDriver\ Compilation\ Requirements JTFNewsWidgetExtension normal arm64 com.apple.xcode.tools.swift.compiler (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name JTFNewsWidgetExtension -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -profile-coverage-mapping -profile-generate -swift-version 6 -I /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -emit-localized-strings -emit-localized-strings-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64 -c -num-threads 16 -Xcc -ivfsstatcache -Xcc /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache -output-file-map /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -sdk-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_const_extract_protocols.json -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-generated-files.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-own-target-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension-project-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/include -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-Swift.h -working-directory /Users/larryseyer/jtfnewsapp -no-emit-module-separately-wmo
+
+SwiftMergeGeneratedHeaders /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/JTFNewsWidgetExtension-Swift.h /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-Swift.h (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-swiftHeaderTool -arch arm64 /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-Swift.h -o /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/DerivedSources/JTFNewsWidgetExtension-Swift.h
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/arm64-apple-ios.swiftdoc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftdoc (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftdoc /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/arm64-apple-ios.swiftdoc
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/arm64-apple-ios.swiftmodule /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftmodule (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftmodule /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/arm64-apple-ios.swiftmodule
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/arm64-apple-ios.abi.json /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.abi.json (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.abi.json /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/arm64-apple-ios.abi.json
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftsourceinfo (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftsourceinfo /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo
+
+Ld /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/JTFNewsWidgetExtension normal (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -Os -L/Users/larryseyer/jtfnewsapp/build/EagerLinkingTBDs/Release-iphoneos -L/Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F/Users/larryseyer/jtfnewsapp/build/EagerLinkingTBDs/Release-iphoneos -F/Users/larryseyer/jtfnewsapp/build/Release-iphoneos -filelist /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.LinkFileList -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/../../Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_lto.o -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_dependency_info.dat -e _NSExtensionMain -fapplication-extension -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.swiftmodule @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension-linker-args.resp -Xlinker -no_adhoc_codesign -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/JTFNewsWidgetExtension
+
+ProcessProductPackaging /Users/larryseyer/jtfnewsapp/JTFNews.entitlements /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.app.xcent (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "RR5DY39W4Q.com.larryseyer.jtfnews";
+    "com.apple.developer.team-identifier" = RR5DY39W4Q;
+    "com.apple.security.application-groups" =     (
+        "group.com.larryseyer.jtfnews"
+    );
+    "get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility /Users/larryseyer/jtfnewsapp/JTFNews.entitlements -entitlements -format xml -o /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.app.xcent
+
+ProcessProductPackaging /Users/larryseyer/Library/Developer/Xcode/UserData/Provisioning\ Profiles/b6ae081e-2b4f-4f68-b6fd-49ec2de95395.mobileprovision /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/embedded.mobileprovision (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-productPackagingUtility /Users/larryseyer/Library/Developer/Xcode/UserData/Provisioning\ Profiles/b6ae081e-2b4f-4f68-b6fd-49ec2de95395.mobileprovision -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/embedded.mobileprovision
+
+ProcessProductPackagingDER /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.app.xcent /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.app.xcent.der (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /usr/bin/derq query -f xml -i /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.app.xcent -o /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.app.xcent.der --raw
+
+GenerateAssetSymbols /Users/larryseyer/jtfnewsapp/JTFNews/Assets.xcassets (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/larryseyer/jtfnewsapp/JTFNews/Assets.xcassets --compile /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app --output-format human-readable-text --notices --warnings --export-dependency-info /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_dependencies --output-partial-info-plist /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_generated_info.plist --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos --bundle-identifier com.larryseyer.jtfnews --generate-swift-asset-symbols /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+MkDir /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/unthinned (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /bin/mkdir -p /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/unthinned
+
+MkDir /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/thinned (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /bin/mkdir -p /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/thinned
+
+CompileAssetCatalogVariant thinned /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app /Users/larryseyer/jtfnewsapp/JTFNews/Assets.xcassets (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/larryseyer/jtfnewsapp/JTFNews/Assets.xcassets --compile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPhone12,5 --filter-for-device-os-version 26.3.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos
+/* com.apple.actool.compilation-results */
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_generated_info.plist_thinned
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriver JTFNews normal arm64 com.apple.xcode.tools.swift.compiler (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name JTFNews -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -swift-version 6 -I /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -emit-localized-strings -emit-localized-strings-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64 -c -num-threads 16 -Xcc -ivfsstatcache -Xcc /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache -output-file-map /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -sdk-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_const_extract_protocols.json -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-generated-files.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-own-target-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-all-target-headers.hmap -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-project-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/include -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources-normal/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-Swift.h -working-directory /Users/larryseyer/jtfnewsapp -no-emit-module-separately-wmo
+
+ExtractAppIntentsMetadata (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name JTFNewsWidgetExtension --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk --xcode-version 17C529 --platform-family iOS --deployment-target 17.0 --bundle-identifier com.larryseyer.jtfnews.widget --output /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex --target-triple arm64-apple-ios17.0 --binary-file /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/JTFNewsWidgetExtension --dependency-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension_dependency_info.dat --stringsdata-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftFileList --metadata-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.DependencyMetadataFileList --static-metadata-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.DependencyStaticMetadataFileList --swift-const-vals-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/Objects-normal/arm64/JTFNewsWidgetExtension.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-04-16 13:33:38.829 appintentsmetadataprocessor[57472:12645995] Starting appintentsmetadataprocessor export
+2026-04-16 13:33:38.898 appintentsmetadataprocessor[57472:12645995] Extracted no relevant App Intents symbols, skipping writing output
+
+GenerateDSYMFile /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex.dSYM /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/JTFNewsWidgetExtension (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/JTFNewsWidgetExtension -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex.dSYM
+
+AppIntentsSSUTraining (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/Info.plist --temp-dir-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/ssu --bundle-id com.larryseyer.jtfnews.widget --product-path /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex --extracted-metadata-path /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex/Metadata.appintents --metadata-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.DependencyMetadataFileList --archive-ssu-assets
+2026-04-16 13:33:38.910 appintentsnltrainingprocessor[57474:12646028] Parsing options for appintentsnltrainingprocessor
+2026-04-16 13:33:38.910 appintentsnltrainingprocessor[57474:12646028] No AppShortcuts found - Skipping.
+
+CodeSign /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    
+    Signing Identity:     "Apple Development: Larry Seyer (63S4HUDY4S)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.larryseyer.jtfnews.widget"
+                          (5188adac-08bd-4983-9889-79829da3f7c4)
+    
+    /usr/bin/codesign --force --sign BC95010F7A4A9764EE2300A1B30D7941D91051E5 --entitlements /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNewsWidgetExtension.build/JTFNewsWidgetExtension.appex.xcent --timestamp\=none --generate-entitlement-der /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex
+
+SwiftDriver\ Compilation JTFNews normal arm64 com.apple.xcode.tools.swift.compiler (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name JTFNews -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -swift-version 6 -I /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -emit-localized-strings -emit-localized-strings-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64 -c -num-threads 16 -Xcc -ivfsstatcache -Xcc /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache -output-file-map /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -sdk-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_const_extract_protocols.json -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-generated-files.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-own-target-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-all-target-headers.hmap -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-project-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/include -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources-normal/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-Swift.h -working-directory /Users/larryseyer/jtfnewsapp -no-emit-module-separately-wmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdbool-1G1HD55D6O67I1G4D1KN3C1JY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DeveloperToolsSupport-DNJKXHSY4417798YEWN23429R.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_SwiftConcurrencyShims-4L1SA8Y4KVGBJ7O5DW5L1W62R.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_AvailabilityInternal-7EGFK2HW0XWG33XN27PGYXN24.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ActivityKit-5K47IIXP06J40FZE3C52NJZTN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftShims-E8R3ASYT868ZRD896EA63B2KP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdarg-BF4714MIQXXF1BPWWRMHPBMRV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_float-2J3FC2ECAXAY0MWUOHRJ6OVH7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrcheck-43F3A8TJ42S72Y7Y4IUUERE46.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stddef-DLGGO9SD8WQ52QDFRSYST9IUS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrauth-D5989HQRTV1T95ABDPC3REXT.pcm
+
+RegisterExecutionPolicyException /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-RegisterExecutionPolicyException /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex
+
+Touch /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex (in target 'JTFNewsWidgetExtension' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /usr/bin/touch -c /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex
+
+CpResource /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/JTFNewsChime.caf /Users/larryseyer/jtfnewsapp/JTFNews/Resources/JTFNewsChime.caf (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/larryseyer/jtfnewsapp/JTFNews/Resources/JTFNewsChime.caf /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation1-8L1WI8BCTDQQET726PU64D8DS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation2-4SV9M8DQAY0M7YOH5J8WCQEGY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_limits-77AA8W4R3QYV1VR9SV32ECQV1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ExtensionFoundation-42WZKEGSDL1NCO4WWMR20EQ0F.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdint-D7I3ZE88FE9NRWD4ZT09TBPVF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/sys_types-K2GEX0L8Q95KX0C2QJ0B55FM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_tgmath-9KPO1ML6S1FMDBUD7JY56EB57.pcm
+
+LinkAssetCatalog /Users/larryseyer/jtfnewsapp/JTFNews/Assets.xcassets (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-linkAssetCatalog --thinned /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/thinned --thinned-dependencies /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_generated_info.plist_unthinned --output /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app --plist-output /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Assets.car (in target 'JTFNews' from project 'JTFNews')
+note: Emplaced /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/AppIcon76x76@2x~ipad.png (in target 'JTFNews' from project 'JTFNews')
+note: Emplaced /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/AppIcon60x60@2x.png (in target 'JTFNews' from project 'JTFNews')
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation3-AUT4MMYQFIYTNN9POHSHWQJ9Q.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdatomic-4MQ3Z0CZQYDSKN2QO0XHOR4RK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_intrinsics-9UV590SJEQDGIBOCNLQQPAEJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_inttypes-815TYMBB81IHT3C7I0YQ48ZYP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Darwin-8E49NU15VEVFFDQO7EBT68YUJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/simd-1OMC5TQ0FZ6UBH77PJQ7BNWX8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ObjectiveC-60VS0FWNUKHZ1PUJJECNDURUQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MachO-776QWF60FLZ7PKY04TKWQIM6Q.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Compression-9VVAA8CRJAQOHQ5N73IPF9JEZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_object-EVQT2R0YEVA7SYEY8Q1SX9ISQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_workgroup-46DZYV7KF9LQI0HU5ZF0EXVAP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Dispatch-COMO4OJ1Z38MH1O8ZV5Z7ZU3D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Spatial-4RCYC69JKRAFV3CKG9165T5MF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/XPC-9AV7MU3KOB8RKLQ6S0EYY1962.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreFoundation-71PLKZQNKSY49X79LOBSTRAHP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/dnssd-5Y26MQCFENWZGSG7V9EFYU6SS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os-55Y36FOZB09YSFSRUEMS5QL6W.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreGraphics-E21YTWULH7Y8BN21TWPGU2KYG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreAudioTypes-830Z81GSIYZKWLOY5Y6LJL8FL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CFNetwork-5QFC7NJUQ6UCRV4BBL8ZJIJVZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Security-2OMWL1LUW695QR9OVRG2ZATBD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreAudio-37K7U8RIOL355M7QH22T05V2R.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Foundation-5J7HVCMXAQPYFKBHYFO3PZTCE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreText-9Z52ZZ9PSGDCCDUIYAB5O6JL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ImageIO-A0BW9OTWHHO17242175K5DU49.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Network-201PENTRVSPO1QWPUFWTBDYGT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/BackgroundTasks-DNPPX14FT9VK8RHE3KFZ8UDRF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OSLog-AS5ZNXUCOLJJ1Z9NSEVLEQRO7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_LocationEssentials-EK1Q39JX3EC5F3OIO9SMKOSAN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIUtilities-BEGOOQOR2P7ECZ90M15IMZL5P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UniformTypeIdentifiers-ENKKM95S27OJBYZX7UTPSXG9D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreTransferable-6ZE3SZ0S1UUTRHS2X38OR9F99.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DataDetection-570S6TRNUR94NWGROUX7H1V11.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreMIDI-4WUR0YSUW5YAEAK93OSPG4F2Q.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/WidgetKit-7AY96O60VE16OQ8VXINT2V2MY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/IOSurface-EUO8BIYKL0UH1JIN11Z3Q7MQN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreData-8BYIK474ILXRAZGRVB0RXD3ZZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/LocalAuthentication-EUEGP0BHDVOPS0CEBIXEFO8UY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Accessibility-C0N071C0IHIMD3SM09PFMXNEO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UserNotifications-4JLYDTKCG8U13GFDZUPLD2VGS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AppIntents-2R98725GN6VYBX4P3RRFVPXHR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/FileProvider-9YKY22AFREYPFDWFUI5I1X57A.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/RelevanceKit-232XL9YNFO6H6HM1JLGAZJ0JW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Symbols-6GVCG9P9VXJ7EV5V12O8R7R3I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreSpotlight-51NAJRV0HM79FKQW95QXZQ2WT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreLocation-6WF8UN8DN91UQF5JJKLDX1BM1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Metal-2H20HYMQ1ZNWLGZLWBS84DDUU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OpenGLES-AM1OYK57EUI9U8PCL86982YZ1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AudioToolbox-74WA65IGACWXMMKP0NSEEBC2Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AVRouting-1XT8479OHQ1AYJGUIRK0TBKDN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Intents-9TK67GWNPI9M07WYVYH60FZ1E.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreVideo-6OSYZRJB4XQLQPUNY1WD48AD1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreImage-5PSV8800K7BGYGEN7J2O6URCW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/QuartzCore-EIB6N64Y0UB4WPVY05DDICT3X.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreMedia-8CUBG9AL8GQFCBW1RLT9WK6RK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUICore-ASDYB1A7EI5Q64PWGAXL4NPYE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AVFAudio-4LKPSO5ZMT122JZ7N8GQTXL1O.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MediaToolbox-65ME30RESOJKC72EVWRMCCI50.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIKit-5NUK9JLU9OWU7C389YZ65FAH2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AVFoundation-2KW0SOOJ9YI8B1QNE043IJW3H.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUI-6L26FWZTLGVSU13RTW3MNML8T.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MediaPlayer-3B5AL3TRQLQQVABE8LOWFLTDC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/WebKit-5IMCJ4KX3AA3QYC3FT6ZK1YD0.pcm
+
+SwiftCompile normal arm64 Compiling\ JTFNewsApp.swift,\ ContentView.swift,\ StoriesView.swift,\ DigestView.swift,\ ArchiveView.swift,\ Story.swift,\ Source.swift,\ Correction.swift,\ Channel.swift,\ DataService.swift,\ FeedService.swift,\ StoryCard.swift,\ PodcastService.swift,\ YouTubePlayerView.swift,\ AudioPlayerView.swift,\ AudioManager.swift,\ MiniPlayerView.swift,\ ArchiveService.swift,\ GzipUtility.swift,\ ArchiveSearchView.swift,\ SettingsView.swift,\ SourceDetailView.swift,\ BackgroundRefreshManager.swift,\ NotificationManager.swift,\ ConnectivityManager.swift,\ PrivacyPolicyView.swift,\ WatchedTermsView.swift,\ ArchivedStory.swift,\ ArchiveLineParser.swift,\ FetchCooldown.swift,\ Bookmark.swift,\ TermExtractor.swift,\ SourceCard.swift,\ StoryDetailView.swift,\ WatchedTermMatcher.swift,\ WatchedView.swift,\ OnboardingView.swift,\ ShareTextBuilder.swift,\ PlatformTypography.swift,\ MacCalendarView.swift,\ AboutView.swift,\ SavedView.swift,\ SharedModelContainer.swift,\ JTFNewsActivityAttributes.swift,\ LiveActivityManager.swift,\ GetTodaysFactsIntent.swift,\ JTFNewsShortcuts.swift,\ CachedPodcastEpisode.swift,\ GeneratedAssetSymbols.swift /Users/larryseyer/jtfnewsapp/JTFNews/App/JTFNewsApp.swift /Users/larryseyer/jtfnewsapp/JTFNews/App/ContentView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Stories/StoriesView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Archive/ArchiveView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Story.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Source.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Correction.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Channel.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/DataService.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/FeedService.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Stories/StoryCard.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/PodcastService.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/YouTubePlayerView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/AudioPlayerView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/AudioManager.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/MiniPlayerView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/ArchiveService.swift /Users/larryseyer/jtfnewsapp/JTFNews/Utilities/GzipUtility.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Archive/ArchiveSearchView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Settings/SettingsView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Settings/SourceDetailView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/BackgroundRefreshManager.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/NotificationManager.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/ConnectivityManager.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Settings/PrivacyPolicyView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Settings/WatchedTermsView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/ArchivedStory.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/ArchiveLineParser.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/FetchCooldown.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/Bookmark.swift /Users/larryseyer/jtfnewsapp/JTFNews/Utilities/TermExtractor.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Stories/SourceCard.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Stories/StoryDetailView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/WatchedTermMatcher.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Watched/WatchedView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Onboarding/OnboardingView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Utilities/ShareTextBuilder.swift /Users/larryseyer/jtfnewsapp/JTFNews/Utilities/PlatformTypography.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Archive/MacCalendarView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/AboutView.swift /Users/larryseyer/jtfnewsapp/JTFNews/Views/Saved/SavedView.swift /Users/larryseyer/jtfnewsapp/JTFNewsWidget/SharedModelContainer.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/JTFNewsActivityAttributes.swift /Users/larryseyer/jtfnewsapp/JTFNews/Services/LiveActivityManager.swift /Users/larryseyer/jtfnewsapp/JTFNews/Shortcuts/GetTodaysFactsIntent.swift /Users/larryseyer/jtfnewsapp/JTFNews/Shortcuts/JTFNewsShortcuts.swift /Users/larryseyer/jtfnewsapp/JTFNews/Models/CachedPodcastEpisode.swift /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/GeneratedAssetSymbols.swift /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_DarwinFoundation2.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/XPC.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/OSLog.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/ObjectiveC.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreVideo.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_DarwinFoundation3.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Spatial.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/os.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/UniformTypeIdentifiers.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/SwiftData.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_DarwinFoundation1.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Dispatch.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreMedia.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/AudioToolbox.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreAudio.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreImage.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CryptoKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreSpotlight.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/AVFAudio.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/AppIntents.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/DeveloperToolsSupport.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/UIKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/simd.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/LocalAuthentication.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_Concurrency.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreLocation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Accessibility.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Network.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/System.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_StringProcessing.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_AppIntents_SwiftUI.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreMIDI.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_WebKit_SwiftUI.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Foundation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Observation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Symbols.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Distributed.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreTransferable.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreGraphics.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Compression.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_Builtin_float.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/ExtensionFoundation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Combine.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/FileProvider.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/SwiftUICore.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/AVFoundation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/DataDetection.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/MediaPlayer.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Darwin.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Swift.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreText.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/WebKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreFoundation.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/RelevanceKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/ActivityKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/SwiftUI.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_SwiftData_SwiftUI.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/CoreData.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Synchronization.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Metal.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/WidgetKit.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/QuartzCore.swiftmodule/arm64e-apple-ios.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Intents.swiftmodule/arm64e-apple-ios.swiftmodule /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/QuartzCore-EIB6N64Y0UB4WPVY05DDICT3X.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation3-AUT4MMYQFIYTNN9POHSHWQJ9Q.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/XPC-9AV7MU3KOB8RKLQ6S0EYY1962.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreSpotlight-51NAJRV0HM79FKQW95QXZQ2WT.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_limits-77AA8W4R3QYV1VR9SV32ECQV1.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/sys_types-K2GEX0L8Q95KX0C2QJ0B55FM.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/dnssd-5Y26MQCFENWZGSG7V9EFYU6SS.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdarg-BF4714MIQXXF1BPWWRMHPBMRV.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/IOSurface-EUO8BIYKL0UH1JIN11Z3Q7MQN.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation1-8L1WI8BCTDQQET726PU64D8DS.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Compression-9VVAA8CRJAQOHQ5N73IPF9JEZ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/LocalAuthentication-EUEGP0BHDVOPS0CEBIXEFO8UY.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrauth-D5989HQRTV1T95ABDPC3REXT.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Symbols-6GVCG9P9VXJ7EV5V12O8R7R3I.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MediaToolbox-65ME30RESOJKC72EVWRMCCI50.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreGraphics-E21YTWULH7Y8BN21TWPGU2KYG.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdatomic-4MQ3Z0CZQYDSKN2QO0XHOR4RK.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_object-EVQT2R0YEVA7SYEY8Q1SX9ISQ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UserNotifications-4JLYDTKCG8U13GFDZUPLD2VGS.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_inttypes-815TYMBB81IHT3C7I0YQ48ZYP.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ptrcheck-43F3A8TJ42S72Y7Y4IUUERE46.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUICore-ASDYB1A7EI5Q64PWGAXL4NPYE.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CFNetwork-5QFC7NJUQ6UCRV4BBL8ZJIJVZ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ExtensionFoundation-42WZKEGSDL1NCO4WWMR20EQ0F.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OpenGLES-AM1OYK57EUI9U8PCL86982YZ1.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os-55Y36FOZB09YSFSRUEMS5QL6W.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/simd-1OMC5TQ0FZ6UBH77PJQ7BNWX8.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftUI-6L26FWZTLGVSU13RTW3MNML8T.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/WebKit-5IMCJ4KX3AA3QYC3FT6ZK1YD0.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Intents-9TK67GWNPI9M07WYVYH60FZ1E.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MediaPlayer-3B5AL3TRQLQQVABE8LOWFLTDC.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_DarwinFoundation2-4SV9M8DQAY0M7YOH5J8WCQEGY.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Darwin-8E49NU15VEVFFDQO7EBT68YUJ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreData-8BYIK474ILXRAZGRVB0RXD3ZZ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Metal-2H20HYMQ1ZNWLGZLWBS84DDUU.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreTransferable-6ZE3SZ0S1UUTRHS2X38OR9F99.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Network-201PENTRVSPO1QWPUFWTBDYGT.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DataDetection-570S6TRNUR94NWGROUX7H1V11.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_float-2J3FC2ECAXAY0MWUOHRJ6OVH7.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreImage-5PSV8800K7BGYGEN7J2O6URCW.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreMedia-8CUBG9AL8GQFCBW1RLT9WK6RK.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UniformTypeIdentifiers-ENKKM95S27OJBYZX7UTPSXG9D.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_SwiftConcurrencyShims-4L1SA8Y4KVGBJ7O5DW5L1W62R.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_LocationEssentials-EK1Q39JX3EC5F3OIO9SMKOSAN.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stddef-DLGGO9SD8WQ52QDFRSYST9IUS.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreFoundation-71PLKZQNKSY49X79LOBSTRAHP.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/MachO-776QWF60FLZ7PKY04TKWQIM6Q.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreLocation-6WF8UN8DN91UQF5JJKLDX1BM1.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/BackgroundTasks-DNPPX14FT9VK8RHE3KFZ8UDRF.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIUtilities-BEGOOQOR2P7ECZ90M15IMZL5P.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreAudio-37K7U8RIOL355M7QH22T05V2R.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreVideo-6OSYZRJB4XQLQPUNY1WD48AD1.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ImageIO-A0BW9OTWHHO17242175K5DU49.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ObjectiveC-60VS0FWNUKHZ1PUJJECNDURUQ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/UIKit-5NUK9JLU9OWU7C389YZ65FAH2.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdint-D7I3ZE88FE9NRWD4ZT09TBPVF.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AVRouting-1XT8479OHQ1AYJGUIRK0TBKDN.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Accessibility-C0N071C0IHIMD3SM09PFMXNEO.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/RelevanceKit-232XL9YNFO6H6HM1JLGAZJ0JW.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/os_workgroup-46DZYV7KF9LQI0HU5ZF0EXVAP.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_tgmath-9KPO1ML6S1FMDBUD7JY56EB57.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AudioToolbox-74WA65IGACWXMMKP0NSEEBC2Z.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_AvailabilityInternal-7EGFK2HW0XWG33XN27PGYXN24.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreText-9Z52ZZ9PSGDCCDUIYAB5O6JL.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/SwiftShims-E8R3ASYT868ZRD896EA63B2KP.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreMIDI-4WUR0YSUW5YAEAK93OSPG4F2Q.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_intrinsics-9UV590SJEQDGIBOCNLQQPAEJ.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Dispatch-COMO4OJ1Z38MH1O8ZV5Z7ZU3D.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AVFAudio-4LKPSO5ZMT122JZ7N8GQTXL1O.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/DeveloperToolsSupport-DNJKXHSY4417798YEWN23429R.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AVFoundation-2KW0SOOJ9YI8B1QNE043IJW3H.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Spatial-4RCYC69JKRAFV3CKG9165T5MF.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/FileProvider-9YKY22AFREYPFDWFUI5I1X57A.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/ActivityKit-5K47IIXP06J40FZE3C52NJZTN.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Security-2OMWL1LUW695QR9OVRG2ZATBD.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/_Builtin_stdbool-1G1HD55D6O67I1G4D1KN3C1JY.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Foundation-5J7HVCMXAQPYFKBHYFO3PZTCE.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/OSLog-AS5ZNXUCOLJJ1Z9NSEVLEQRO7.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/WidgetKit-7AY96O60VE16OQ8VXINT2V2MY.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/AppIntents-2R98725GN6VYBX4P3RRFVPXHR.pcm /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/CoreAudioTypes-830Z81GSIYZKWLOY5Y6LJL8FL.pcm /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-dependencies-1.json (in target 'JTFNews' from project 'JTFNews')
+
+CompileSwift normal arm64 (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    
+/Users/larryseyer/jtfnewsapp/JTFNews/Views/Digest/DigestView.swift:37:5: warning: 'nonisolated(unsafe)' is unnecessary for a constant with 'Sendable' type 'DateFormatter', consider removing it
+    nonisolated(unsafe) private static let episodeDateFormatter: DateFormatter = {
+    ^~~~~~~~~~~~~~~~~~~~
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling JTFNewsApp.swift, ContentView.swift, StoriesView.swift, DigestView.swift, ArchiveView.swift, Story.swift, Source.swift, Correction.swift, Channel.swift, DataService.swift, FeedService.swift, StoryCard.swift, PodcastService.swift, YouTubePlayerView.swift, AudioPlayerView.swift, AudioManager.swift, MiniPlayerView.swift, ArchiveService.swift, GzipUtility.swift, ArchiveSearchView.swift, SettingsView.swift, SourceDetailView.swift, BackgroundRefreshManager.swift, NotificationManager.swift, ConnectivityManager.swift, PrivacyPolicyView.swift, WatchedTermsView.swift, ArchivedStory.swift, ArchiveLineParser.swift, FetchCooldown.swift, Bookmark.swift, TermExtractor.swift, SourceCard.swift, StoryDetailView.swift, WatchedTermMatcher.swift, WatchedView.swift, OnboardingView.swift, ShareTextBuilder.swift, PlatformTypography.swift, MacCalendarView.swift, AboutView.swift, SavedView.swift, SharedModelContainer.swift, JTFNewsActivityAttributes.swift, LiveActivityManager.swift, GetTodaysFactsIntent.swift, JTFNewsShortcuts.swift, CachedPodcastEpisode.swift, GeneratedAssetSymbols.swift (in target 'JTFNews' from project 'JTFNews')
+
+SwiftDriver\ Compilation\ Requirements JTFNews normal arm64 com.apple.xcode.tools.swift.compiler (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name JTFNews -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -swift-version 6 -I /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F /Users/larryseyer/jtfnewsapp/build/Release-iphoneos -emit-localized-strings -emit-localized-strings-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64 -c -num-threads 16 -Xcc -ivfsstatcache -Xcc /Users/larryseyer/jtfnewsapp/build/SDKStatCaches.noindex/iphoneos26.2-23C57-3794476bd08197c3e2abd9bb477ef7f7.sdkstatcache -output-file-map /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/larryseyer/jtfnewsapp/build/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -sdk-module-cache-path /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/larryseyer/jtfnewsapp/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_const_extract_protocols.json -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-generated-files.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-own-target-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-all-target-headers.hmap -Xcc -iquote -Xcc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews-project-headers.hmap -Xcc -I/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/include -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources-normal/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/arm64 -Xcc -I/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-Swift.h -working-directory /Users/larryseyer/jtfnewsapp -no-emit-module-separately-wmo
+
+SwiftMergeGeneratedHeaders /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/JTFNews-Swift.h /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-Swift.h (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-swiftHeaderTool -arch arm64 /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-Swift.h -o /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/DerivedSources/JTFNews-Swift.h
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/arm64-apple-ios.swiftmodule /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftmodule (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftmodule /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/arm64-apple-ios.swiftmodule
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/arm64-apple-ios.swiftdoc /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftdoc (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftdoc /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/arm64-apple-ios.swiftdoc
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/arm64-apple-ios.abi.json /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.abi.json (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.abi.json /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/arm64-apple-ios.abi.json
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftsourceinfo (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftsourceinfo /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo
+
+Ld /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/JTFNews normal (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk -Os -L/Users/larryseyer/jtfnewsapp/build/EagerLinkingTBDs/Release-iphoneos -L/Users/larryseyer/jtfnewsapp/build/Release-iphoneos -F/Users/larryseyer/jtfnewsapp/build/EagerLinkingTBDs/Release-iphoneos -F/Users/larryseyer/jtfnewsapp/build/Release-iphoneos -filelist /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.LinkFileList -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_lto.o -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.swiftmodule @/Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews-linker-args.resp -Xlinker -no_adhoc_codesign -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/JTFNews
+
+Copy /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns/JTFNewsWidgetExtension.appex /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNewsWidgetExtension.appex /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns
+
+ProcessInfoPlistFile /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Info.plist /Users/larryseyer/jtfnewsapp/JTFNews/Info.plist (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-infoPlistUtility /Users/larryseyer/jtfnewsapp/JTFNews/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -additionalcontentfile /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/assetcatalog_generated_info.plist -scanforprivacyfile /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns/JTFNewsWidgetExtension.appex -requiredArchitecture arm64 -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Info.plist
+
+CopySwiftLibs /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-swiftStdLibTool --copy --verbose --sign BC95010F7A4A9764EE2300A1B30D7941D91051E5 --scan-executable /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/JTFNews --scan-folder /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Frameworks --scan-folder /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns --scan-folder /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/SystemExtensions --scan-folder /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Extensions --platform iphoneos --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name JTFNews --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk --xcode-version 17C529 --platform-family iOS --deployment-target 17.0 --bundle-identifier com.larryseyer.jtfnews --output /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app --target-triple arm64-apple-ios17.0 --binary-file /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/JTFNews --dependency-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews_dependency_info.dat --stringsdata-file /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftFileList --metadata-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.DependencyMetadataFileList --static-metadata-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.DependencyStaticMetadataFileList --swift-const-vals-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/Objects-normal/arm64/JTFNews.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-04-16 13:33:45.670 appintentsmetadataprocessor[57566:12646338] Starting appintentsmetadataprocessor export
+2026-04-16 13:33:45.735 appintentsmetadataprocessor[57566:12646338] Writing Metadata.appintents
+2026-04-16 13:33:45.735 appintentsmetadataprocessor[57566:12646338] Metadata root: /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Metadata.appintents
+
+GenerateDSYMFile /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app.dSYM /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/JTFNews (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/JTFNews -o /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app.dSYM
+
+AppIntentsSSUTraining (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Info.plist --temp-dir-path /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/ssu --bundle-id com.larryseyer.jtfnews --product-path /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app --extracted-metadata-path /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Metadata.appintents --metadata-file-list /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.DependencyMetadataFileList --archive-ssu-assets
+2026-04-16 13:33:45.750 appintentsnltrainingprocessor[57568:12646348] Parsing options for appintentsnltrainingprocessor
+2026-04-16 13:33:45.751 appintentsnltrainingprocessor[57568:12646348] Starting AppIntents SSU YAML Generation
+2026-04-16 13:33:45.755 appintentsnltrainingprocessor[57568:12646348] Training 'What are today's facts in ${+applicationName}|Read today's news from ${+applicationName}|Get today's facts from ${+applicationName}' for en
+2026-04-16 13:33:45.755 appintentsnltrainingprocessor[57568:12646348] Training Negative Phrases '' for en
+2026-04-16 13:33:45.755 appintentsnltrainingprocessor[57568:12646348] Application name 'JTF News' for en
+2026-04-16 13:33:45.759 appintentsnltrainingprocessor[57568:12646348] Generated AppIntents SSU YAML files in file:///Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/ssu/
+2026-04-16 13:33:45.759 appintentsnltrainingprocessor[57568:12646348] Copied AppIntents SSU YAML files to file:///Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Metadata.appintents/
+Archiving all locales.
+[------------------------------------------------------------] 0% archiving en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢] 100% archived en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢] 100% archived 1 locales/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Metadata.appintents/nlu
+/Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Metadata.appintents/nlu/01d5bb67b1e6cf1d4084e0925cf13a56.version
+
+
+CodeSign /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    
+    Signing Identity:     "Apple Development: Larry Seyer (63S4HUDY4S)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.larryseyer.jtfnews"
+                          (b6ae081e-2b4f-4f68-b6fd-49ec2de95395)
+    
+    /usr/bin/codesign --force --sign BC95010F7A4A9764EE2300A1B30D7941D91051E5 --entitlements /Users/larryseyer/jtfnewsapp/build/JTFNews.build/Release-iphoneos/JTFNews.build/JTFNews.app.xcent --timestamp\=none --generate-entitlement-der /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app
+
+ValidateEmbeddedBinary /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns/JTFNewsWidgetExtension.appex (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /Applications/Xcode.app/Contents/Developer/usr/bin/embeddedBinaryValidationUtility /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/PlugIns/JTFNewsWidgetExtension.appex -signing-cert BC95010F7A4A9764EE2300A1B30D7941D91051E5 -info-plist-path /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app/Info.plist
+
+RegisterExecutionPolicyException /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-RegisterExecutionPolicyException /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app
+
+Validate /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    builtin-validationUtility /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app -validate-for-store -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app (in target 'JTFNews' from project 'JTFNews')
+    cd /Users/larryseyer/jtfnewsapp
+    /usr/bin/touch -c /Users/larryseyer/jtfnewsapp/build/Release-iphoneos/JTFNews.app
+
+** BUILD SUCCEEDED **
+

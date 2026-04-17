@@ -52,10 +52,13 @@ Free
 None
 
 ## Privacy Policy URL
-https://jtfnews.org
+https://jtfnews.org/privacy.html
 
 ## Support URL
 https://jtfnews.org/support.html
+
+## Marketing URL
+https://jtfnews.org
 
 ## Privacy Label
 Data Not Collected
@@ -66,9 +69,11 @@ Data Not Collected
 - watchOS 10+
 
 ## Bundle Identifiers
-- iOS/macOS: org.jtfnews.app
-- Widget: org.jtfnews.app.widget
-- watchOS: org.jtfnews.app.watchkitapp
+- iOS/macOS: com.larryseyer.jtfnews
+- Widget: com.larryseyer.jtfnews.widget
+- watchOS: com.larryseyer.jtfnews.watchkitapp
+- App Group: group.com.larryseyer.jtfnews
+- Team ID: RR5DY39W4Q
 
 ## Copyright
 © 2026 JTF News

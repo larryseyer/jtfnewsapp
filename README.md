@@ -131,4 +131,8 @@ JTFNewsWatch/
 
 ## License
 
-CC-BY-SA 4.0 — see [LICENSE](LICENSE)
+AGPL-3.0 — see [LICENSE](LICENSE) for the full text and [COPYRIGHT](COPYRIGHT) for the
+copyright notice and the position on earlier versions.
+
+Earlier versions of this project were released under CC-BY-SA 4.0 and remain under it for
+anyone who received them.
